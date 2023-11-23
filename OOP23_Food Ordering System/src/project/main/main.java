@@ -1,5 +1,7 @@
 package project.main;
 
+import project.user.RegistrationSystem;
+
 import java.util.Scanner;
 
 public class main
@@ -22,7 +24,8 @@ public class main
         else if (isUserCheck.equalsIgnoreCase("no")
                 || isUserCheck.equalsIgnoreCase("n"))
         {
-            //register();
+            RegistrationSystem register = new RegistrationSystem();
+            register.registerUser();
         }
         else
         {
