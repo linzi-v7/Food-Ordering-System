@@ -4,7 +4,13 @@ public class restaurant {
   public String restaurant_contact;
   public String restaurant_ratings;
 
-
+  public restaurant(String restaurant_name,String restaurant_address,String restaurant_contact,String restaurant_ratings)
+    {
+this.restaurant_name=restaurant_name;
+this.restaurant_address=restaurant_address;
+this.restaurant_contact=restaurant_contact;
+this.restaurant_ratings=restaurant_ratings;
+    }
     public void setRestaurant_name(String restaurant_name) {
         this.restaurant_name = restaurant_name;
     }
