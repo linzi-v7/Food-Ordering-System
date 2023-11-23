@@ -1,8 +1,6 @@
 package project.user;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.Scanner;
 
 public class RegistrationSystem
@@ -11,6 +9,7 @@ public class RegistrationSystem
     private static final String USER_FILE = "users.txt";
     public void registerUser()
     {
+        //get input
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter username: ");
@@ -25,6 +24,10 @@ public class RegistrationSystem
         System.out.print("Enter Address: ");
         String address = scanner.nextLine();
 
+        //check if account doesn't already exist
+        checkDuplicate(username,password,email);
+
+        //if it doesn't exist create a new user and store their data
         User user = new User(username,password,email,address);
         storeUserData(user);
     }
@@ -55,4 +58,25 @@ public class RegistrationSystem
         }
     }
 
+    public void checkDuplicate(String username, String password, String email)
+    {
+        /*
+       try
+       {
+
+           File file = new File(USER_FILE);
+           Scanner reader = new Scanner(file);
+
+           String[] data = reader.delimiter().split(";");
+           for(int i=0; i<3;i++)
+           {
+               System.out.println(data[i]);
+           }
+       }
+       catch(FileNotFoundException exp)
+       {
+           System.out.println("Couldn't Open file");
+       }
+        */
+    }
 }
