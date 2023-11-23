@@ -19,7 +19,7 @@ public class RegistrationSystem
             writer.write(user.getUsername()        + ";"
                           + user.getPassword()        + ";"
                           + user.getEmail()           + ";"
-                          + user.getDeliveryAddress() + ";");
+                          + user.getAddress()         + ";");
 
         }catch(IOException exp)
         {

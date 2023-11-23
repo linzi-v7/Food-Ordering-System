@@ -1,16 +1,12 @@
 package project.user;
 
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-
 public class User
 {
     private String username;
     private String password;
     private String email;
-    private String deliveryAddress;
+    private String address;
 
 
     public User()
@@ -18,15 +14,15 @@ public class User
         this.username = null;
         this.password = null;
         this.email = null;
-        this.deliveryAddress = null;
+        this.address = null;
     }
 
-    public User(String username, String password, String email, String deliveryAddress)
+    public User(String username, String password, String email, String address)
     {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.deliveryAddress = deliveryAddress;
+        this.address = address;
     }
 
     public String getUsername()
@@ -44,9 +40,9 @@ public class User
         return email;
     }
 
-    public String getDeliveryAddress()
+    public String getAddress()
     {
-        return deliveryAddress;
+        return address;
     }
 
 
