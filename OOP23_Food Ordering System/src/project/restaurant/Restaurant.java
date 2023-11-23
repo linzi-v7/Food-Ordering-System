@@ -1,4 +1,4 @@
-package project.classes.user;
+package project.restaurant;
 
 public class Restaurant {
   public String restaurantName;
