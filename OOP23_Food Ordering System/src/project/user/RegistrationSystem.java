@@ -7,76 +7,86 @@ public class RegistrationSystem
 {
     //file for storing users data
     private static final String USER_FILE = "users.txt";
-    public void registerUser()
-    {
+    public void registerUser() {
         //get input
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Enter username: ");
-        String username = scanner.nextLine();
+        System.out.print("Enter Name: ");
+        String name = scanner.nextLine();
+
+        String email;
+        int retryCount = 0;
+        //THIS FUNCTION IS NOT WORKING YET.
+        do {
+            if(retryCount >=  1)
+            {
+                System.out.println("Account Already Exists!");
+            }
+            System.out.print("Enter E-mail: ");
+            email = scanner.nextLine();
+
+            retryCount++;
+        } while (checkDuplicateEmail(email));     //check if account doesn't already exist
+
+
 
         System.out.print("Enter Password: ");
         String password = scanner.nextLine();
 
-        System.out.print("Enter E-mail: ");
-        String email = scanner.nextLine();
-
         System.out.print("Enter Address: ");
         String address = scanner.nextLine();
 
-        //check if account doesn't already exist
-        checkDuplicate(username,password,email);
-
-        //if it doesn't exist create a new user and store their data
-        User user = new User(username,password,email,address);
+        //if account doesn't exist create a new user and store their data
+        User user = new User(name, password, email, address);
         storeUserData(user);
     }
 
     public void storeUserData(User user)
     {
-        PrintWriter writer = null;
-        try
-        {
+        try (PrintWriter writer = new PrintWriter((new FileWriter(USER_FILE, true)))) {
             //opens file in append mode and stores data with semicolon to seperate them
-            writer = new PrintWriter((new FileWriter(USER_FILE,true)));
 
-            writer.write(user.getUsername()        + ";"
-                    + user.getPassword()        + ";"
-                    + user.getEmail()           + ";"
-                    + user.getAddress()         + ";");
+            writer.write(user.getName() + ";"
+                    + user.getPassword() + ";"
+                    + user.getEmail() + ";"
+                    + user.getAddress() + ";\n");
 
-        }catch(IOException exp)
-        {
+        } catch (IOException exp) {
             System.out.println(exp.getMessage());
-        }
-        finally
-        {
-            if(writer != null)
-            {
-                writer.close();
-            }
         }
     }
 
-    public void checkDuplicate(String username, String password, String email)
+    public boolean checkDuplicateEmail(String email)
     {
-        /*
-       try
+
+       try(BufferedReader bufferedReader = new BufferedReader(new FileReader(USER_FILE)))
        {
-
-           File file = new File(USER_FILE);
-           Scanner reader = new Scanner(file);
-
-           String[] data = reader.delimiter().split(";");
-           for(int i=0; i<3;i++)
+           String [][] usersArray = new String[10][3];
+           String line;
+           int row = 0;
+           while((line = bufferedReader.readLine()) != null)
            {
-               System.out.println(data[i]);
+               String[] values = line.split(";");
+               usersArray[row] = values;
+               row++;
            }
+
+           for (int i =0; i<10 ;i++)
+           {
+              if(usersArray[i][2].equals(email))
+              {
+                  return true; // found duplicate email;
+              }
+
+           }
+
        }
-       catch(FileNotFoundException exp)
+       catch(IOException exp)
        {
            System.out.println("Couldn't Open file");
+
        }
-        */
+
+        return false;
     }
 }
