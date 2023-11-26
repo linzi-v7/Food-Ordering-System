@@ -10,7 +10,7 @@ public class RegistrationSystem
     //if file ended with \n on a seperate line, the userdata array thinks its a row that contains user
     //data which throws an arrayoutofbounds exception.
     private static final String USER_FILE = "users.txt";
-    public void registerUser() {
+    public static void registerUser() {
         //get input
         Scanner scanner = new Scanner(System.in);
 
@@ -28,7 +28,7 @@ public class RegistrationSystem
             email = scanner.nextLine();
 
             retryCount++;
-        } while (checkDuplicateEmail(email));     //check if account doesn't already exist
+        } while (checkDuplicate(email,1));     //check if account doesn't already exist
 
 
 
@@ -43,7 +43,7 @@ public class RegistrationSystem
         storeUserData(user);
     }
 
-    public void storeUserData(User user)
+    public static void storeUserData(User user)
     {
         try (PrintWriter writer = new PrintWriter((new FileWriter(USER_FILE, true)))) {
             //opens file in append mode and stores data with semicolon to seperate them
@@ -58,7 +58,7 @@ public class RegistrationSystem
         }
     }
 
-    public boolean checkDuplicateEmail(String email)
+    public static boolean checkDuplicate(String checkedValue,int valueIndex)
     {
 
        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(USER_FILE)))
@@ -76,7 +76,7 @@ public class RegistrationSystem
            for (int i =0; i<10 ;i++)
            {
                try {
-                   if (usersArray[i][2].equals(email))
+                   if (usersArray[i][valueIndex].equals(checkedValue))
                    {
                        return true; // found duplicate email
                    }
@@ -99,5 +99,28 @@ public class RegistrationSystem
        }
 
         return false;
+    }
+
+    public static boolean loginUser()
+    {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter E-mail: ");
+        String email = scanner.nextLine();
+
+        System.out.print("Enter Password: ");
+        String password = scanner.nextLine();
+
+        if(checkDuplicate(email,1)
+                && checkDuplicate(password,2))
+        {
+            System.out.println("Login Successful!");
+            return true; //login successful
+        }
+        else
+        {
+            System.out.println("Credentials wrong");
+            return false; //login has some kind of error so it returns false
+        }
     }
 }

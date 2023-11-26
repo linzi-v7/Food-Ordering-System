@@ -19,13 +19,15 @@ public class main
         if(      isUserCheck.equalsIgnoreCase("yes")
                 || isUserCheck.equalsIgnoreCase("y"))
         {
-          //login();
+          do
+          {
+              RegistrationSystem.loginUser();
+          }while(!RegistrationSystem.loginUser()); //as long as user enters wrong credentials
         }
         else if (isUserCheck.equalsIgnoreCase("no")
                 || isUserCheck.equalsIgnoreCase("n"))
         {
-            RegistrationSystem register = new RegistrationSystem();
-            register.registerUser();
+            RegistrationSystem.registerUser();
         }
         else
         {

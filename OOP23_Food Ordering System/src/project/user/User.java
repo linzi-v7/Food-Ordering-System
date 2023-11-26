@@ -7,8 +7,8 @@ public class User
     private String password;
     private String email;
     private String address;
-    private int userID;
-    private static int userIDsequence = 250;
+   // private int userID;
+   // private static int userIDsequence = 250;
 
     public User(String name, String email, String password, String address)
     {
@@ -16,9 +16,9 @@ public class User
         this.password = password;
         this.email = email;
         this.address = address;
-        userID = userIDsequence;
+      //  userID = userIDsequence;
 
-        userIDsequence++;
+       // userIDsequence++;
     }
 
     public String getName()
