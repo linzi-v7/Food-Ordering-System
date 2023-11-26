@@ -9,9 +9,9 @@ import java.util.Scanner;
 public class RegistrationSystem
 {
     //file for storing users data
-    //file must not end with \n on a seperate line to avoid exceptions
-    //if file ended with \n on a seperate line, the userdata array thinks its a row that contains user
-    //data which throws an arrayoutofbounds exception.
+    //file must not end with \n on a separate line to avoid exceptions
+    //if file ended with \n on a separate line, the userdata array thinks it's a row that contains user
+    //data which throws an arrayOutOfBounds exception.
     private static final String USER_FILE = "users.txt";
 
     /**
@@ -55,7 +55,7 @@ public class RegistrationSystem
     public static void storeUserData(User user)
     {
         try (PrintWriter writer = new PrintWriter((new FileWriter(USER_FILE, true)))) {
-            //opens file in append mode and stores data with semicolon to seperate them
+            //opens file in append mode and stores data with semicolon to separate them
 
             writer.write(user.getName() + ";"
                     + user.getPassword() + ";"
@@ -97,7 +97,7 @@ public class RegistrationSystem
                    {
                        return true; // found duplicate email
                    }
-               }catch(ArrayIndexOutOfBoundsException exp) //if file ended with \n on a seperate line
+               }catch(ArrayIndexOutOfBoundsException exp) //if file ended with \n on a separate line
                {
                    return false;
                }
