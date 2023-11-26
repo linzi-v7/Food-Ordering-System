@@ -1,6 +1,9 @@
 package project.user;
 
-
+/**
+ * User class. Each user contains name, password, email and an address.
+ * has only one parameterized constructor to initialize these values.
+ */
 public class User
 {
     private String name;

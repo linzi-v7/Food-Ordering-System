@@ -3,6 +3,9 @@ package project.user;
 import java.io.*;
 import java.util.Scanner;
 
+/**
+ * class to handle user login and registration functions. All functions are static.
+ */
 public class RegistrationSystem
 {
     //file for storing users data
@@ -10,6 +13,12 @@ public class RegistrationSystem
     //if file ended with \n on a seperate line, the userdata array thinks its a row that contains user
     //data which throws an arrayoutofbounds exception.
     private static final String USER_FILE = "users.txt";
+
+    /**
+     * Registers new user, if email input already exists, the users keeps getting prompted
+     * to enter a new email. After all credentials are input, a new user is created and
+     * stored in the users file (users.txt)
+     */
     public static void registerUser() {
         //get input
         Scanner scanner = new Scanner(System.in);
@@ -58,6 +67,14 @@ public class RegistrationSystem
         }
     }
 
+
+    /**
+     * takes a parameter and its index in the users.txt file and checks if value already exists.
+     *
+     * @param checkedValue the value to be compared to
+     * @param valueIndex index of the value in users.txt (name = 0, email = 1, password = 2, address = 3)
+     * @return true if duplicate found, false if no matching value was found
+     */
     public static boolean checkDuplicate(String checkedValue,int valueIndex)
     {
 
@@ -101,6 +118,11 @@ public class RegistrationSystem
         return false;
     }
 
+    /**
+     * prompts users to enter email and password and checks if values exist on the same row after each
+     * other in users.txt file.
+     * @return true if login was successful, false if not.
+     */
     public static boolean loginUser()
     {
         Scanner scanner = new Scanner(System.in);
