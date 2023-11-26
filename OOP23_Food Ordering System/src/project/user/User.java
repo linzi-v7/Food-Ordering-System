@@ -10,7 +10,7 @@ public class User
     private int userID;
     private static int userIDsequence = 250;
 
-    public User(String name, String password, String email, String address)
+    public User(String name, String email, String password, String address)
     {
         this.name = name;
         this.password = password;

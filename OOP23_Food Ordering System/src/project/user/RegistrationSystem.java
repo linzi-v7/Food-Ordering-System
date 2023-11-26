@@ -39,7 +39,7 @@ public class RegistrationSystem
         String address = scanner.nextLine();
 
         //if account doesn't exist create a new user and store their data
-        User user = new User(name, password, email, address);
+        User user = new User(name, email, password, address);
         storeUserData(user);
     }
 
