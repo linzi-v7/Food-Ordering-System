@@ -7,7 +7,6 @@
     <list default="true" id="35e0d2b9-8329-4bea-804a-9ae8ad6592b6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/project/user/RegistrationSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/user/RegistrationSystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/project/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/user/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/users.txt" beforeDir="false" afterPath="$PROJECT_DIR$/users.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -72,11 +71,6 @@
           <properties class="java.lang.ArrayIndexOutOfBoundsException" package="java.lang" />
           <option name="timeStamp" value="1" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/project/user/RegistrationSystem.java</url>
-          <line>74</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
