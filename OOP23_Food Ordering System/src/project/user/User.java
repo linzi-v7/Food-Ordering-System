@@ -1,33 +1,32 @@
 package project.user;
 
-
+/**
+ * User class. Each user contains name, password, email and an address.
+ * has only one parameterized constructor to initialize these values.
+ */
 public class User
 {
-    private String username;
+    private String name;
     private String password;
     private String email;
     private String address;
+   // private int userID;
+   // private static int userIDsequence = 250;
 
-
-    public User()
+    public User(String name, String email, String password, String address)
     {
-        this.username = null;
-        this.password = null;
-        this.email = null;
-        this.address = null;
-    }
-
-    public User(String username, String password, String email, String address)
-    {
-        this.username = username;
+        this.name = name;
         this.password = password;
         this.email = email;
         this.address = address;
+      //  userID = userIDsequence;
+
+       // userIDsequence++;
     }
 
-    public String getUsername()
+    public String getName()
     {
-        return username;
+        return name;
     }
 
     public String getPassword()

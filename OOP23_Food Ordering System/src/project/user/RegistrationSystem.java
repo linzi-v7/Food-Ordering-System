@@ -3,80 +3,146 @@ package project.user;
 import java.io.*;
 import java.util.Scanner;
 
+/**
+ * class to handle user login and registration functions. All functions are static.
+ */
 public class RegistrationSystem
 {
     //file for storing users data
+    //file must not end with \n on a separate line to avoid exceptions
+    //if file ended with \n on a separate line, the userdata array thinks it's a row that contains user
+    //data which throws an arrayOutOfBounds exception.
     private static final String USER_FILE = "users.txt";
-    public void registerUser()
-    {
+
+    /**
+     * Registers new user, if email input already exists, the users keeps getting prompted
+     * to enter a new email. After all credentials are input, a new user is created and
+     * stored in the users file (users.txt)
+     */
+    public static void registerUser() {
         //get input
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Enter username: ");
-        String username = scanner.nextLine();
+        System.out.print("Enter Name: ");
+        String name = scanner.nextLine();
+
+        String email;
+        int retryCount = 0;
+        do {
+            if(retryCount >=  1)
+            {
+                System.out.println("Account Already Exists!");
+            }
+            System.out.print("Enter E-mail: ");
+            email = scanner.nextLine();
+
+            retryCount++;
+        } while (checkDuplicate(email,1));     //check if account doesn't already exist
+
+
 
         System.out.print("Enter Password: ");
         String password = scanner.nextLine();
 
-        System.out.print("Enter E-mail: ");
-        String email = scanner.nextLine();
-
         System.out.print("Enter Address: ");
         String address = scanner.nextLine();
 
-        //check if account doesn't already exist
-        checkDuplicate(username,password,email);
-
-        //if it doesn't exist create a new user and store their data
-        User user = new User(username,password,email,address);
+        //if account doesn't exist create a new user and store their data
+        User user = new User(name, email, password, address);
         storeUserData(user);
     }
 
-    public void storeUserData(User user)
+    public static void storeUserData(User user)
     {
-        PrintWriter writer = null;
-        try
-        {
-            //opens file in append mode and stores data with semicolon to seperate them
-            writer = new PrintWriter((new FileWriter(USER_FILE,true)));
+        try (PrintWriter writer = new PrintWriter((new FileWriter(USER_FILE, true)))) {
+            //opens file in append mode and stores data with semicolon to separate them
 
-            writer.write(user.getUsername()        + ";"
-                    + user.getPassword()        + ";"
-                    + user.getEmail()           + ";"
-                    + user.getAddress()         + ";");
+            writer.write(user.getName() + ";"
+                    + user.getPassword() + ";"
+                    + user.getEmail() + ";"
+                    + user.getAddress() + ";\n");
 
-        }catch(IOException exp)
-        {
+        } catch (IOException exp) {
             System.out.println(exp.getMessage());
-        }
-        finally
-        {
-            if(writer != null)
-            {
-                writer.close();
-            }
         }
     }
 
-    public void checkDuplicate(String username, String password, String email)
+
+    /**
+     * takes a parameter and its index in the users.txt file and checks if value already exists.
+     *
+     * @param checkedValue the value to be compared to
+     * @param valueIndex index of the value in users.txt (name = 0, email = 1, password = 2, address = 3)
+     * @return true if duplicate found, false if no matching value was found
+     */
+    public static boolean checkDuplicate(String checkedValue,int valueIndex)
     {
-        /*
-       try
+
+       try(BufferedReader bufferedReader = new BufferedReader(new FileReader(USER_FILE)))
        {
-
-           File file = new File(USER_FILE);
-           Scanner reader = new Scanner(file);
-
-           String[] data = reader.delimiter().split(";");
-           for(int i=0; i<3;i++)
+           String [][] usersArray = new String[10][4]; //array to load user data from file to array
+           String line;
+           int row = 0;
+           while((line = bufferedReader.readLine()) != null) //reads each line until there is none
            {
-               System.out.println(data[i]);
+               String[] values = line.split(";"); //needs to split them to remove the delimiter
+               usersArray[row] = values;
+               row++;
            }
+
+           for (int i =0; i<10 ;i++)
+           {
+               try {
+                   if (usersArray[i][valueIndex].equals(checkedValue))
+                   {
+                       return true; // found duplicate email
+                   }
+               }catch(ArrayIndexOutOfBoundsException exp) //if file ended with \n on a separate line
+               {
+                   return false;
+               }
+               catch(NullPointerException exp) //if reached the end of the array
+               {
+                   return false;
+               }
+
+           }
+
        }
-       catch(FileNotFoundException exp)
+       catch(IOException exp)
        {
            System.out.println("Couldn't Open file");
+
        }
-        */
+
+        return false;
+    }
+
+    /**
+     * prompts users to enter email and password and checks if values exist on the same row after each
+     * other in users.txt file.
+     * @return true if login was successful, false if not.
+     */
+    public static boolean loginUser()
+    {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter E-mail: ");
+        String email = scanner.nextLine();
+
+        System.out.print("Enter Password: ");
+        String password = scanner.nextLine();
+
+        if(checkDuplicate(email,1)
+                && checkDuplicate(password,2))
+        {
+            System.out.println("Login Successful!");
+            return true; //login successful
+        }
+        else
+        {
+            System.out.println("Credentials wrong");
+            return false; //login has some kind of error so it returns false
+        }
     }
 }
