@@ -57,18 +57,18 @@ public class Payment {
         System.out.println("(digital wallet)");
         System.out.println("-------------------------------------------------------------------------------------");
         String choice = scan.next();
-        switch (choice) {
-            case credit card: {
-
-            }
-            break;
-            case Debit card: {
-
-            }
-            break;
-            case digital wallet: {
-
-            }
-        }
+//        switch (choice) {
+//           case credit card: {
+//
+//            }
+//            break;
+//            case Debit card: {
+//
+//            }
+//            break;
+//            case digital wallet: {
+//
+//            }
+//        }
     }
 }
