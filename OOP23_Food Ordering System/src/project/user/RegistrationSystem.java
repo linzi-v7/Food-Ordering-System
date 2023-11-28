@@ -22,9 +22,15 @@ public class RegistrationSystem
     public static void registerUser() {
         //get input
         Scanner scanner = new Scanner(System.in);
+        System.out.println("\t\t ######## Registration Page ########" +
+                "\nAt any point type exit to return to welcome page.");
 
         System.out.print("Enter Name: ");
         String name = scanner.nextLine();
+        if(checkExit(name))
+        {
+            return;
+        }
 
         String email;
         int retryCount = 0;
@@ -35,7 +41,10 @@ public class RegistrationSystem
             }
             System.out.print("Enter E-mail: ");
             email = scanner.nextLine();
-
+            if(checkExit(email))
+            {
+                return;
+            }
             retryCount++;
         } while (checkDuplicate(email,1));     //check if account doesn't already exist
 
@@ -43,13 +52,22 @@ public class RegistrationSystem
 
         System.out.print("Enter Password: ");
         String password = scanner.nextLine();
+        if(checkExit(password))
+        {
+            return;
+        }
 
         System.out.print("Enter Address: ");
         String address = scanner.nextLine();
+        if(checkExit(address))
+        {
+            return;
+        }
 
         //if account doesn't exist create a new user and store their data
         User user = new User(name, email, password, address);
         storeUserData(user);
+
     }
 
     public static void storeUserData(User user)
@@ -125,6 +143,7 @@ public class RegistrationSystem
      */
     public static boolean loginUser()
     {
+        System.out.println("\t\t ######## Login Page ########");
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter E-mail: ");
@@ -144,5 +163,10 @@ public class RegistrationSystem
             System.out.println("Credentials wrong");
             return false; //login has some kind of error so it returns false
         }
+    }
+
+    public static boolean checkExit(String input)
+    {
+        return input.equalsIgnoreCase("exit"); //returns true if == exit
     }
 }

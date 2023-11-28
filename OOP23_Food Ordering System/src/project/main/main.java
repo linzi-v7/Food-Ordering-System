@@ -14,8 +14,8 @@ public class main
         boolean userLoggedin = false;
         do
         {
-            System.out.println("######## Food Ordering System #############\n");
-            System.out.println("\t\t\t Welcome!\n");
+            System.out.println("\t####### Food Ordering System #######\n");
+            System.out.println("\t\t\t\t Welcome!\n");
             System.out.println("Do you already have an account? Enter Yes or No\n" +
                     "Type exit to close program.");
 
@@ -34,11 +34,12 @@ public class main
                     }else
                     {
                         userLoggedin = true;
+                        //userLaunchProgram();
                     }
                     //prompts user to retry if they entered wrong credentials
                 } while (retry.equalsIgnoreCase("y")
                         || retry.equalsIgnoreCase("yes"));
-                
+
             } else if (isUserCheck.equalsIgnoreCase("no")
                     || isUserCheck.equalsIgnoreCase("n"))
             {
