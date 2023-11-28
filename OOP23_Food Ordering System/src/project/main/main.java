@@ -55,5 +55,11 @@ public class main
             }
         }while(!userLoggedin);
     }
+
+    //function to handle program flow after user logs in, should display restaurants,menus,etc..
+    public void userLaunchProgram()
+    {
+
+    }
 }
 
