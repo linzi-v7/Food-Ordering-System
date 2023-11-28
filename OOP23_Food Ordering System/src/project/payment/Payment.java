@@ -6,23 +6,23 @@ import java.util.Scanner;
 
  @author Amani Alotaibi*/
 public class Payment {
-    private int Id;
+    private int id;
     private String status;
-    private String Payway;
+    private String payway;
     private String choice;
 
-    public Payment(int Id, String status, String Payway) {
-        this.Id = Id;
+    public Payment(int id, String status, String payway) {
+        this.id = id;
         this.status = status;
-        this.Payway = Payway;
+        this.payway = payway;
     }
 
-    public int getId() {
-        return Id;
+    public int getID() {
+        return id;
     }
 
-    public void setId(int id) {
-        this.Id = id;
+    public void setID(int id) {
+        this.id = id;
     }
 
     public String getStatus() {
@@ -34,11 +34,11 @@ public class Payment {
     }
 
     public String getPayway() {
-        return Payway;
+        return payway;
     }
 
-    public void setPayway(String Payway) {
-        this.Payway = Payway;
+    public void setPayway(String payway) {
+        this.payway = payway;
     }
 
     public String getchoice() {
