@@ -1,6 +1,6 @@
 package project.main;
 
-import project.user.RegistrationSystem;
+import project.user.UserRegistrationSystem;
 
 import java.util.Scanner;
 
@@ -27,7 +27,7 @@ public class main
                 String retry = "";
                 do
                 {
-                    if (!RegistrationSystem.loginUser())
+                    if (!UserRegistrationSystem.loginUser())
                     {
                         System.out.println("Would you like to retry?(Y/N)");
                         retry = scanner.nextLine();
@@ -43,7 +43,7 @@ public class main
             } else if (isUserCheck.equalsIgnoreCase("no")
                     || isUserCheck.equalsIgnoreCase("n"))
             {
-                RegistrationSystem.registerUser();
+                UserRegistrationSystem.registerUser();
             }
             else if(isUserCheck.equalsIgnoreCase("exit"))
             {

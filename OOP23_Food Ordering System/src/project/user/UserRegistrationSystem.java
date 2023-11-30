@@ -6,8 +6,15 @@ import java.util.Scanner;
 /**
  * class to handle user login and registration functions. All functions are static.
  */
-public class RegistrationSystem
+public class UserRegistrationSystem
 {
+    //data index in users.txt file
+    public static final int USER_NAME_INDEX = 0;
+    public static final int USER_EMAIL_INDEX = 1;
+    public static final int USER_PASSWORD_INDEX = 2;
+    public static final int USER_ADDRESS_INDEX = 3;
+
+
     //file for storing users data
     //file must not end with \n on a separate line to avoid exceptions
     //if file ended with \n on a separate line, the userdata array thinks it's a row that contains user
@@ -46,7 +53,7 @@ public class RegistrationSystem
                 return;
             }
             retryCount++;
-        } while (checkDuplicate(email,1));     //check if account doesn't already exist
+        } while (checkDuplicate(email,USER_EMAIL_INDEX));     //check if account doesn't already exist
 
 
 
@@ -152,8 +159,8 @@ public class RegistrationSystem
         System.out.print("Enter Password: ");
         String password = scanner.nextLine();
 
-        if(checkDuplicate(email,1)
-                && checkDuplicate(password,2))
+        if(checkDuplicate(email,USER_EMAIL_INDEX)
+                && checkDuplicate(password,USER_PASSWORD_INDEX))
         {
             System.out.println("Login Successful!");
             return true; //login successful
