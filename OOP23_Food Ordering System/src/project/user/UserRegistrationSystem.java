@@ -83,8 +83,8 @@ public class UserRegistrationSystem
             //opens file in append mode and stores data with semicolon to separate them
 
             writer.write(user.getName() + ";"
-                    + user.getPassword() + ";"
                     + user.getEmail() + ";"
+                    + user.getPassword() + ";"
                     + user.getAddress() + ";\n");
 
         } catch (IOException exp) {
