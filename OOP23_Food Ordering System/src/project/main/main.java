@@ -34,7 +34,7 @@ public class main
                     }else
                     {
                         userLoggedin = true;
-                        //userLaunchProgram();
+                        userLaunchProgram();
                     }
                     //prompts user to retry if they entered wrong credentials
                 } while (retry.equalsIgnoreCase("y")
@@ -57,7 +57,7 @@ public class main
     }
 
     //function to handle program flow after user logs in, should display restaurants,menus,etc..
-    public void userLaunchProgram()
+    public static void userLaunchProgram()
     {
 
     }

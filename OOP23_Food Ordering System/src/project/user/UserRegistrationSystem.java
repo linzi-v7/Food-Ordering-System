@@ -1,6 +1,7 @@
 package project.user;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -53,7 +54,7 @@ public class UserRegistrationSystem
                 return;
             }
             retryCount++;
-        } while (checkDuplicate(email,USER_EMAIL_INDEX));     //check if account doesn't already exist
+        } while (checkDuplicateUser(email,USER_EMAIL_INDEX));     //check if account doesn't already exist
 
 
 
@@ -96,41 +97,30 @@ public class UserRegistrationSystem
     /**
      * takes a parameter and its index in the users.txt file and checks if value already exists.
      *
-     * @param checkedValue the value to be compared to
+     * @param valueToCheck the value to be compared to
      * @param valueIndex index of the value in users.txt (name = 0, email = 1, password = 2, address = 3)
      * @return true if duplicate found, false if no matching value was found
      */
-    public static boolean checkDuplicate(String checkedValue,int valueIndex)
+    public static boolean checkDuplicateUser(String valueToCheck, int valueIndex)
     {
+        ArrayList<String> usersArray = new ArrayList<>();
 
-       try(BufferedReader bufferedReader = new BufferedReader(new FileReader(USER_FILE)))
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(USER_FILE)))
        {
-           String [][] usersArray = new String[10][4]; //array to load user data from file to array
-           String line;
-           int row = 0;
-           while((line = bufferedReader.readLine()) != null) //reads each line until there is none
+           String row;
+           while((row = bufferedReader.readLine()) != null) //reads each line until there is none
            {
-               String[] values = line.split(";"); //needs to split them to remove the delimiter
-               usersArray[row] = values;
-               row++;
+               usersArray.add(row);
            }
 
-           for (int i =0; i<10 ;i++)
+           for (String s : usersArray)
            {
-               try {
-                   if (usersArray[i][valueIndex].equals(checkedValue))
-                   {
-                       return true; // found duplicate email
-                   }
-               }catch(ArrayIndexOutOfBoundsException exp) //if file ended with \n on a separate line
+               String[] userData = s.split(";");
+               String value = userData[valueIndex];
+               if (value.equals(valueToCheck))
                {
-                   return false;
+                   return true; // found duplicate value
                }
-               catch(NullPointerException exp) //if reached the end of the array
-               {
-                   return false;
-               }
-
            }
 
        }
@@ -159,8 +149,8 @@ public class UserRegistrationSystem
         System.out.print("Enter Password: ");
         String password = scanner.nextLine();
 
-        if(checkDuplicate(email,USER_EMAIL_INDEX)
-                && checkDuplicate(password,USER_PASSWORD_INDEX))
+        if(checkDuplicateUser(email,USER_EMAIL_INDEX)
+                && checkDuplicateUser(password,USER_PASSWORD_INDEX))
         {
             System.out.println("Login Successful!");
             return true; //login successful
