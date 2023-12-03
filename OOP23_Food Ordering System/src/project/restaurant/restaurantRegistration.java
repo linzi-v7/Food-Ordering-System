@@ -1,91 +1,75 @@
 package restaurant;
-import java.sql.SQLOutput;
+
 import java.util.Scanner;
-public class restaurantRegistration
-{
+
+public class restaurantRegistration {
     private static final String USER_FILE = "restaurants.txt";
-public static boolean again= false;
-public int decision;
 
-public restaurantRegistration(int decision,boolean again)
-{
-    this.again=again;
-    this.decision=decision;
-}
-//variable to give user option to re-enter their mails,passwords,emails,phone numbers
-    public static void registerRestaurant()
-    {
+    public static boolean registerRestaurant() {
         Scanner scanner = new Scanner(System.in);
-        do
-        {
+
+        while (true) {
             System.out.print("Enter restaurant name: ");
-            String restaurantName = scanner.nextLine();
-            if (scanner.nextLine().length() == 12);
-            System.out.println("out of bounds");
-            // checks the length of the phone number
-            if(scanner.hasNextInt()){
-                System.out.println("number entered exists");
-            }
-            else{
-                System.out.println("please enter a correct number");
-            }
-            //checks if input is a number
+            String restaurant = scanner.nextLine();
             System.out.print("do you want to change the restaurant name ");
-            String decision = scanner.nextLine();
-            if (decision.equals("yes")) {
-                again = true;
+            String decision = scanner.nextLine().toLowerCase();
 
-            } else if (decision.equals("Yes")) {
-                again = true;
+            if (!decision.equals("yes")) break;
+        }
+//enters the name of the restaurant and checks if he wants to enter the name again
+        while (true) {
+
+            String RestaurantNum;
+            boolean repeat = true;
+            while (repeat) {
+                System.out.println("enter phone number:");
+                while (!scanner.hasNextInt()) {
+                    scanner.next();
+                    // Clear the buffer
+
+
+                    System.out.println("Error: Please enter a valid phone number.");
+
+                }
+                //checks that the phone number is nothing else but numbers
+                String number = scanner.next();
+                int compareNumber = number.length();
+                if (compareNumber == 11) {
+                    repeat = false;
+                } else
+                    System.out.println("please enter the full number");
+
+
             }
-        }while(again);
-        again= false;
+            //checks length of the number
+            System.out.print("do you want to change the phone number?");
+            String decision = scanner.next().toLowerCase();
 
-        do
-        {
+            if (!decision.equals("yes")) break;
+        }
+//enters the number of the restaurant and checks if he wants to enter it again
+
+
+//         checks the length of the phone number
+//            checks if input is a number
+        while (true) {
             System.out.print("Enter restaurant address ");
-            String restaurantAddress = scanner.nextLine();
-            System.out.print("do you want to change the address ");
-            String decision = scanner.nextLine();
-            if (decision.equals("yes")) {
-                again = true;
+            String restaurantAddress = scanner.next();
+            System.out.print("do you want to change the restaurant address ?");
+            String decision = scanner.next().toLowerCase();
 
-            } else if (decision.equals("Yes")) {
-                again = true;
-            }
-        }while(again);
-        again= false;
-
-
-        do
-        {
-            System.out.print("Enter restaurant contact ");
-            int restaurantContact = scanner.nextInt();
-            
-            System.out.print("do you want to change the contact ");
-            String decision = scanner.nextLine();
-            if (decision.equals("yes")) {
-                again = true;
-
-            } else if (decision.equals("Yes")) {
-                again = true;
-            }
-        }while(again);
-        again= false;
-        do
-        {
+            if (!decision.equals("yes")) break;
+        }
+//enters the address of the restaurant and checks if he wants to enter it again
+        while (true) {
             System.out.print("Enter restaurant Email ");
-            String restaurantEmail = scanner.nextLine();
+            String restaurantEmail = scanner.next();
             System.out.print("do you want to change the Email ");
-            String decision = scanner.nextLine();
-            if (decision.equals("yes")) {
-                again = true;
+            String decision = scanner.next().toLowerCase();
 
-            } else if (decision.equals("Yes")) {
-                again = true;
-            }
-        }while(again);
-        again= false;
+            if (!decision.equals("yes")) break;
+        }
+        return false;
     }
-
+//enters the email of the restaurant and checks if he wants to enter it again
 }
