@@ -136,7 +136,7 @@ public class UserManagementSystem
     /**
      * prompts users to enter email and password and checks if values exist on the same row after each
      * other in users.txt file.
-     * @return true if login was successful, false if not.
+     * @return String of logged in user if available, if not available returns the String "null"
      */
     public static String loginUser()
     {
@@ -170,5 +170,42 @@ public class UserManagementSystem
     public static boolean checkExit(String input)
     {
         return input.equalsIgnoreCase("exit"); //returns true if == exit
+    }
+
+    public static User getUserByEmail(String userEmail)
+    {
+        ArrayList<String> usersArray = new ArrayList<>();
+
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(USER_FILE)))
+        {
+            String row;
+            while((row = bufferedReader.readLine()) != null) //reads each line until there is none
+            {
+                usersArray.add(row);
+            }
+
+            for (String s : usersArray)
+            {
+                String[] userData = s.split(";");
+                String value = userData[USER_EMAIL_INDEX];
+                if (value.equals(userEmail))
+                {
+                    String name = userData[USER_NAME_INDEX];
+                    String email = userData[USER_EMAIL_INDEX];
+                    String password = userData[USER_PASSWORD_INDEX];
+                    String address = userData[USER_ADDRESS_INDEX];
+
+                    return new User(name,email,password,address);
+                }
+            }
+
+        }
+        catch(IOException exp)
+        {
+            System.out.println("Couldn't Open file");
+
+        }
+
+        return null;
     }
 }

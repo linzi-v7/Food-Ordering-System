@@ -1,5 +1,6 @@
 package project.main;
 
+import project.user.User;
 import project.user.UserManagementSystem;
 
 import java.util.Scanner;
@@ -26,17 +27,18 @@ public class main
             {
 
                 String retry;
+                String userEmail;
                 do
                 {
                     retry = "n";
-                    if (UserManagementSystem.loginUser().equals("null"))
+                    if ( (userEmail=UserManagementSystem.loginUser()).equals("null"))
                     {
                         System.out.println("Would you like to retry?(Y/N)");
                         retry = scanner.nextLine();
                     } else
                     {
                         userLoggedin = true;
-                        userLaunchProgram();
+                        userLaunchProgram(userEmail);
                     }
                     //prompts user to retry if they entered wrong credentials
                 } while (retry.equalsIgnoreCase("y")
@@ -59,9 +61,22 @@ public class main
     }
 
     //function to handle program flow after user logs in, should display restaurants,menus,etc..
-    public static void userLaunchProgram()
+    public static void userLaunchProgram(String userEmail)
     {
+        User loggedInUser = UserManagementSystem.getUserByEmail(userEmail);
 
+        //if somehow the user doesn't exist (after multiple checks), we should terminate the program
+        if (loggedInUser != null)
+        {
+            System.out.println("\n\t\tWelcome " + loggedInUser.getName() + "!");
+
+            System.out.println(loggedInUser.toString()); //just testing if code works
+        }
+        else
+        {
+            System.out.println("USER DOESN'T EXIST!");
+            System.exit(-1);
+        }
     }
 }
 
