@@ -172,6 +172,13 @@ public class UserManagementSystem
         return input.equalsIgnoreCase("exit"); //returns true if == exit
     }
 
+    /**
+     * Function to get user data using the email field.
+     *
+     * @param userEmail email of the user to be logged in, email is already checked multiple times before
+     *                  during other functions, so logically it can't be null.
+     * @return a new User object containing the data of the currently logged in user
+     */
     public static User getUserByEmail(String userEmail)
     {
         ArrayList<String> usersArray = new ArrayList<>();
