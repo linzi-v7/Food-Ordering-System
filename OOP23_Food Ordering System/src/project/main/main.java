@@ -1,6 +1,6 @@
 package project.main;
 
-import project.user.UserRegistrationSystem;
+import project.user.UserManagementSystem;
 
 import java.util.Scanner;
 
@@ -24,14 +24,16 @@ public class main
             if (isUserCheck.equalsIgnoreCase("yes")
                     || isUserCheck.equalsIgnoreCase("y"))
             {
-                String retry = "";
+
+                String retry;
                 do
                 {
-                    if (!UserRegistrationSystem.loginUser())
+                    retry = "n";
+                    if (UserManagementSystem.loginUser().equals("null"))
                     {
                         System.out.println("Would you like to retry?(Y/N)");
                         retry = scanner.nextLine();
-                    }else
+                    } else
                     {
                         userLoggedin = true;
                         userLaunchProgram();
@@ -43,7 +45,7 @@ public class main
             } else if (isUserCheck.equalsIgnoreCase("no")
                     || isUserCheck.equalsIgnoreCase("n"))
             {
-                UserRegistrationSystem.registerUser();
+                UserManagementSystem.registerUser();
             }
             else if(isUserCheck.equalsIgnoreCase("exit"))
             {

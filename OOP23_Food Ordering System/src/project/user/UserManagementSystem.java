@@ -7,7 +7,7 @@ import java.util.Scanner;
 /**
  * class to handle user login and registration functions. All functions are static.
  */
-public class UserRegistrationSystem
+public class UserManagementSystem
 {
     //data index in users.txt file
     public static final int USER_NAME_INDEX = 0;
@@ -138,7 +138,7 @@ public class UserRegistrationSystem
      * other in users.txt file.
      * @return true if login was successful, false if not.
      */
-    public static boolean loginUser()
+    public static String loginUser()
     {
         System.out.println("\t\t ######## Login Page ########");
         Scanner scanner = new Scanner(System.in);
@@ -153,12 +153,12 @@ public class UserRegistrationSystem
                 && checkDuplicateUser(password,USER_PASSWORD_INDEX))
         {
             System.out.println("Login Successful!");
-            return true; //login successful
+            return email; //login successful, returns email to use later to get user data
         }
         else
         {
             System.out.println("Credentials wrong");
-            return false; //login has some kind of error so it returns false
+            return "null"; //login has some kind of error so it returns false
         }
     }
 
