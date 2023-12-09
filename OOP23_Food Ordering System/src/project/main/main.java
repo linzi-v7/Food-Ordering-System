@@ -1,5 +1,6 @@
 package project.main;
 
+import project.admin.Admin;
 import project.user.User;
 import project.user.UserManagementSystem;
 
@@ -9,8 +10,11 @@ public class main
 {
     public static void main(String[] args)
     {
-        Scanner scanner = new Scanner(System.in);
+        UserManagementSystem.readUserDataFile();
 
+
+        Scanner scanner = new Scanner(System.in);
+        String userEmail = null;
 
         boolean userLoggedin = false;
         do
@@ -22,12 +26,11 @@ public class main
 
             String isUserCheck = scanner.nextLine();
 
+
             if (isUserCheck.equalsIgnoreCase("yes")
                     || isUserCheck.equalsIgnoreCase("y"))
             {
-
                 String retry;
-                String userEmail;
                 do
                 {
                     retry = "n";
@@ -35,10 +38,6 @@ public class main
                     {
                         System.out.println("Would you like to retry?(Y/N)");
                         retry = scanner.nextLine();
-                    } else
-                    {
-                        userLoggedin = true;
-                        userLaunchProgram(userEmail);
                     }
                     //prompts user to retry if they entered wrong credentials
                 } while (retry.equalsIgnoreCase("y")
@@ -56,9 +55,25 @@ public class main
             }
             else
             {
-                System.out.println("Invalid Output");
+                System.out.println("Invalid Input");
             }
-        }while(!userLoggedin);
+        }while(Role.getRoleIdentifier() == 0);
+
+
+        switch (Role.getRoleIdentifier())
+        {
+            case Role.ADMIN_IDENTIFIER:
+                //adminLaunchProgram();
+                break;
+            case Role.RESTAURANT_IDENTIFIER:
+                //restaurantLaunchProgram();
+                break;
+            case Role.USER_IDENTIFIER:
+                userLaunchProgram(userEmail);
+
+        }
+
+
     }
 
     //function to handle program flow after user logs in, should display restaurants,menus,etc..

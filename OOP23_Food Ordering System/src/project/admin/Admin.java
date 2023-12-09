@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class Admin implements AdminPermissions
 {
-    private final static String username ="admin";
-    private final static String password ="admin123";
+    private final String email ="admin";
+    private final String password ="admin123";
 
     void runDashboard()
     {
@@ -35,5 +35,14 @@ public class Admin implements AdminPermissions
                 removeUser(emailToRemove);
                 break;
         }
+    }
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }
