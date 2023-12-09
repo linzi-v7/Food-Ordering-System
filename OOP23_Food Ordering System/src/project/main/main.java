@@ -47,6 +47,7 @@ public class main
             } else if (isUserCheck.equalsIgnoreCase("no")
                     || isUserCheck.equalsIgnoreCase("n"))
             {
+
                 UserManagementSystem.registerUser();
             }
             else if(isUserCheck.equalsIgnoreCase("exit"))

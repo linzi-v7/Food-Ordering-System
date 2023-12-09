@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
 
-class Order implements OrderManagement {
+class Order {
     private String username;
     private List<String> items;
     private String status;
@@ -59,7 +59,7 @@ interface OrderManagement {
         System.out.println("Order placed successfully!");
     }
 
-    private void saveOrder(Order order) {
+    default void saveOrder(Order order) {
         try (PrintWriter writer = new PrintWriter(new FileWriter("orders.txt", true))) {
             writer.println("Username: " + order.getUsername());
             writer.println("Status: " + order.getStatus());
@@ -90,4 +90,3 @@ interface OrderManagement {
         }
     }
 }
-
