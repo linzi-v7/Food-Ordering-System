@@ -16,7 +16,7 @@ public class main
         Scanner scanner = new Scanner(System.in);
         String userEmail = null;
 
-        boolean userLoggedin = false;
+
         do
         {
             System.out.println("\t####### Food Ordering System #######\n");
