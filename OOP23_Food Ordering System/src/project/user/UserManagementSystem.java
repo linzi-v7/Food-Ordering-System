@@ -1,5 +1,8 @@
 package project.user;
 
+import project.admin.Admin;
+import project.main.Role;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -9,18 +12,35 @@ import java.util.Scanner;
  */
 public class UserManagementSystem
 {
+    //file for storing users data
+    //file must not end with \n on a separate line to avoid exceptions
+    //if file ended with \n on a separate line, the userdata array thinks it's a row that contains user
+    //data which throws an arrayOutOfBounds exception.
+    private static final String USER_FILE = "users.txt";
+
     //data index in users.txt file
     public static final int USER_NAME_INDEX = 0;
     public static final int USER_EMAIL_INDEX = 1;
     public static final int USER_PASSWORD_INDEX = 2;
     public static final int USER_ADDRESS_INDEX = 3;
 
+    private static ArrayList<String> usersArray = new ArrayList<>();
 
-    //file for storing users data
-    //file must not end with \n on a separate line to avoid exceptions
-    //if file ended with \n on a separate line, the userdata array thinks it's a row that contains user
-    //data which throws an arrayOutOfBounds exception.
-    private static final String USER_FILE = "users.txt";
+    public static void readUserDataFile()
+    {
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(USER_FILE)))
+        {
+            String row;
+            while ((row = bufferedReader.readLine()) != null) //reads each line until there is none
+            {
+                usersArray.add(row);
+            }
+        }catch(IOException exp)
+        {
+            System.out.println(exp.getMessage());
+        }
+    }
+
 
     /**
      * Registers new user, if email input already exists, the users keeps getting prompted
@@ -57,7 +77,6 @@ public class UserManagementSystem
         } while (checkDuplicateUser(email,USER_EMAIL_INDEX));     //check if account doesn't already exist
 
 
-
         System.out.print("Enter Password: ");
         String password = scanner.nextLine();
         if(checkExit(password))
@@ -75,11 +94,22 @@ public class UserManagementSystem
         //if account doesn't exist create a new user and store their data
         User user = new User(name, email, password, address);
         storeUserData(user);
+        System.out.println("Registration Successful!");
 
     }
 
+    /**
+     * stores user data after registering, stores in local arrayList then in file.
+     * @param user user to be stored
+     */
     public static void storeUserData(User user)
     {
+
+        usersArray.add(user.getName() + ";"
+                + user.getEmail() + ";"
+                + user.getPassword() + ";"
+                + user.getAddress() + ";\n" );
+
         try (PrintWriter writer = new PrintWriter((new FileWriter(USER_FILE, true)))) {
             //opens file in append mode and stores data with semicolon to separate them
 
@@ -103,32 +133,37 @@ public class UserManagementSystem
      */
     public static boolean checkDuplicateUser(String valueToCheck, int valueIndex)
     {
-        ArrayList<String> usersArray = new ArrayList<>();
+        for (String s : usersArray)
+        {
+            String[] userData = s.split(";");
+            String value = userData[valueIndex];
+            if (value.equals(valueToCheck))
+            {
+                return true; // found duplicate value
+            }
+        }
 
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(USER_FILE)))
-       {
-           String row;
-           while((row = bufferedReader.readLine()) != null) //reads each line until there is none
-           {
-               usersArray.add(row);
-           }
+           return false;
+    }
 
-           for (String s : usersArray)
-           {
-               String[] userData = s.split(";");
-               String value = userData[valueIndex];
-               if (value.equals(valueToCheck))
-               {
-                   return true; // found duplicate value
-               }
-           }
-
-       }
-       catch(IOException exp)
-       {
-           System.out.println("Couldn't Open file");
-
-       }
+    /**
+     * function to check email and password found in user data file
+     * @param emailInput  email input by user
+     * @param passwordInput password input by user
+     * @return true if email and password on the same row are equal to input given, false if not found.
+     */
+    public static boolean checkDuplicateUser(String emailInput, String passwordInput)
+    {
+        for (String s : usersArray)
+        {
+            String[] userData = s.split(";");
+            String email = userData[USER_EMAIL_INDEX];
+            String password = userData[USER_PASSWORD_INDEX];
+            if (email.equals(emailInput) && password.equals(passwordInput))
+            {
+                return true; // found account credentials
+            }
+        }
 
         return false;
     }
@@ -149,10 +184,16 @@ public class UserManagementSystem
         System.out.print("Enter Password: ");
         String password = scanner.nextLine();
 
-        if(checkDuplicateUser(email,USER_EMAIL_INDEX)
-                && checkDuplicateUser(password,USER_PASSWORD_INDEX))
+        if(isAdmin(email,password))
         {
             System.out.println("Login Successful!");
+            Role.setRoleIdentifier(Role.ADMIN_IDENTIFIER);
+            return "admin";
+        }
+        else if(checkDuplicateUser(email,password))
+        {
+            System.out.println("Login Successful!");
+            Role.setRoleIdentifier(Role.USER_IDENTIFIER);
             return email; //login successful, returns email to use later to get user data
         }
         else
@@ -160,6 +201,49 @@ public class UserManagementSystem
             System.out.println("Credentials wrong");
             return "null"; //login has some kind of error so it returns false
         }
+    }
+
+
+    /**
+     * Function to get user data using the email field.
+     *
+     * @param userEmail email of the user to be logged in, email is already checked multiple times before
+     *                  during other functions, so logically it can't be null.
+     * @return a new User object containing the data of the currently logged in user
+     */
+    public static User getUserByEmail(String userEmail)
+    {
+
+        for (String s : usersArray)
+        {
+            String[] userData = s.split(";");
+            String storedEmail = userData[USER_EMAIL_INDEX];
+            if (storedEmail.equals(userEmail)) {
+                String name = userData[USER_NAME_INDEX];
+                String email = userData[USER_EMAIL_INDEX];
+                String password = userData[USER_PASSWORD_INDEX];
+                String address = userData[USER_ADDRESS_INDEX];
+
+                return new User(name, email, password, address);
+            }
+        }
+
+
+
+        return null;
+    }
+
+    /**
+     * checks if user login input matches administrator credentials.
+     * @param email email input by user
+     * @param password password input by user
+     * @return true if email and password equals to admin credentials, false otherwise.
+     */
+    public static boolean isAdmin(String email, String password)
+    {
+        Admin admin = new Admin();
+        return email.equals(admin.getEmail())
+                && password.equals(admin.getPassword());
     }
 
     /**
@@ -172,47 +256,5 @@ public class UserManagementSystem
         return input.equalsIgnoreCase("exit"); //returns true if == exit
     }
 
-    /**
-     * Function to get user data using the email field.
-     *
-     * @param userEmail email of the user to be logged in, email is already checked multiple times before
-     *                  during other functions, so logically it can't be null.
-     * @return a new User object containing the data of the currently logged in user
-     */
-    public static User getUserByEmail(String userEmail)
-    {
-        ArrayList<String> usersArray = new ArrayList<>();
 
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(USER_FILE)))
-        {
-            String row;
-            while((row = bufferedReader.readLine()) != null) //reads each line until there is none
-            {
-                usersArray.add(row);
-            }
-
-            for (String s : usersArray)
-            {
-                String[] userData = s.split(";");
-                String value = userData[USER_EMAIL_INDEX];
-                if (value.equals(userEmail))
-                {
-                    String name = userData[USER_NAME_INDEX];
-                    String email = userData[USER_EMAIL_INDEX];
-                    String password = userData[USER_PASSWORD_INDEX];
-                    String address = userData[USER_ADDRESS_INDEX];
-
-                    return new User(name,email,password,address);
-                }
-            }
-
-        }
-        catch(IOException exp)
-        {
-            System.out.println("Couldn't Open file");
-
-        }
-
-        return null;
-    }
 }
