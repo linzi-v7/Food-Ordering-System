@@ -8,16 +8,16 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * class to handle user login and registration functions. All functions are static.
+ * Class to handle user login and registration functions. All functions are static.
  */
 public class UserManagementSystem implements Exit
 {
-    //IMPORTANT NOTE FOR USERS FILE.
-    //FILE MUST NOT END WITH DOUBLE \N TO AVOID ARRAY OUT OF BOUND EXCEPTION
+    //IMPORTANT NOTES FOR USERS FILE.
+    //- FILE MUST NOT END WITH DOUBLE \N TO AVOID ARRAY OUT OF BOUND EXCEPTION
     //if file ended with \n on a separate line, the userdata array thinks it's a row that contains user
     //data which throws an arrayOutOfBounds exception.
-
-    //IF YOU EDIT MANUALLY ON THE USERS FILE, MAKE SURE TO SEPARATE THEM WITH DELIMITER ( ; )
+    //- DO NOT REMOVE THE SYSTEM ADMINISTRATOR'S ACCOUNT SAVED IN THE FIRST LINE!
+    //- IF YOU EDIT MANUALLY ON THE USERS FILE, MAKE SURE TO SEPARATE THEM WITH DELIMITER (;)
     private static final String USER_FILE = "users.txt";
 
     //data index in users.txt file
@@ -45,7 +45,7 @@ public class UserManagementSystem implements Exit
 
 
     /**
-     * Registers new user, if email input already exists, the users keeps getting prompted
+     * Registers new user, if email input already exists, the users keep getting prompted
      * to enter a new email. After all credentials are input, a new user is created and
      * stored in the users file (users.txt)
      */
@@ -81,7 +81,7 @@ public class UserManagementSystem implements Exit
                 break;
             }
 
-        }while (true);     //check if account doesn't already exist or if input admin
+        }while (true);     //check if an account doesn't already exist or if input is admin
 
 
         System.out.print("Enter Password: ");
@@ -98,7 +98,7 @@ public class UserManagementSystem implements Exit
             return;
         }
 
-        //if account doesn't exist create a new user and store their data
+        //if an account doesn't exist, create a new user and store their data
         User user = new User(name, email, password, address);
         storeUserData(user);
         System.out.println("Registration Successful!");
@@ -118,7 +118,7 @@ public class UserManagementSystem implements Exit
                 + user.getAddress() + ";\n" );
 
         try (PrintWriter writer = new PrintWriter((new FileWriter(USER_FILE, true)))) {
-            //opens file in append mode and stores data with semicolon to separate them
+            //opens file in appending mode and stores data with semicolon to separate them
 
             writer.write(user.getName() + ";"
                     + user.getEmail() + ";"
@@ -244,7 +244,7 @@ public class UserManagementSystem implements Exit
      * checks if user login input matches administrator credentials.
      * @param email email input by user
      * @param password password input by user
-     * @return true if email and password equals to admin credentials, false otherwise.
+     * @return true if email and password equal to admin credentials, false otherwise.
      */
     public static boolean isAdmin(String email, String password)
     {
@@ -253,7 +253,48 @@ public class UserManagementSystem implements Exit
                 && password.equals(admin.getPassword());
     }
 
+    /**
+     * removes user, typically used by System Administrator
+     * @param userEmailToRemove email of user to be removed
+     */
+    public static void removeUser(String userEmailToRemove)
+    {
+        //check if user exists and remove from arrayList
+        boolean userFound = false;
+        for (int i =0; i < usersArray.size(); i++)
+        {
+            String[] userData = usersArray.get(i).split(";");
+            String userEmail = userData[1];
+            if(userEmail.equals(userEmailToRemove))
+            {
+                usersArray.remove(i);
+                userFound = true;
+                break;
+            }
+        }
 
+        //if user exists, rewrite file using updated arrayList without the removed user.
+        if(userFound)
+        {
+            try(BufferedWriter writer = new BufferedWriter(new FileWriter(USER_FILE)))
+            {
+                for(String row: usersArray)
+                {
+                    writer.write(row);
+                    writer.newLine();
+                }
+            }catch(IOException exp)
+            {
+                System.out.println(exp.getMessage());
+            }
+        }
+        else
+        {
+            System.out.println("User Doesn't Exist!");
+        }
+
+
+    }
 
 
 }

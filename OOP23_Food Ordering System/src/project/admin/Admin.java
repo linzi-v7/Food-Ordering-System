@@ -15,6 +15,8 @@ public class Admin implements AdminPermissions, Exit
         Scanner scanner = new Scanner(System.in);
         String exitCheck;
         do {
+            exitCheck = "N";
+
             System.out.println("\t\t####### Admin Dashboard ########\n");
             System.out.println("\t\tWelcome System Administrator!\n");
             System.out.println("\t\tSYSTEM HEALTH: GREAT\n"); //for realism only
@@ -35,10 +37,11 @@ public class Admin implements AdminPermissions, Exit
                         System.out.println("Invalid choice. Please enter a number between 0 and 2.");
                     }
                 } catch (NumberFormatException exp) {
-                    System.out.println("Invalid input. Please enter a valid number.");
-                    choice = 0; // Set choice to an invalid value to trigger the loop again
+                    System.out.println("Invalid input. Please enter a valid number." +
+                            " To exit type 0.");
+                    choice = -1; // Set choice to an invalid value to trigger the loop again
                 }
-            }while(choice < 0 || choice > 2);
+            }while((choice < 0 || choice > 2));
 
 
             switch (choice) {
@@ -50,9 +53,7 @@ public class Admin implements AdminPermissions, Exit
                     break;
 
                 case 2:
-                    System.out.print("Enter User's Email To Be Removed: ");
-                    String emailToRemove = scanner.nextLine();
-                    removeUser(emailToRemove);
+                    removeUserPage();
                     break;
             }
             System.out.println("Would you like to exit program? (Y/N)");
@@ -110,6 +111,19 @@ public class Admin implements AdminPermissions, Exit
         addUser(name,email,password,address);
 
         System.out.println("User Added Successfully!");
+    }
+
+    void removeUserPage()
+    {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("\n\t\t#### ADMIN REMOVE USER PAGE ###");
+        System.out.print("Enter User's Email To Be Removed: ");
+        String emailToRemove = scanner.nextLine();
+
+        removeUser(emailToRemove);
+        System.out.println("USER REMOVED SUCCESSFULLY!");
+
     }
     public String getPassword() {
         return password;

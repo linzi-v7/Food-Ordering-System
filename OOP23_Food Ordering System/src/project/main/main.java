@@ -76,7 +76,7 @@ public class main
 
     }
 
-    //function to handle program flow after user logs in, should display restaurants,menus,etc..
+    //function to handle program flow after user logs in, should display restaurants, menus,etc..
     public static void userLaunchProgram(String userEmail)
     {
         User loggedInUser = UserManagementSystem.getUserByEmail(userEmail);
