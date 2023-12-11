@@ -10,12 +10,14 @@ import java.util.Scanner;
 /**
  * class to handle user login and registration functions. All functions are static.
  */
-public class UserManagementSystem
+public class UserManagementSystem implements Exit
 {
-    //file for storing users data
-    //file must not end with \n on a separate line to avoid exceptions
+    //IMPORTANT NOTE FOR USERS FILE.
+    //FILE MUST NOT END WITH DOUBLE \N TO AVOID ARRAY OUT OF BOUND EXCEPTION
     //if file ended with \n on a separate line, the userdata array thinks it's a row that contains user
     //data which throws an arrayOutOfBounds exception.
+
+    //IF YOU EDIT MANUALLY ON THE USERS FILE, MAKE SURE TO SEPARATE THEM WITH DELIMITER ( ; )
     private static final String USER_FILE = "users.txt";
 
     //data index in users.txt file
@@ -55,38 +57,43 @@ public class UserManagementSystem
 
         System.out.print("Enter Name: ");
         String name = scanner.nextLine();
-        if(checkExit(name))
+        if(Exit.checkExit(name))
         {
             return;
         }
 
         String email;
-        int retryCount = 0;
         do {
-            if(retryCount >=  1)
-            {
-                System.out.println("Account Already Exists!");
-            }
             System.out.print("Enter E-mail: ");
             email = scanner.nextLine();
-            if(checkExit(email))
+            if(Exit.checkExit(email))
             {
                 return;
             }
-            retryCount++;
-        } while (checkDuplicateUser(email,USER_EMAIL_INDEX));     //check if account doesn't already exist
+
+            if(checkDuplicateUser(email,USER_EMAIL_INDEX)
+                    || email.equalsIgnoreCase("admin"))
+            {
+                System.out.println("Account Already Exists!");
+            }
+            else
+            {
+                break;
+            }
+
+        }while (true);     //check if account doesn't already exist or if input admin
 
 
         System.out.print("Enter Password: ");
         String password = scanner.nextLine();
-        if(checkExit(password))
+        if(Exit.checkExit(password))
         {
             return;
         }
 
         System.out.print("Enter Address: ");
         String address = scanner.nextLine();
-        if(checkExit(address))
+        if(Exit.checkExit(address))
         {
             return;
         }
@@ -171,7 +178,7 @@ public class UserManagementSystem
     /**
      * prompts users to enter email and password and checks if values exist on the same row after each
      * other in users.txt file.
-     * @return String of logged in user if available, if not available returns the String "null"
+     * @return String of logged-in user if available, if not available returns the String "null"
      */
     public static String loginUser()
     {
@@ -209,7 +216,7 @@ public class UserManagementSystem
      *
      * @param userEmail email of the user to be logged in, email is already checked multiple times before
      *                  during other functions, so logically it can't be null.
-     * @return a new User object containing the data of the currently logged in user
+     * @return a new User object containing the data of the currently logged-in user
      */
     public static User getUserByEmail(String userEmail)
     {
@@ -246,15 +253,7 @@ public class UserManagementSystem
                 && password.equals(admin.getPassword());
     }
 
-    /**
-     * checks if input equals to exit value to exit from function
-     * @param input any input (e.g: email,name,password,etc..)
-     * @return true if value equal to exit, the caller should handle what happens next
-     */
-    public static boolean checkExit(String input)
-    {
-        return input.equalsIgnoreCase("exit"); //returns true if == exit
-    }
+
 
 
 }

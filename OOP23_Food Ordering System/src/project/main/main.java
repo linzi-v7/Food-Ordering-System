@@ -63,7 +63,7 @@ public class main
         switch (Role.getRoleIdentifier())
         {
             case Role.ADMIN_IDENTIFIER:
-                //adminLaunchProgram();
+                adminLaunchProgram();
                 break;
             case Role.RESTAURANT_IDENTIFIER:
                 //restaurantLaunchProgram();
@@ -93,6 +93,15 @@ public class main
             System.out.println("USER DOESN'T EXIST!");
             System.exit(-1);
         }
+    }
+
+
+    //function that handles program flow after a system administrator logs in
+    public static void adminLaunchProgram()
+    {
+        Admin sysAdmin = new Admin();
+
+        sysAdmin.runDashboard();
     }
 }
 
