@@ -4,11 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="35e0d2b9-8329-4bea-804a-9ae8ad6592b6" name="Changes" comment="">
+    <list default="true" id="ba381b2d-34ea-4735-bcda-3b4c306cfb73" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/project/user/Exit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/orders.txt" beforeDir="false" afterPath="$PROJECT_DIR$/orders.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/project/order/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/order/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/admin/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/admin/Admin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/main/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/main/main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/review/review.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/review/review.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/user/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/user/UserManagementSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/user/UserManagementSystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/users.txt" beforeDir="false" afterPath="$PROJECT_DIR$/users.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -20,54 +26,38 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 5
-}</component>
-  <component name="ProjectId" id="2YX7OzHs0i9DFwHlgf4iKoY8BSC" />
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 6
+}]]></component>
+  <component name="ProjectId" id="2ZOySVh3OV6vkkGGiBYL90qWosM" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Admin-And-Restaurants-Capabilities&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/faris/Downloads/discord-ij-1.0.11-signed.zip&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.Java&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "Admin-And-Restaurants-Capabilities"
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="35e0d2b9-8329-4bea-804a-9ae8ad6592b6" name="Changes" comment="" />
-      <created>1700660045136</created>
+      <changelist id="ba381b2d-34ea-4735-bcda-3b4c306cfb73" name="Changes" comment="" />
+      <created>1702307420774</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1700660045136</updated>
+      <updated>1702307420774</updated>
     </task>
     <servers />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
