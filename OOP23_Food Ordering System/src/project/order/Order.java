@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
 
-class Order {
+class Order  {
     private String username;
     private List<String> items;
     private String status;
