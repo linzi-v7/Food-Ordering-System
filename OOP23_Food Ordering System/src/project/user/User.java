@@ -10,15 +10,16 @@ public class User implements Comparable
     private String password;
     private String email;
     private String address;
+    private String phoneNumber;
 
 
-    public User(String name, String email, String password, String address)
+    public User(String name, String email, String password, String address,String phoneNumber)
     {
         this.name = name;
         this.password = password;
         this.email = email;
         this.address = address;
-
+        this.phoneNumber = phoneNumber;
     }
 
     public String getName()
@@ -36,11 +37,34 @@ public class User implements Comparable
         return email;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
     public String getAddress()
     {
         return address;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
     @Override
     public String toString() {

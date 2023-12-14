@@ -8,9 +8,9 @@ import project.user.User;
 
 public interface AdminPermissions extends RestaurantPermissions
 {
-    default void addUser(String name, String email, String password, String address)
+    default void addUser(String name, String email, String password, String address,String phoneNumber)
     {
-        User user = new User(name,email,password,address);
+        User user = new User(name,email,password,address,phoneNumber);
         UserManagementSystem.storeUserData(user);
     }
 

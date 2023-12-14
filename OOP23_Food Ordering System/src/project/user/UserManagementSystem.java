@@ -10,7 +10,7 @@ import java.util.Scanner;
 /**
  * Class to handle user login and registration functions. All functions are static.
  */
-public class UserManagementSystem implements Exit
+public class UserManagementSystem implements InputChecks
 {
     //IMPORTANT NOTES FOR USERS FILE.
     //- FILE MUST NOT END WITH DOUBLE \N TO AVOID ARRAY OUT OF BOUND EXCEPTION
@@ -25,6 +25,7 @@ public class UserManagementSystem implements Exit
     public static final int USER_EMAIL_INDEX = 1;
     public static final int USER_PASSWORD_INDEX = 2;
     public static final int USER_ADDRESS_INDEX = 3;
+    public static final int USER_PHONE_INDEX = 4;
 
     private static ArrayList<String> usersArray = new ArrayList<>();
 
@@ -49,16 +50,23 @@ public class UserManagementSystem implements Exit
      * to enter a new email. After all credentials are input, a new user is created and
      * stored in the users file (users.txt)
      */
-    public static void registerUser() {
+    public static void registerUser(int mode) {
         //get input
         Scanner scanner = new Scanner(System.in);
-        System.out.println("\t\t ######## Registration Page ########" +
-                "\nAt any point type exit to return to welcome page.");
+
+        if(mode == 1) //USER
+        {
+            System.out.println("\t\t ######## Registration Page ########" +
+                    "\nAt any point type exit to return to welcome page.");
+        } else if (mode == 2) //ADMIN
+        {
+            System.out.println("\t\t ######## ADMIN ADD USER PAGE ########" +
+                    "\nAt any point type exit to return to welcome page.");
+        }
 
         System.out.print("Enter Name: ");
         String name = scanner.nextLine();
-        if(Exit.checkExit(name))
-        {
+        if (InputChecks.checkExit(name)) {
             return;
         }
 
@@ -66,40 +74,60 @@ public class UserManagementSystem implements Exit
         do {
             System.out.print("Enter E-mail: ");
             email = scanner.nextLine();
-            if(Exit.checkExit(email))
-            {
+
+            //check if user wants to exit
+            if (InputChecks.checkExit(email)) {
                 return;
             }
 
-            if(checkDuplicateUser(email,USER_EMAIL_INDEX)
-                    || email.equalsIgnoreCase("admin"))
-            {
-                System.out.println("Account Already Exists!");
+            //check if email input is in the correct form
+            if (!InputChecks.validateEmail(email)) {
+                System.out.println("Invalid Email!");
+                continue;
             }
-            else
-            {
+
+            if (checkDuplicateUser(email, USER_EMAIL_INDEX)
+                    || email.equalsIgnoreCase("admin")) {
+                System.out.println("Account Already Exists!");
+            } else {
                 break;
             }
 
-        }while (true);     //check if an account doesn't already exist or if input is admin
+        } while (true);     //check if an account doesn't already exist or if input is admin
 
 
         System.out.print("Enter Password: ");
         String password = scanner.nextLine();
-        if(Exit.checkExit(password))
-        {
+        if (InputChecks.checkExit(password)) {
             return;
         }
 
         System.out.print("Enter Address: ");
         String address = scanner.nextLine();
-        if(Exit.checkExit(address))
-        {
+        if (InputChecks.checkExit(address)) {
             return;
         }
 
+        String phoneNumber;
+        do
+        {
+            System.out.print("Enter Phone Number: ");
+            phoneNumber = scanner.nextLine();
+            if (InputChecks.checkExit(address))
+            {
+                return;
+            }
+
+            if (!InputChecks.validatePhoneNumber(phoneNumber))
+            {
+                continue;
+            } else
+            {
+                break;
+            }
+        } while (true);
         //if an account doesn't exist, create a new user and store their data
-        User user = new User(name, email, password, address);
+        User user = new User(name, email, password, address, phoneNumber);
         storeUserData(user);
         System.out.println("Registration Successful!");
 
@@ -115,7 +143,8 @@ public class UserManagementSystem implements Exit
         usersArray.add(user.getName() + ";"
                 + user.getEmail() + ";"
                 + user.getPassword() + ";"
-                + user.getAddress() + ";\n" );
+                + user.getAddress() + ";"
+                + user.getPhoneNumber() + ";\n");
 
         try (PrintWriter writer = new PrintWriter((new FileWriter(USER_FILE, true)))) {
             //opens file in appending mode and stores data with semicolon to separate them
@@ -123,7 +152,8 @@ public class UserManagementSystem implements Exit
             writer.write(user.getName() + ";"
                     + user.getEmail() + ";"
                     + user.getPassword() + ";"
-                    + user.getAddress() + ";\n");
+                    + user.getAddress() + ";"
+                    + user.getPhoneNumber() + ";\n");
 
         } catch (IOException exp) {
             System.out.println(exp.getMessage());
@@ -230,8 +260,8 @@ public class UserManagementSystem implements Exit
                 String email = userData[USER_EMAIL_INDEX];
                 String password = userData[USER_PASSWORD_INDEX];
                 String address = userData[USER_ADDRESS_INDEX];
-
-                return new User(name, email, password, address);
+                String phoneNumber = userData[USER_PHONE_INDEX];
+                return new User(name, email, password, address,phoneNumber);
             }
         }
 

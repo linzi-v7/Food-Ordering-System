@@ -1,14 +1,19 @@
 package project.admin;
 
-import project.user.Exit;
+
+import project.user.InputChecks;
+import project.user.User;
 import project.user.UserManagementSystem;
 
 import java.util.Scanner;
 
-public class Admin implements AdminPermissions, Exit
+public class Admin extends User implements AdminPermissions, InputChecks
 {
-    private final String email ="admin";
-    private final String password ="admin123";
+
+    public Admin()
+    {
+        super("System Administrator", "admin@gmail.com", "admin123", "HQ","123456789");
+    }
 
     public void runDashboard()
     {
@@ -61,56 +66,8 @@ public class Admin implements AdminPermissions, Exit
         }while(exitCheck.equalsIgnoreCase("n") || exitCheck.equalsIgnoreCase("no"));
     }
 
-    void addUserPage()
-    {
-        Scanner reader = new Scanner(System.in);
-
-        System.out.println("\t\t#### ADMIN ADD USER PAGE ###");
-
-        System.out.print("Enter user name: ");
-        String name = reader.nextLine();
-        if(Exit.checkExit(name))
-        {
-            return;
-        }
-
-        do
-        {
-            System.out.print("Enter user mail: ");
-            String email = reader.nextLine();
-            if(Exit.checkExit(email))
-            {
-                return;
-            }
-
-            if(UserManagementSystem.checkDuplicateUser(email,
-                    UserManagementSystem.USER_EMAIL_INDEX))
-            {
-                System.out.println("Email already exists!");
-            }
-            else
-            {
-                break;
-            }
-        }while(true);
-
-        System.out.print("Enter user password: ");
-        String password = reader.nextLine();
-        if(Exit.checkExit(password))
-        {
-            return;
-        }
-
-        System.out.print("Enter user address: ");
-        String address = reader.nextLine();
-        if(Exit.checkExit(address))
-        {
-            return;
-        }
-
-        addUser(name,email,password,address);
-
-        System.out.println("User Added Successfully!");
+    void addUserPage() {
+        UserManagementSystem.registerUser(2);
     }
 
     void removeUserPage()
@@ -125,11 +82,5 @@ public class Admin implements AdminPermissions, Exit
         System.out.println("USER REMOVED SUCCESSFULLY!");
 
     }
-    public String getPassword() {
-        return password;
-    }
 
-    public String getEmail() {
-        return email;
-    }
 }
