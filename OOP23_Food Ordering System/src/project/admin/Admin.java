@@ -1,13 +1,15 @@
 package project.admin;
 
 
+import project.restaurant.Restaurant;
+import project.restaurant.RestaurantPermissions;
 import project.user.InputChecks;
 import project.user.User;
 import project.user.UserManagementSystem;
 
 import java.util.Scanner;
 
-public class Admin extends User implements AdminPermissions, InputChecks
+public class Admin extends User implements AdminPermissions, InputChecks, RestaurantPermissions
 {
 
     public Admin()
@@ -38,15 +40,15 @@ public class Admin extends User implements AdminPermissions, InputChecks
 
                 try {
                     choice = Integer.parseInt(scanner.nextLine());
-                    if (choice < 0 || choice > 2) {
-                        System.out.println("Invalid choice. Please enter a number between 0 and 2.");
+                    if (choice < 0 || choice > 9) {
+                        System.out.println("Invalid choice. Please enter a number between 0 and 9.");
                     }
                 } catch (NumberFormatException exp) {
                     System.out.println("Invalid input. Please enter a valid number." +
                             " To exit type 0.");
                     choice = -1; // Set choice to an invalid value to trigger the loop again
                 }
-            }while((choice < 0 || choice > 2));
+            }while((choice < 0 || choice > 9));
 
 
             switch (choice) {
@@ -60,6 +62,10 @@ public class Admin extends User implements AdminPermissions, InputChecks
                 case 2:
                     removeUserPage();
                     break;
+                case 9:
+                    Restaurant restaurant = new Restaurant("McDonald's",
+                            "5th Settlement", "011", "3.7");
+                    generateBusinessReport(restaurant);
             }
             System.out.println("Would you like to exit program? (Y/N)");
             exitCheck = scanner.nextLine();
