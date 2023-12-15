@@ -1,3 +1,2 @@
-System Administrator;admin@gmail.com;admin123;HQ;
-alshaymaa;test123;test123;123;
+System Administrator;admin@gmail.com;admin123;HQ;0123456789;
 Faris Osama;farisroro8@gmail.com;faris123;my address;01123111713;
