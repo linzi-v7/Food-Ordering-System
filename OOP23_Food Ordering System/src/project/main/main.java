@@ -85,8 +85,17 @@ public class main
         if (loggedInUser != null)
         {
             System.out.println("\n\t\tWelcome " + loggedInUser.getName() + "!");
+            System.out.println("Restaurants Near You:");
+            //displayRestaurants();
+            //chooseRestaurant();
+            //displayMenu();
+            //addToCart();
+            //orderProcessing();
+            //paymentProcessing();
+            //orderTracking();
+            //reviewProcessing();
+            // loop
 
-            System.out.println(loggedInUser.toString()); //just testing if code works
         }
         else
         {
@@ -99,7 +108,8 @@ public class main
     //function that handles program flow after a system administrator logs in
     public static void adminLaunchProgram()
     {
-        Admin sysAdmin = new Admin();
+        User admin = new Admin();
+        Admin sysAdmin = (Admin) admin;
 
         sysAdmin.runDashboard();
     }

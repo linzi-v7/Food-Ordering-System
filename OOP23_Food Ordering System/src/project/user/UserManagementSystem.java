@@ -64,11 +64,26 @@ public class UserManagementSystem implements InputChecks
                     "\nAt any point type exit to return to welcome page.");
         }
 
-        System.out.print("Enter Name: ");
-        String name = scanner.nextLine();
-        if (InputChecks.checkExit(name)) {
-            return;
-        }
+        String name;
+        do
+        {
+            System.out.print("Enter Name: ");
+            name = scanner.nextLine();
+            if (InputChecks.checkExit(name)) {
+                return;
+            }
+
+            if(InputChecks.checkDelimiter(name))
+            {
+                System.out.println("Invalid Name! Please Try Again!");
+            }
+            else
+            {
+                break;
+            }
+
+        }while(true);
+
 
         String email;
         do {
@@ -81,13 +96,13 @@ public class UserManagementSystem implements InputChecks
             }
 
             //check if email input is in the correct form
-            if (!InputChecks.validateEmail(email)) {
+            if (!InputChecks.validateEmail(email) || InputChecks.checkDelimiter(email)) {
                 System.out.println("Invalid Email!");
                 continue;
             }
 
             if (checkDuplicateUser(email, USER_EMAIL_INDEX)
-                    || email.equalsIgnoreCase("admin")) {
+                    || email.equalsIgnoreCase("admin@gmail.com")) {
                 System.out.println("Account Already Exists!");
             } else {
                 break;
@@ -96,17 +111,43 @@ public class UserManagementSystem implements InputChecks
         } while (true);     //check if an account doesn't already exist or if input is admin
 
 
-        System.out.print("Enter Password: ");
-        String password = scanner.nextLine();
-        if (InputChecks.checkExit(password)) {
-            return;
-        }
+        String password;
+        do
+        {
+            System.out.print("Enter Password: ");
+            password = scanner.nextLine();
+            if (InputChecks.checkExit(password)) {
+                return;
+            }
 
-        System.out.print("Enter Address: ");
-        String address = scanner.nextLine();
-        if (InputChecks.checkExit(address)) {
-            return;
-        }
+            if(InputChecks.checkDelimiter(password))
+            {
+                System.out.println("Invalid Password! Please Try Again!");
+            }
+            else
+            {
+                break;
+            }
+        }while(true);
+
+        String address;
+        do
+        {
+            System.out.print("Enter Address: ");
+            address = scanner.nextLine();
+            if (InputChecks.checkExit(address)) {
+                return;
+            }
+
+            if(InputChecks.checkDelimiter(address))
+            {
+                System.out.println("Invalid Address! Please Try Again!");
+            }
+            else
+            {
+                break;
+            }
+        }while(true);
 
         String phoneNumber;
         do
@@ -118,9 +159,10 @@ public class UserManagementSystem implements InputChecks
                 return;
             }
 
-            if (!InputChecks.validatePhoneNumber(phoneNumber))
+            if (!InputChecks.validatePhoneNumber(phoneNumber)
+                || InputChecks.checkDelimiter(phoneNumber))
             {
-                continue;
+                System.out.println("Invalid Phone Number! Try Again!");
             } else
             {
                 break;

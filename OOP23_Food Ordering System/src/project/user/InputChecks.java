@@ -13,12 +13,16 @@ public interface InputChecks
         return input.equalsIgnoreCase("exit"); //returns true if == exit
     }
 
+    static boolean checkDelimiter(String input)
+    {
+        return input.contains(";");
+    }
 
     static boolean validateEmail(String email)
     {
         // Basic email validation using a regular expression
-        String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-        return email.matches(regex);
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        return email.matches(emailRegex);
     }
 
      static boolean validatePhoneNumber(String phoneNumber) {
