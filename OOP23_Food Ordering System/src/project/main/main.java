@@ -139,6 +139,30 @@ public class Main
             //paymentProcessing();
             //orderTracking();
             //reviewProcessing();
+            
+        Scanner scanner = new Scanner(System.in);
+
+        // Create an instance of the review class
+        review review = new review();
+
+        // Set values using user input
+        review.setName();
+        review.setNum_phone();
+        review.setRev_rest();
+        review.setRev_staf();
+        review.setRev_clean();
+        review.setRev_food();
+        review.setRev_design();
+        review.setComments();
+
+        // Specify the file path where you want to save the data
+        String filePath = "C:/test.txt";
+
+        // Save the data to the file
+        review.saveToFile(filePath);
+    }
+}
+
             // loop
 
         }
@@ -158,5 +182,5 @@ public class Main
 
         sysAdmin.runDashboard();
     }
-}
+
 
