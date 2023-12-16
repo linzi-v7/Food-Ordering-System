@@ -1,14 +1,18 @@
 package project.main;
 
+import project.cart.cart;
+import project.menu.Menu;
 import project.admin.Admin;
 import project.user.User;
 import project.user.UserManagementSystem;
 
+import java.awt.*;
 import java.util.Scanner;
+import java.io.IOException;
 
 public class main
 {
-    public static void main(String[] args)
+    /*public static void main(String[] args)
     {
         UserManagementSystem.readUserDataFile();
 
@@ -112,6 +116,48 @@ public class main
         Admin sysAdmin = (Admin) admin;
 
         sysAdmin.runDashboard();
+    }*/
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Sample user
+        //User user = new User("john_doe", "password123");
+
+        // Create menu
+        Menu menu = new Menu();
+
+        // Load menu from file
+        try {
+            menu.loadMenuFromFile("Menu.txt");
+        } catch (IOException e) {
+            System.err.println("Error loading menu from file: " + e.getMessage());
+            System.exit(1);
+        }
+
+        // Sample food order
+        cart order = new cart();
+
+        // Display the menu
+        menu.displayMenu();
+
+        // User interaction
+        System.out.print("Enter the item number to add to the cart (0 to finish): ");
+        int choice;
+        while ((choice = scanner.nextInt()) != 0) {
+            if (choice > 0 && choice <= menu.getMenuSize()) {
+                order.addItem(menu.getMenuItem(choice - 1));
+            } else {
+                System.out.println("Invalid choice. Try again.");
+            }
+            System.out.print("Enter the item number to add to the cart (0 to finish): ");
+        }
+
+        // Display the order
+        order.displayCart();
+        System.out.println("Total: $" + order.calculateTotal());
+
+        // Close the scanner
+        scanner.close();
     }
 }
 
