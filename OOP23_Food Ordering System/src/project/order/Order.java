@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
 
-class Order  {
+public class Order {
     private String username;
     private List<String> items;
     private String status;
@@ -44,7 +44,6 @@ class Order  {
         return status;
     }
 }
-
 interface OrderManagement {
     default void placeOrder(String username, List<String> items) {
         Order order = new Order(username);
@@ -90,3 +89,4 @@ interface OrderManagement {
         }
     }
 }
+
