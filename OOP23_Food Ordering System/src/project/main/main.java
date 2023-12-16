@@ -172,7 +172,7 @@ public class Main
             System.exit(-1);
         }
     }
-
+                
 
     //function that handles program flow after a system administrator logs in
     public static void adminLaunchProgram()
