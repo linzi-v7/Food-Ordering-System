@@ -33,6 +33,7 @@ class Dishes {
 
         return additionalOption;
     }
+    //@Override
     public String toString() {
         return "name:'" + name + "description:" + description + "price$=" + price + "additionalOption:" + additionalOption;
     }
