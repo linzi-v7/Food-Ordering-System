@@ -1,4 +1,4 @@
-package restaurant;
+package project.restaurant;
 
 import java.util.Scanner;
 
