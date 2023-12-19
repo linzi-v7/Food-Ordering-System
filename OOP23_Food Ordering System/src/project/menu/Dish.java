@@ -4,12 +4,12 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-class Dishes {
+class Dish {
     private String name;
     private String description;
     private double price;
 
-    public Dishes(String name, String description, double price)
+    public Dish(String name, String description, double price)
         {
         this.name = name;
         this.description = description;
@@ -33,16 +33,16 @@ class Dishes {
     public String toString() {
         return "name:'" + name + "description:" + description + "price$=" + price ;
                 }
-    public static Dishes fromString(String line) {
+    public static Dish fromString(String line) {
         String[] parts = line.split(",");
         String name = parts[0].trim();
         String description = parts[1].trim();
         double price = Double.parseDouble(parts[2].trim());
-        return new Dishes(name, description, price);
+        return new Dish(name, description, price);
       }
     }
 class Menu {
-    private ArrayList<Dishes> dish;
+    private ArrayList<Dish> dish;
     public Menu() {
         this.dish = new ArrayList<>();
     }
@@ -50,19 +50,19 @@ class Menu {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null) {
-                dish.add(Dishes.fromString(line));
+                dish.add(Dish.fromString(line));
             }
         }
     }
 
-    public void addDish(Dishes Dish) {
+    public void addDish(Dish Dish) {
 
 
             dish.add(Dish);
         }
         public void displayMenu() {
             System.out.println("Menu:");
-            for (Dishes Dish : dish) {
+            for (project.menu.Dish Dish : dish) {
                 System.out.println(Dish);
             }
         }

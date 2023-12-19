@@ -35,7 +35,7 @@ public class mainClass
                 do
                 {
                     retry = "n";
-                    if ( (userEmail=UserManagementSystem.loginUser()).equals("null")||(userEmail=restaurant.login(restaurant)).equals("null"))
+                    if ( (userEmail=UserManagementSystem.loginUser()).equals("null"))
                     {
                         System.out.println("Would you like to retry?(Y/N)");
                         retry = scanner.nextLine();
@@ -92,17 +92,17 @@ public class mainClass
 
     }
 
-    //function to handle program flow after project.project.admin.admin.user logs in, should display restaurants, menus,etc..
+    //function to handle program flow after user logs in, should display restaurants, menus,etc..
     public static void userLaunchProgram(String userEmail)
     {
         User loggedInUser = UserManagementSystem.getUserByEmail(userEmail);
 
-        //if somehow the project.project.admin.admin.user doesn't exist (after multiple checks), we should terminate the program
+        //if somehow the user doesn't exist (after multiple checks), we should terminate the program
         if (loggedInUser != null)
         {
             System.out.println("\n\t\tWelcome " + loggedInUser.getName() + "!");
 
-            System.out.println(loggedInUser.toString()); //just testing if code works
+            System.out.println("Restaurants Near You:");
         }
         else
         {
