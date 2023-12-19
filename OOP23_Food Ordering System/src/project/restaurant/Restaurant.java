@@ -139,4 +139,29 @@ boolean verifyAccount(String mail,String password)
     }
     return false;
 }
+
+
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
+    }
+
+    public String getRestaurantAddress() {
+        return restaurantAddress;
+    }
+
+    public void setRestaurantAddress(String restaurantAddress) {
+        this.restaurantAddress = restaurantAddress;
+    }
+
+    public String getRestaurantContact() {
+        return restaurantContact;
+    }
+
+    public void setRestaurantContact(String restaurantContact) {
+        this.restaurantContact = restaurantContact;
+    }
 }
