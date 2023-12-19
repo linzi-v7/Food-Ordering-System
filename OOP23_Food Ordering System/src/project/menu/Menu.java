@@ -1,10 +1,8 @@
 package project.menu;
 
-import project.restaurant.Restaurant;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.SortedMap;
 
 
 class Menu {
@@ -17,13 +15,13 @@ class Menu {
 
     public void addItem(String restaurantName, String dishName, String price) {
 
-            String dish = restaurantName + "," +dishName+"," + price + "\n";
+            String dish = restaurantName + "," +dishName+"," + price ;
             menus.add(dish);
         }
 
-    public  void readRestaurantDataFile()
+    public  void readMenuDataFile()
     {
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader("menu.txt")))
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader("menus.txt")))
         {
             String line;
             while ((line = bufferedReader.readLine()) != null) //reads each line until there is none
@@ -36,31 +34,33 @@ class Menu {
         }
     }
     
-    public void writeRestaurantDataFile()
+    public void writeMenuDataFile()
     {
-        for (String str:menus) 
-        {
-            try (PrintWriter writer = new PrintWriter((new FileWriter("menus.txt", true)))) {
 
-                writer.write(str + "\n");
+        try (PrintWriter writer = new PrintWriter((new FileWriter("menus.txt")))) {
+                for (String str:menus)
+                {
+                    writer.write(str + "\n");
+                }
 
-            } catch (IOException exp) {
+        } catch (IOException exp) {
                 System.out.println(exp.getMessage());
-            }
         }
+
     }
     
     public void displayMenu(String restaurantName)
     {
         for (String str : menus)
         {
-            String[] itemData = str.split(",");
-            String restaurantNameInArr = itemData[0];
-            String itemName = itemData[1];
-            String itemPrice = itemData[2];
-            if (restaurantName.equals(restaurantNameInArr))
-            {
-                System.out.println(itemName + ": " + itemPrice +"$");
+            if(str != null) {
+                String[] itemData = str.split(",");
+                String restaurantNameInArr = itemData[0];
+                String itemName = itemData[1];
+                String itemPrice = itemData[2];
+                if (restaurantName.equals(restaurantNameInArr)) {
+                    System.out.println(itemName + ": " + itemPrice + "$");
+                }
             }
         }
     }
