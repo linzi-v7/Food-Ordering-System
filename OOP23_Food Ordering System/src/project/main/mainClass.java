@@ -7,7 +7,7 @@ import project.user.UserManagementSystem;
 
 import java.util.Scanner;
 
-public class main
+public class mainClass
 {
     public static void main(String[] args)
     {
