@@ -4,10 +4,9 @@ public class menutest
 {
     public static void main(String[] args) {
         Menu menus = new Menu();
-        menus.readMenuDataFile();
-        menus.addItem("mac", "burger triple", 30.0);
-        menus.displayMenu("mac");
-
-        menus.writeMenuDataFile();
+        menus.readMenuDataFile("bk");
+        //menus.addItem("mac", "burger triple", 30.0);
+        menus.displayMenu("bk");
+        //menus.writeMenuDataFile();
     }
 }
