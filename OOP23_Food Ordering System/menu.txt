@@ -1,0 +1,3 @@
+mac,burger,15
+mac,pizza,20
+bk,burger,15

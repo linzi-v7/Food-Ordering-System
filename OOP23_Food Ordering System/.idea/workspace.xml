@@ -7,7 +7,12 @@
     <list default="true" id="ba381b2d-34ea-4735-bcda-3b4c306cfb73" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/src/project/menu/menutest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< Updated upstream
       <change beforePath="$PROJECT_DIR$/src/project/menu/Dish.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/menu/Dish.java" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/src/project/menu/Dish.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/menu/Menu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/user/InputChecks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/user/InputChecks.java" afterDir="false" />
+>>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
