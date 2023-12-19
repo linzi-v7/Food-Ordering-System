@@ -2,15 +2,21 @@ package project.main;
 import project.restaurant.Restaurant;
 import project.restaurant.restaurantRegistration;
 import project.admin.Admin;
+import project.review.review;
 import project.user.User;
 import project.user.UserManagementSystem;
 
 import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
+import java.io.*;
 
-public class mainClass
+
+public class Main
 {
     public static void main(String[] args)
     {
+
         UserManagementSystem.readUserDataFile();
 
 
@@ -109,7 +115,38 @@ public class mainClass
             System.out.println("USER DOESN'T EXIST!");
             System.exit(-1);
         }
+
     }
+
+
+    public static void mainreview(String[] args)
+    {
+
+
+            System.out.println("Welcome to the Review System!");
+
+            // Collect user information
+            review userReview = new review();
+            userReview.setName();
+            userReview.setNum_phone();
+            userReview.setRev_rest();
+            userReview.setRev_staf();
+            userReview.setRev_clean();
+            userReview.setRev_food();
+            userReview.setRev_design();
+            userReview.setComments();
+
+            // Specify the file path where you want to save the data
+            String filePath = "D:\\MY_Projects\\Food-Ordering-System\\reviews.txt";
+
+            // Save the data to the file
+            userReview.saveToFile(filePath);
+
+            System.out.println("Review saved successfully. Thank you for your feedback!");
+
+    }
+
+
 
 
     //function that handles program flow after a system administrator logs in
@@ -120,4 +157,3 @@ public class mainClass
         sysAdmin.runDashboard();
     }
 }
-
