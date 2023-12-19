@@ -1,9 +1,11 @@
 package project.review;
 
 import java.util.Scanner;
-import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.BufferedWriter;
+
 public class review {
     private String Name = "null";
     private String num_phone = "null";
@@ -191,29 +193,21 @@ public class review {
 
     ////////////////////////////////////////
 
-    public void saveToFile() {
-        String filePath = "C:/Users/moham/reviews.txt";
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-            writer.write("Name: " + Name);
-            writer.newLine();
-            writer.write("Phone Number: " + num_phone);
-            writer.newLine();
-            writer.write("Restaurant Rating: " + rev_rest);
-            writer.newLine();
-            writer.write("Staff Rating: " + rev_staf);
-            writer.newLine();
-            writer.write("Cleanliness Rating: " + rev_clean);
-            writer.newLine();
-            writer.write("Food Rating: " + rev_food);
-            writer.newLine();
-            writer.write("Design Rating: " + rev_design);
-            writer.newLine();
-            writer.write("Comments: " + (comments != null ? comments : "N/A"));
-            writer.newLine();
+    public void saveToFile(String filePath) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write(String.format("Name: %s%n", Name));
+            writer.write(String.format("Phone Number: %s%n", num_phone));
+            writer.write(String.format("Restaurant Rating: %.1f%n", rev_rest));
+            writer.write(String.format("Staff Rating: %.1f%n", rev_staf));
+            writer.write(String.format("Cleanliness Rating: %.1f%n", rev_clean));
+            writer.write(String.format("Food Rating: %.1f%n", rev_food));
+            writer.write(String.format("Design Rating: %.1f%n", rev_design));
+            writer.write(String.format("Comments: %s%n", (comments != null ? comments : "N/A")));
             writer.write("-------------------------");
             writer.newLine();
         } catch (IOException e) {
             System.out.println("An error occurred: " + e.getMessage());
         }
     }
+
 }
