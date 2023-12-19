@@ -5,18 +5,18 @@ import java.io.*;
 import java.util.ArrayList;
 
 
-class Menu {
+public class Menu {
 
-    private ArrayList<String> menus;
+    private ArrayList<Dish> menus;
     public Menu() {
         this.menus = new ArrayList<>();
     }
 
 
-    public void addItem(String restaurantName, String dishName, String price) {
+    public void addItem(String restaurantName, String dishName, Double price) {
 
-            String dish = restaurantName + "," +dishName+"," + price ;
-            menus.add(dish);
+        Dish dish = new Dish(restaurantName, dishName, price);
+        menus.add(dish);
         }
 
     public  void readMenuDataFile()
@@ -26,7 +26,11 @@ class Menu {
             String line;
             while ((line = bufferedReader.readLine()) != null) //reads each line until there is none
             {
-                menus.add(line);
+                String[] itemData = line.split(",");
+                String restaurantName = itemData[0];
+                String dishName = itemData[1];
+                double price = Double.parseDouble(itemData[2]);
+                addItem(restaurantName, dishName, price);
             }
         }catch(IOException exp)
         {
@@ -38,10 +42,9 @@ class Menu {
     {
 
         try (PrintWriter writer = new PrintWriter((new FileWriter("menus.txt")))) {
-                for (String str:menus)
-                {
-                    writer.write(str + "\n");
-                }
+            for (Dish dish : menus) {
+                writer.write(dish.getRestaurantName() + "," + dish.getDishName() + "," + dish.getPrice() + "\n");
+            }
 
         } catch (IOException exp) {
                 System.out.println(exp.getMessage());
@@ -51,18 +54,25 @@ class Menu {
     
     public void displayMenu(String restaurantName)
     {
-        for (String str : menus)
+        for (Dish dish : menus)
         {
-            if(str != null) {
-                String[] itemData = str.split(",");
-                String restaurantNameInArr = itemData[0];
-                String itemName = itemData[1];
-                String itemPrice = itemData[2];
-                if (restaurantName.equals(restaurantNameInArr)) {
-                    System.out.println(itemName + ": " + itemPrice + "$");
-                }
+            if (dish.getRestaurantName().equals(restaurantName)) {
+                System.out.println(dish.getDishName() + ": $" + dish.getPrice());
             }
-        }
-    }
+            }
 
     }
+
+
+    // Get a specific menu item
+    public Dish getMenuItem(int index) {
+        return menus.get(index);
+    }
+
+    // Get the number of menu items
+    public int getMenuSize() {
+        return menus.size();
+    }
+    }
+
+

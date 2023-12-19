@@ -1,4 +1,5 @@
-mac,burger double,30
-mac,burger,17
-bk,pizza,18
-mac,burger triple,30
+mac,burger double,30.0
+mac,burger,17.0
+bk,pizza,18.0
+mac,burger triple,30.0
+mac,burger triple,30.0

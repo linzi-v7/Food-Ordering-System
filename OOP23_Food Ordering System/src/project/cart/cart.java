@@ -29,7 +29,7 @@ public class cart {
     public void displayCart() {
         System.out.println("Items in the cart:");
         for (Dish item : cart) {
-            System.out.println(item.getName() + " - $" + item.getPrice());
+            System.out.println(item.getDishName() + " - $" + item.getPrice());
         }
     }
 }
