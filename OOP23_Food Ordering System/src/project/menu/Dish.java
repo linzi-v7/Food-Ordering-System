@@ -1,8 +1,8 @@
 package project.menu;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import project.restaurant.Restaurant;
+
+import java.io.*;
 import java.util.ArrayList;
 class Dish {
     private String name;
@@ -30,9 +30,6 @@ class Dish {
         return price;
     }
     //@override
-    public String toString() {
-        return "name:'" + name + "description:" + description + "price$=" + price ;
-                }
     public static Dish fromString(String line) {
         String[] parts = line.split(",");
         String name = parts[0].trim();
@@ -41,16 +38,20 @@ class Dish {
         return new Dish(name, description, price);
       }
     }
+
+
+
 class Menu {
-    private ArrayList<Dish> dish;
+    public Restaurant restaurant = new Restaurant();
+    private ArrayList<Dish> dishes;
     public Menu() {
-        this.dish = new ArrayList<>();
+        this.dishes = new ArrayList<>();
     }
-    public void loadMenuFromFile(String filePath) throws IOException {
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+    public void loadMenuFromFile() throws IOException {
+        try (BufferedReader br = new BufferedReader(new FileReader("menu.txt"))) {
             String line;
             while ((line = br.readLine()) != null) {
-                dish.add(Dish.fromString(line));
+                dishes.add(Dish.fromString(line));
             }
         }
     }
@@ -58,12 +59,28 @@ class Menu {
     public void addDish(Dish Dish) {
 
 
-            dish.add(Dish);
+            dishes.add(Dish);
         }
+
         public void displayMenu() {
             System.out.println("Menu:");
-            for (project.menu.Dish Dish : dish) {
+            for (project.menu.Dish Dish : dishes) {
                 System.out.println(Dish);
+            }
+        }
+
+        public void writeMenuToFile()
+        {
+            try (PrintWriter writer = new PrintWriter((new FileWriter("menu.txt", true)))) {
+
+                writer.write(restaurant.restaurantName);
+                for (int i = 0; i < dishes.size(); i++) {
+                    writer.write("," + dishes.get(i) + "," + dishes.get(i));
+                }
+                writer.write("\n");
+
+            } catch (IOException exp) {
+                System.out.println(exp.getMessage());
             }
         }
     }
