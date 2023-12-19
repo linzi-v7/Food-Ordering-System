@@ -7,21 +7,22 @@ import project.menu.Menu;
 
 public class carttest
 {
-
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
         // Create menu
         Menu menu = new Menu();
+        System.out.println("Enter the restaurant");
+        String restaurant = scanner.nextLine();
         // Load menu from file
-            menu.readMenuDataFile();
+        menu.readMenuDataFile(restaurant);
 
 
         // Sample food order
         cart order = new cart();
 
         // Display the menu
-        menu.displayMenu("mac");
+        menu.displayMenu(restaurant);
 
         // User interaction
         System.out.print("Enter the item number to add to the cart (0 to finish): ");
