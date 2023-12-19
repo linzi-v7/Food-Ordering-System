@@ -2,24 +2,28 @@ package project.restaurant;
 
 import java.util.Scanner;
 
-public class restaurantRegistration {
-    private static final String USER_FILE = "restaurants.txt";
 
-    public static boolean registerRestaurant() {
+public class restaurantRegistration {
+
+
+    public static void registerRestaurant(Restaurant restaurant) {
+
+
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
             System.out.print("Enter restaurant name: ");
-            String restaurant = scanner.nextLine();
+            restaurant.restaurantName = scanner.nextLine();
             System.out.print("do you want to change the restaurant name ");
             String decision = scanner.nextLine().toLowerCase();
 
             if (!decision.equals("yes")) break;
         }
+
 //enters the name of the restaurant and checks if he wants to enter the name again
         while (true) {
 
-            String RestaurantNum;
+
             boolean repeat = true;
             while (repeat) {
                 System.out.println("enter phone number:");
@@ -32,9 +36,9 @@ public class restaurantRegistration {
 
                 }
                 //checks that the phone number is nothing else but numbers
-                String number = scanner.next();
-                int compareNumber = number.length();
-                if (compareNumber == 11) {
+                restaurant.restaurantContact = scanner.next();
+                int compareNumber = restaurant.restaurantContact.length();
+                if ((compareNumber == 11)||(compareNumber==5)) {
                     repeat = false;
                 } else
                     System.out.println("please enter the full number");
@@ -49,27 +53,43 @@ public class restaurantRegistration {
         }
 //enters the number of the restaurant and checks if he wants to enter it again
 
-
 //         checks the length of the phone number
 //            checks if input is a number
         while (true) {
             System.out.print("Enter restaurant address ");
-            String restaurantAddress = scanner.next();
+            restaurant.restaurantAddress = scanner.next();
             System.out.print("do you want to change the restaurant address ?");
             String decision = scanner.next().toLowerCase();
 
             if (!decision.equals("yes")) break;
         }
+
 //enters the address of the restaurant and checks if he wants to enter it again
         while (true) {
+            boolean notUniqueEmail;
             System.out.print("Enter restaurant Email ");
-            String restaurantEmail = scanner.next();
+            restaurant.restaurantEmail = scanner.next();
             System.out.print("do you want to change the Email ");
+            String decision = scanner.next().toLowerCase();
+notUniqueEmail = restaurant.compareEmail(restaurant.restaurantEmail);
+if(notUniqueEmail) {
+   System.out.println("this Email is already being used please enter an email that was never used here before");
+} else if (!decision.equals("yes")) break;
+
+        }
+        //enters the email of the restaurant and checks if he wants to enter it again
+        while (true) {
+            System.out.print("Enter restaurant password ");
+            restaurant.restaurantPassword = scanner.next();
+            System.out.print("do you want to change the password ");
             String decision = scanner.next().toLowerCase();
 
             if (!decision.equals("yes")) break;
+
         }
-        return false;
+
+        restaurant.addRestaurantDetails(restaurant.restaurantName, restaurant.restaurantContact, restaurant.restaurantAddress, restaurant.restaurantEmail, restaurant.restaurantPassword);
+
     }
-//enters the email of the restaurant and checks if he wants to enter it again
+
 }
