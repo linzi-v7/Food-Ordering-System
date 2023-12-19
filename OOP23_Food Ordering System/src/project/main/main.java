@@ -1,5 +1,6 @@
 package project.main;
-
+import project.restaurant.Restaurant;
+import project.restaurant.restaurantRegistration;
 import project.admin.Admin;
 import project.user.User;
 import project.user.UserManagementSystem;
@@ -15,7 +16,7 @@ public class main
 
         Scanner scanner = new Scanner(System.in);
         String userEmail = null;
-
+        Restaurant restaurant = new Restaurant();
 
         do
         {
@@ -34,7 +35,7 @@ public class main
                 do
                 {
                     retry = "n";
-                    if ( (userEmail=UserManagementSystem.loginUser()).equals("null"))
+                    if ( (userEmail=UserManagementSystem.loginUser()).equals("null")||(userEmail=restaurant.login(restaurant)).equals("null"))
                     {
                         System.out.println("Would you like to retry?(Y/N)");
                         retry = scanner.nextLine();
@@ -44,10 +45,25 @@ public class main
                         || retry.equalsIgnoreCase("yes"));
 
             } else if (isUserCheck.equalsIgnoreCase("no")
-                    || isUserCheck.equalsIgnoreCase("n"))
-            {
+                    || isUserCheck.equalsIgnoreCase("n")) {
+                int decision ;
 
-                UserManagementSystem.registerUser(1);
+                System.out.println("to register as  new user enter: 1\n" +
+                        "to register as a new restaurant enter 2 ");
+                decision= scanner.nextInt();
+                switch (decision)
+                {
+                case 2:
+
+                    restaurantRegistration.registerRestaurant(restaurant);
+                    break;
+                case 1:
+                   UserManagementSystem.registerUser(1);
+
+                    break;
+                default:
+                    System.out.println("please enter a correct number");
+            }
             }
             else if(isUserCheck.equalsIgnoreCase("exit"))
             {
@@ -76,26 +92,17 @@ public class main
 
     }
 
-    //function to handle program flow after user logs in, should display restaurants, menus,etc..
+    //function to handle program flow after project.project.admin.admin.user logs in, should display restaurants, menus,etc..
     public static void userLaunchProgram(String userEmail)
     {
         User loggedInUser = UserManagementSystem.getUserByEmail(userEmail);
 
-        //if somehow the user doesn't exist (after multiple checks), we should terminate the program
+        //if somehow the project.project.admin.admin.user doesn't exist (after multiple checks), we should terminate the program
         if (loggedInUser != null)
         {
             System.out.println("\n\t\tWelcome " + loggedInUser.getName() + "!");
-            System.out.println("Restaurants Near You:");
-            //displayRestaurants();
-            //chooseRestaurant();
-            //displayMenu();
-            //addToCart();
-            //orderProcessing();
-            //paymentProcessing();
-            //orderTracking();
-            //reviewProcessing();
-            // loop
 
+            System.out.println(loggedInUser.toString()); //just testing if code works
         }
         else
         {
@@ -103,13 +110,12 @@ public class main
             System.exit(-1);
         }
     }
-                
+
 
     //function that handles program flow after a system administrator logs in
     public static void adminLaunchProgram()
     {
-        User admin = new Admin();
-        Admin sysAdmin = (Admin) admin;
+        Admin sysAdmin = new Admin();
 
         sysAdmin.runDashboard();
     }
