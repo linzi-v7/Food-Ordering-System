@@ -29,6 +29,11 @@ public class UserManagementSystem implements InputChecks
 
     private static ArrayList<String> usersArray = new ArrayList<>();
 
+
+    /**
+     * reads users.txt file and stores them in an array
+     * to use throughout the program. this function should be called at the beginning of the program.
+     */
     public static void readUserDataFile()
     {
         try(BufferedReader bufferedReader = new BufferedReader(new FileReader(USER_FILE)))
@@ -210,7 +215,7 @@ public class UserManagementSystem implements InputChecks
      * @param valueIndex index of the value in users.txt (name = 0, email = 1, password = 2, address = 3)
      * @return true if duplicate found, false if no matching value was found
      */
-    public static boolean checkDuplicateUser(String valueToCheck, int valueIndex)
+    private static boolean checkDuplicateUser(String valueToCheck, int valueIndex)
     {
         for (String s : usersArray)
         {
@@ -231,7 +236,7 @@ public class UserManagementSystem implements InputChecks
      * @param passwordInput password input by user
      * @return true if email and password on the same row are equal to input given, false if not found.
      */
-    public static boolean checkDuplicateUser(String emailInput, String passwordInput)
+    private static boolean checkDuplicateUser(String emailInput, String passwordInput)
     {
         for (String s : usersArray)
         {
@@ -267,7 +272,7 @@ public class UserManagementSystem implements InputChecks
         {
             System.out.println("Login Successful!");
             Role.setRoleIdentifier(Role.ADMIN_IDENTIFIER);
-            return "admin";
+            return "admin@gmail.com";
         }
         else if(checkDuplicateUser(email,password))
         {
@@ -318,7 +323,7 @@ public class UserManagementSystem implements InputChecks
      * @param password password input by user
      * @return true if email and password equal to admin credentials, false otherwise.
      */
-    public static boolean isAdmin(String email, String password)
+    private static boolean isAdmin(String email, String password)
     {
         Admin admin = new Admin();
         return email.equals(admin.getEmail())
