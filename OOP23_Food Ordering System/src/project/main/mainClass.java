@@ -8,7 +8,7 @@ import project.user.UserManagementSystem;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.stream.Stream;
+
 
 public class main
 {
@@ -28,8 +28,7 @@ restaurant.loadRestaurantsFromFile("restaurant.txt");
 
             String isUserCheck = scanner.nextLine();
 
-
-            if (isUserCheck.equalsIgnoreCase("yes")
+     if (isUserCheck.equalsIgnoreCase("yes")
                     || isUserCheck.equalsIgnoreCase("y"))
             {
                 String retry;
@@ -59,10 +58,10 @@ restaurant.loadRestaurantsFromFile("restaurant.txt");
                     restaurantRegistration.registerRestaurant(restaurant);
                     break;
                 case 1:
-                   UserManagementSystem.registerUser(1);
+                 UserManagementSystem.registerUser(1);
 
                     break;
-                   
+
                 default:
                     System.out.println("please enter a correct number");
             }
@@ -109,7 +108,7 @@ int ChosenRestaurant;
             System.out.println("select what you want to do and enter the number of the operation that you want.");
             System.out.println("to display all restaurants enter: 1");
             System.out.println("to search for a specific restaurant enter: 2");
-while(true) {
+//while(true) {
     int decision = scanner.nextInt();
     switch (decision) {
         case 1:
@@ -119,8 +118,8 @@ while(true) {
                 System.out.println(counter + "." + restaurants.get(0));
 
             }
-            System.out.println("\n\n" + "enter the number of the restaurant that you want");
-            ChosenRestaurant = scanner.nextInt();
+
+
             break;
 
         case 2:
@@ -133,7 +132,10 @@ while(true) {
     }
 
     System.out.println("enter the number of the restaurant that you want");
-}
+    ChosenRestaurant = scanner.nextInt();
+    String RestaurantName = restaurant.getRestaurants().get(ChosenRestaurant-1).get(0);
+
+//}
         }
         else
         {
