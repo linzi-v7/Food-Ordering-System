@@ -33,4 +33,20 @@ public class Dish
         return new Dish(restaurantName, dishName, price);
     }*/
 
+    @Override
+    public boolean equals(Object obj) {
+        Dish otherDish = (Dish) obj;
+        boolean equalName = (this.restaurantName == otherDish.restaurantName);
+        boolean equalItem = (this.dishName == otherDish.dishName);
+        boolean equalPrice = (this.price == otherDish.price);
+
+        if (equalName && equalItem && equalPrice)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
