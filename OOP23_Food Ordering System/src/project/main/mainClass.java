@@ -7,7 +7,7 @@ import project.user.UserManagementSystem;
 
 import java.util.Scanner;
 
-public class mainClass
+public class main
 {
     public static void main(String[] args)
     {
@@ -17,7 +17,7 @@ public class mainClass
         Scanner scanner = new Scanner(System.in);
         String userEmail = null;
         Restaurant restaurant = new Restaurant();
-
+restaurant.loadRestaurantsFromFile("restaurant.txt");
         do
         {
             System.out.println("\t####### Food Ordering System #######\n");
@@ -35,7 +35,7 @@ public class mainClass
                 do
                 {
                     retry = "n";
-                    if ( (userEmail=UserManagementSystem.loginUser()).equals("null")||(userEmail=restaurant.login(restaurant)).equals("null"))
+                    if ( (userEmail=UserManagementSystem.loginUser(restaurant)).equals("null"))
                     {
                         System.out.println("Would you like to retry?(Y/N)");
                         retry = scanner.nextLine();
@@ -82,7 +82,7 @@ public class mainClass
                 adminLaunchProgram();
                 break;
             case Role.RESTAURANT_IDENTIFIER:
-                //restaurantLaunchProgram();
+                restaurantLaunchProgram(restaurant);
                 break;
             case Role.USER_IDENTIFIER:
                 userLaunchProgram(userEmail);
@@ -119,5 +119,10 @@ public class mainClass
 
         sysAdmin.runDashboard();
     }
+public static void restaurantLaunchProgram(Restaurant restaurant)
+{
+
 }
 
+
+}
