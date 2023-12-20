@@ -1,4 +1,5 @@
 package project.restaurant;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -59,27 +60,20 @@ public class Restaurant {
     }
 
 
-    public  String login(Restaurant restaurant) {
+    public  String login(Restaurant restaurant,String mail,String password) {
 
         boolean mailValidation, passwordValidation;
-
-
-
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("enter your email");
-        String mail = scanner.nextLine();
         mailValidation=restaurant.compareEmail(mail);
-        System.out.println("enter your password:");
-        String password = scanner.nextLine();
         passwordValidation=restaurant.comparePassword(password);
 boolean sameAccount = verifyAccount(mail,password);
         if ((mailValidation) && (passwordValidation)&&(sameAccount)) {
             return mail;
+
         }
         else {
             System.out.println("please enter the correct details of your account");
         }
-        return null;
+        return "null";
     }
 
     boolean compareEmail(String email) {
