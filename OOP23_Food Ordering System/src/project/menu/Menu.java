@@ -42,7 +42,7 @@ public class Menu {
 
     public void writeMenuDataFile()
     {
-        try (PrintWriter writer = new PrintWriter((new FileWriter("menus.txt")))) {
+        try (PrintWriter writer = new PrintWriter((new FileWriter("menus.txt",true)))) {
             for (Dish dish : menus) {
                 writer.write(dish.getRestaurantName() + "," + dish.getDishName() + "," + dish.getPrice() + "\n");
             }
