@@ -2,6 +2,7 @@ package project.user;
 
 import project.admin.Admin;
 import project.main.Role;
+import project.restaurant.Restaurant;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -257,7 +258,7 @@ public class UserManagementSystem implements InputChecks
      * other in users.txt file.
      * @return String of logged-in user if available, if not available returns the String "null"
      */
-    public static String loginUser()
+    public static String loginUser(Restaurant restaurant)
     {
         System.out.println("\t\t ######## Login Page ########");
         Scanner scanner = new Scanner(System.in);
@@ -268,17 +269,24 @@ public class UserManagementSystem implements InputChecks
         System.out.print("Enter Password: ");
         String password = scanner.nextLine();
 
+        String restaurantValidation= restaurant.login(restaurant,email,password);
         if(isAdmin(email,password))
         {
             System.out.println("Login Successful!");
             Role.setRoleIdentifier(Role.ADMIN_IDENTIFIER);
-            return "admin@gmail.com";
+            return "admin";
         }
         else if(checkDuplicateUser(email,password))
         {
             System.out.println("Login Successful!");
             Role.setRoleIdentifier(Role.USER_IDENTIFIER);
-            return email; //login successful, returns email to use later to get user data
+            return email; //login successful, returns email to use later to get project.project.admin.admin.user data
+        }
+        else if ((!restaurantValidation.equals("null")))
+        {
+            System.out.println("Login Successful!");
+            Role.setRoleIdentifier(Role.RESTAURANT_IDENTIFIER);
+            return email; //login successful, returns email to use later to get project.project.admin.admin.user data
         }
         else
         {

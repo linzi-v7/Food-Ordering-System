@@ -1,4 +1,5 @@
 package project.restaurant;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -20,6 +21,10 @@ public class Restaurant {
 
     public ArrayList<ArrayList<String>> getRestaurants() {
         return restaurants;
+    }
+
+    public String getRestaurantName() {
+        return restaurantName;
     }
 
     public void loadRestaurantsFromFile(String filepath) {
@@ -59,27 +64,18 @@ public class Restaurant {
     }
 
 
-    public  String login(Restaurant restaurant) {
+    public  String login(Restaurant restaurant,String mail,String password) {
 
         boolean mailValidation, passwordValidation;
-
-
-
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("enter your email");
-        String mail = scanner.nextLine();
         mailValidation=restaurant.compareEmail(mail);
-        System.out.println("enter your password:");
-        String password = scanner.nextLine();
         passwordValidation=restaurant.comparePassword(password);
-boolean sameAccount = verifyAccount(mail,password);
+        boolean sameAccount = verifyAccount(mail,password);
         if ((mailValidation) && (passwordValidation)&&(sameAccount)) {
             return mail;
+
         }
-        else {
-            System.out.println("please enter the correct details of your account");
-        }
-        return null;
+
+        return "null";
     }
 
     boolean compareEmail(String email) {
@@ -93,9 +89,9 @@ boolean sameAccount = verifyAccount(mail,password);
             }
 
         }
-return uniqueEmail;
+        return uniqueEmail;
     }
-        boolean comparePassword (String password) {
+    boolean comparePassword (String password) {
         boolean uniquePassword = false;
         for (ArrayList<String> row : restaurants) {
 
@@ -108,60 +104,34 @@ return uniqueEmail;
 
         return uniquePassword;
     }
-    public String restaurantSearching(Restaurant restaurant)
+    public void restaurantSearching(Restaurant restaurant)
     {
-        String search;
-        int restaurantNumber=0;
+
+        int counter=0;
         System.out.println("enter the name of the restaurant you're searching for:");
         Scanner scanner = new Scanner(System.in);
-       search= scanner.nextLine();
-        for(ArrayList<String> mail: restaurants){
-            if(mail.toString().startsWith(search)) {
-                System.out.println(restaurantNumber);
-                System.out.println(mail);
-                restaurantNumber++;
+        String search = scanner.nextLine();
+        for(ArrayList<String> restaurant1: restaurant.restaurants){
+            if(restaurant1.get(0).startsWith(search)) {
+                counter++;
+                System.out.println(counter + "." + restaurant1.get(0));
             }
         }
-    return null;
+
     }
-boolean verifyAccount(String mail,String password)
-{
-    int index = 0;
-    for (ArrayList<String> restaurants2 :restaurants)
+    boolean verifyAccount(String mail,String password)
     {
-        if (restaurants2.size()>=3 && restaurants2.get(3).equals(mail))
-            index = restaurants2.indexOf(4);
-    }
-    for (ArrayList<String>restaurant3:restaurants) {
-        if (restaurant3.size() >= 4 && restaurant3.get(4).equals(password))
-            if (index == restaurant3.indexOf(4))
-                return true;
-    }
-    return false;
-}
-
-
-    public String getRestaurantName() {
-        return restaurantName;
-    }
-
-    public void setRestaurantName(String restaurantName) {
-        this.restaurantName = restaurantName;
-    }
-
-    public String getRestaurantAddress() {
-        return restaurantAddress;
-    }
-
-    public void setRestaurantAddress(String restaurantAddress) {
-        this.restaurantAddress = restaurantAddress;
-    }
-
-    public String getRestaurantContact() {
-        return restaurantContact;
-    }
-
-    public void setRestaurantContact(String restaurantContact) {
-        this.restaurantContact = restaurantContact;
+        int index = 0;
+        for (ArrayList<String> restaurants2 :restaurants)
+        {
+            if (restaurants2.size()>=3 && restaurants2.get(3).equals(mail))
+                index = restaurants2.indexOf(4);
+        }
+        for (ArrayList<String>restaurant3:restaurants) {
+            if (restaurant3.size() >= 4 && restaurant3.get(4).equals(password))
+                if (index == restaurant3.indexOf(4))
+                    return true;
+        }
+        return false;
     }
 }

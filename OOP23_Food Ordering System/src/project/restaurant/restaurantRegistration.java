@@ -19,8 +19,8 @@ public class restaurantRegistration {
 
             if (!decision.equals("yes")) break;
         }
-
-//enters the name of the restaurant and checks if he wants to enter the name again
+//
+////enters the name of the restaurant and checks if he wants to enter the name again
         while (true) {
 
 
@@ -36,7 +36,8 @@ public class restaurantRegistration {
 
                 }
                 //checks that the phone number is nothing else but numbers
-                restaurant.restaurantContact = scanner.next();
+                restaurant.restaurantContact = scanner.nextLine();
+
                 int compareNumber = restaurant.restaurantContact.length();
                 if ((compareNumber == 11)||(compareNumber==5)) {
                     repeat = false;
@@ -47,38 +48,40 @@ public class restaurantRegistration {
             }
             //checks length of the number
             System.out.print("do you want to change the phone number?");
-            String decision = scanner.next().toLowerCase();
+            String decision = scanner.nextLine().toLowerCase();
 
             if (!decision.equals("yes")) break;
         }
-//enters the number of the restaurant and checks if he wants to enter it again
 
+//enters the number of the restaurant and checks if he wants to enter it again
 //         checks the length of the phone number
 //            checks if input is a number
-        while (true) {
-            System.out.print("Enter restaurant address ");
-            restaurant.restaurantAddress = scanner.next();
-            System.out.print("do you want to change the restaurant address ?");
-            String decision = scanner.next().toLowerCase();
 
+        while (true) {
+
+            System.out.println("Enter restaurant address: ");
+            restaurant.restaurantAddress = scanner.nextLine();
+            System.out.print("do you want to change the restaurant address ?");
+            String decision = scanner.nextLine().toLowerCase();
             if (!decision.equals("yes")) break;
         }
 
 //enters the address of the restaurant and checks if he wants to enter it again
         while (true) {
             boolean notUniqueEmail;
-            System.out.print("Enter restaurant Email ");
-            restaurant.restaurantEmail = scanner.next();
-            System.out.print("do you want to change the Email ");
-            String decision = scanner.next().toLowerCase();
-notUniqueEmail = restaurant.compareEmail(restaurant.restaurantEmail);
-if(notUniqueEmail) {
-   System.out.println("this Email is already being used please enter an email that was never used here before");
-} else if (!decision.equals("yes")) break;
+            System.out.println("Enter restaurant Email ");
+            restaurant.restaurantEmail = scanner.nextLine();
+            System.out.println("do you want to change the Email ");
+            String decision = scanner.nextLine().toLowerCase();
+            notUniqueEmail = restaurant.compareEmail(restaurant.restaurantEmail);
+            if(notUniqueEmail) {
+                System.out.println("this Email is already being used please enter an email that was never used here before");
+            } else if (!decision.equals("yes")) break;
 
         }
         //enters the email of the restaurant and checks if he wants to enter it again
         while (true) {
+
             System.out.print("Enter restaurant password ");
             restaurant.restaurantPassword = scanner.next();
             System.out.print("do you want to change the password ");
