@@ -5,8 +5,8 @@ public class menutest
     public static void main(String[] args) {
         Menu menus = new Menu();
         menus.readMenuDataFile("bk");
-        //menus.addItem("mac", "burger triple", 30.0);
+        menus.addItem("bk", "burger triple", 30.0);
         menus.displayMenu("bk");
-        //menus.writeMenuDataFile();
+        menus.writeMenuDataFile();
     }
 }
