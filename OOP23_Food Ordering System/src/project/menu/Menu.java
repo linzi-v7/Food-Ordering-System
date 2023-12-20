@@ -20,7 +20,7 @@ public class Menu {
 
     public  void readMenuDataFile(String rName)
     {
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader("C:\\Users\\Nader\\Documents\\GitHub\\Food-Ordering-System\\OOP23_Food Ordering System\\menus.txt")))
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader("menus.txt")))
         {
             String line;
             while ((line = bufferedReader.readLine()) != null) //reads each line until there is none

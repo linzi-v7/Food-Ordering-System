@@ -7,12 +7,9 @@ import project.user.User;
 import project.user.UserManagementSystem;
 
 import java.util.Scanner;
-import java.util.List;
-import java.util.ArrayList;
-import java.io.*;
 
 
-public class Main
+public class MainClass
 {
     public static void main(String[] args)
     {
