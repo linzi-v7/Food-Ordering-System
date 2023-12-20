@@ -1,19 +1,20 @@
 package project.main;
 import project.restaurant.Restaurant;
+
 import project.restaurant.restaurantRegistration;
 import project.admin.Admin;
 import project.user.User;
 import project.user.UserManagementSystem;
 
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 public class main
 {
     public static void main(String[] args)
     {
         UserManagementSystem.readUserDataFile();
-
-
         Scanner scanner = new Scanner(System.in);
         String userEmail = null;
         Restaurant restaurant = new Restaurant();
@@ -61,6 +62,7 @@ restaurant.loadRestaurantsFromFile("restaurant.txt");
                    UserManagementSystem.registerUser(1);
 
                     break;
+                   
                 default:
                     System.out.println("please enter a correct number");
             }
@@ -82,10 +84,10 @@ restaurant.loadRestaurantsFromFile("restaurant.txt");
                 adminLaunchProgram();
                 break;
             case Role.RESTAURANT_IDENTIFIER:
-                restaurantLaunchProgram(restaurant);
+                //restaurantLaunchProgram(restaurant);
                 break;
             case Role.USER_IDENTIFIER:
-                userLaunchProgram(userEmail);
+                userLaunchProgram(userEmail,restaurant);
 
         }
 
@@ -93,16 +95,45 @@ restaurant.loadRestaurantsFromFile("restaurant.txt");
     }
 
     //function to handle program flow after project.project.admin.admin.user logs in, should display restaurants, menus,etc..
-    public static void userLaunchProgram(String userEmail)
+    public static void userLaunchProgram(String userEmail,Restaurant restaurant)
     {
         User loggedInUser = UserManagementSystem.getUserByEmail(userEmail);
 
         //if somehow the project.project.admin.admin.user doesn't exist (after multiple checks), we should terminate the program
         if (loggedInUser != null)
         {
+            Scanner scanner = new Scanner(System.in);
+int ChosenRestaurant;
             System.out.println("\n\t\tWelcome " + loggedInUser.getName() + "!");
 
-            System.out.println(loggedInUser.toString()); //just testing if code works
+            System.out.println("select what you want to do and enter the number of the operation that you want.");
+            System.out.println("to display all restaurants enter: 1");
+            System.out.println("to search for a specific restaurant enter: 2");
+while(true) {
+    int decision = scanner.nextInt();
+    switch (decision) {
+        case 1:
+            int counter = 0;
+            for (ArrayList<String> restaurants : restaurant.getRestaurants()) {
+                counter++;
+                System.out.println(counter + "." + restaurants.get(0));
+
+            }
+            System.out.println("\n\n" + "enter the number of the restaurant that you want");
+            ChosenRestaurant = scanner.nextInt();
+            break;
+
+        case 2:
+            restaurant.restaurantSearching(restaurant);
+            break;
+
+        default:
+            System.out.println("choose a value that exists within the choices");
+
+    }
+
+    System.out.println("enter the number of the restaurant that you want");
+}
         }
         else
         {
@@ -119,10 +150,7 @@ restaurant.loadRestaurantsFromFile("restaurant.txt");
 
         sysAdmin.runDashboard();
     }
-public static void restaurantLaunchProgram(Restaurant restaurant)
-{
 
-}
 
 
 }
