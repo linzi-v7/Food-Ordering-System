@@ -70,9 +70,7 @@ boolean sameAccount = verifyAccount(mail,password);
             return mail;
 
         }
-        else {
-            System.out.println("please enter the correct details of your account");
-        }
+
         return "null";
     }
 
@@ -102,21 +100,20 @@ return uniqueEmail;
 
         return uniquePassword;
     }
-    public String restaurantSearching(Restaurant restaurant)
+    public void restaurantSearching(Restaurant restaurant)
     {
-        String search;
-        int restaurantNumber=0;
+
+        int counter=0;
         System.out.println("enter the name of the restaurant you're searching for:");
         Scanner scanner = new Scanner(System.in);
-       search= scanner.nextLine();
-        for(ArrayList<String> mail: restaurants){
-            if(mail.toString().startsWith(search)) {
-                System.out.println(restaurantNumber);
-                System.out.println(mail);
-                restaurantNumber++;
+        String search = scanner.nextLine();
+        for(ArrayList<String> restaurant1: restaurant.restaurants){
+            if(restaurant1.get(0).startsWith(search)) {
+                counter++;
+                System.out.println(counter + "." + restaurant1.get(0));
             }
         }
-    return null;
+
     }
 boolean verifyAccount(String mail,String password)
 {
