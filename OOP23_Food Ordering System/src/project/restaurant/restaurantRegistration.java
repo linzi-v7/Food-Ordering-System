@@ -56,8 +56,9 @@ public class restaurantRegistration {
 //         checks the length of the phone number
 //            checks if input is a number
         while (true) {
-            System.out.print("Enter restaurant address ");
-            restaurant.restaurantAddress = scanner.next();
+            System.out.println("Enter restaurant address: ");
+            restaurant.restaurantAddress = scanner.nextLine();
+            scanner.next();
             System.out.print("do you want to change the restaurant address ?");
             String decision = scanner.next().toLowerCase();
 
@@ -67,9 +68,11 @@ public class restaurantRegistration {
 //enters the address of the restaurant and checks if he wants to enter it again
         while (true) {
             boolean notUniqueEmail;
-            System.out.print("Enter restaurant Email ");
-            restaurant.restaurantEmail = scanner.next();
-            System.out.print("do you want to change the Email ");
+            scanner.next();
+            System.out.println("Enter restaurant Email ");
+            scanner.next();
+            restaurant.restaurantEmail = scanner.nextLine();
+            System.out.println("do you want to change the Email ");
             String decision = scanner.next().toLowerCase();
 notUniqueEmail = restaurant.compareEmail(restaurant.restaurantEmail);
 if(notUniqueEmail) {
