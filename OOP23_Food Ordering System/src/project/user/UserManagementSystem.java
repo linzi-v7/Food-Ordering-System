@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * Class to handle project.project.admin.admin.user login and registration functions. All functions are static.
+ * Class to handle user login and registration functions. All functions are static.
  */
 public class UserManagementSystem implements InputChecks
 {
     //IMPORTANT NOTES FOR USERS FILE.
     //- FILE MUST NOT END WITH DOUBLE \N TO AVOID ARRAY OUT OF BOUND EXCEPTION
-    //if file ended with \n on a separate line, the userdata array thinks it's a row that contains project.project.admin.admin.user
+    //if file ended with \n on a separate line, the userdata array thinks it's a row that contains user
     //data which throws an arrayOutOfBounds exception.
     //- DO NOT REMOVE THE SYSTEM ADMINISTRATOR'S ACCOUNT SAVED IN THE FIRST LINE!
     //- IF YOU EDIT MANUALLY ON THE USERS FILE, MAKE SURE TO SEPARATE THEM WITH DELIMITER (;)
@@ -30,6 +30,11 @@ public class UserManagementSystem implements InputChecks
 
     private static ArrayList<String> usersArray = new ArrayList<>();
 
+
+    /**
+     * reads users.txt file and stores them in an array
+     * to use throughout the program. this function should be called at the beginning of the program.
+     */
     public static void readUserDataFile()
     {
         try(BufferedReader bufferedReader = new BufferedReader(new FileReader(USER_FILE)))
@@ -47,8 +52,8 @@ public class UserManagementSystem implements InputChecks
 
 
     /**
-     * Registers new project.project.admin.admin.user, if email input already exists, the users keep getting prompted
-     * to enter a new email. After all credentials are input, a new project.project.admin.admin.user is created and
+     * Registers new user, if email input already exists, the users keep getting prompted
+     * to enter a new email. After all credentials are input, a new user is created and
      * stored in the users file (users.txt)
      */
     public static void registerUser(int mode) {
@@ -65,49 +70,90 @@ public class UserManagementSystem implements InputChecks
                     "\nAt any point type exit to return to welcome page.");
         }
 
-        System.out.print("Enter Name: ");
-        String name = scanner.nextLine();
-        if (InputChecks.checkExit(name)) {
-            return;
-        }
+        String name;
+        do
+        {
+            System.out.print("Enter Name: ");
+            name = scanner.nextLine();
+            if (InputChecks.checkExit(name)) {
+                return;
+            }
+
+            if(InputChecks.checkDelimiter(name))
+            {
+                System.out.println("Invalid Name! Please Try Again!");
+            }
+            else
+            {
+                break;
+            }
+
+        }while(true);
+
 
         String email;
         do {
             System.out.print("Enter E-mail: ");
             email = scanner.nextLine();
 
-            //check if project.project.admin.admin.user wants to exit
+            //check if user wants to exit
             if (InputChecks.checkExit(email)) {
                 return;
             }
 
             //check if email input is in the correct form
-            if (!InputChecks.validateEmail(email)) {
+            if (!InputChecks.validateEmail(email) || InputChecks.checkDelimiter(email)) {
                 System.out.println("Invalid Email!");
                 continue;
             }
 
             if (checkDuplicateUser(email, USER_EMAIL_INDEX)
-                    || email.equalsIgnoreCase("admin")) {
+                    || email.equalsIgnoreCase("admin@gmail.com")) {
                 System.out.println("Account Already Exists!");
             } else {
                 break;
             }
 
-        } while (true);     //check if an account doesn't already exist or if input is project.project.admin.admin
+        } while (true);     //check if an account doesn't already exist or if input is admin
 
 
-        System.out.print("Enter Password: ");
-        String password = scanner.nextLine();
-        if (InputChecks.checkExit(password)) {
-            return;
-        }
+        String password;
+        do
+        {
+            System.out.print("Enter Password: ");
+            password = scanner.nextLine();
+            if (InputChecks.checkExit(password)) {
+                return;
+            }
 
-        System.out.print("Enter Address: ");
-        String address = scanner.nextLine();
-        if (InputChecks.checkExit(address)) {
-            return;
-        }
+            if(InputChecks.checkDelimiter(password))
+            {
+                System.out.println("Invalid Password! Please Try Again!");
+            }
+            else
+            {
+                break;
+            }
+        }while(true);
+
+        String address;
+        do
+        {
+            System.out.print("Enter Address: ");
+            address = scanner.nextLine();
+            if (InputChecks.checkExit(address)) {
+                return;
+            }
+
+            if(InputChecks.checkDelimiter(address))
+            {
+                System.out.println("Invalid Address! Please Try Again!");
+            }
+            else
+            {
+                break;
+            }
+        }while(true);
 
         String phoneNumber;
         do
@@ -119,15 +165,16 @@ public class UserManagementSystem implements InputChecks
                 return;
             }
 
-            if (!InputChecks.validatePhoneNumber(phoneNumber))
+            if (!InputChecks.validatePhoneNumber(phoneNumber)
+                || InputChecks.checkDelimiter(phoneNumber))
             {
-                continue;
+                System.out.println("Invalid Phone Number! Try Again!");
             } else
             {
                 break;
             }
         } while (true);
-        //if an account doesn't exist, create a new project.project.admin.admin.user and store their data
+        //if an account doesn't exist, create a new user and store their data
         User user = new User(name, email, password, address, phoneNumber);
         storeUserData(user);
         System.out.println("Registration Successful!");
@@ -135,8 +182,8 @@ public class UserManagementSystem implements InputChecks
     }
 
     /**
-     * stores project.project.admin.admin.user data after registering, stores in local arrayList then in file.
-     * @param user project.project.admin.admin.user to be stored
+     * stores user data after registering, stores in local arrayList then in file.
+     * @param user user to be stored
      */
     public static void storeUserData(User user)
     {
@@ -169,7 +216,7 @@ public class UserManagementSystem implements InputChecks
      * @param valueIndex index of the value in users.txt (name = 0, email = 1, password = 2, address = 3)
      * @return true if duplicate found, false if no matching value was found
      */
-    public static boolean checkDuplicateUser(String valueToCheck, int valueIndex)
+    private static boolean checkDuplicateUser(String valueToCheck, int valueIndex)
     {
         for (String s : usersArray)
         {
@@ -181,16 +228,16 @@ public class UserManagementSystem implements InputChecks
             }
         }
 
-        return false;
+           return false;
     }
 
     /**
-     * function to check email and password found in project.project.admin.admin.user data file
-     * @param emailInput  email input by project.project.admin.admin.user
-     * @param passwordInput password input by project.project.admin.admin.user
+     * function to check email and password found in user data file
+     * @param emailInput  email input by user
+     * @param passwordInput password input by user
      * @return true if email and password on the same row are equal to input given, false if not found.
      */
-    public static boolean checkDuplicateUser(String emailInput, String passwordInput)
+    private static boolean checkDuplicateUser(String emailInput, String passwordInput)
     {
         for (String s : usersArray)
         {
@@ -209,7 +256,7 @@ public class UserManagementSystem implements InputChecks
     /**
      * prompts users to enter email and password and checks if values exist on the same row after each
      * other in users.txt file.
-     * @return String of logged-in project.project.admin.admin.user if available, if not available returns the String "null"
+     * @return String of logged-in user if available, if not available returns the String "null"
      */
     public static String loginUser(Restaurant restaurant)
     {
@@ -222,7 +269,7 @@ public class UserManagementSystem implements InputChecks
         System.out.print("Enter Password: ");
         String password = scanner.nextLine();
 
-       String restaurantValidation= restaurant.login(restaurant,email,password);
+        String restaurantValidation= restaurant.login(restaurant,email,password);
         if(isAdmin(email,password))
         {
             System.out.println("Login Successful!");
@@ -250,11 +297,11 @@ public class UserManagementSystem implements InputChecks
 
 
     /**
-     * Function to get project.project.admin.admin.user data using the email field.
+     * Function to get user data using the email field.
      *
-     * @param userEmail email of the project.project.admin.admin.user to be logged in, email is already checked multiple times before
+     * @param userEmail email of the user to be logged in, email is already checked multiple times before
      *                  during other functions, so logically it can't be null.
-     * @return a new User object containing the data of the currently logged-in project.project.admin.admin.user
+     * @return a new User object containing the data of the currently logged-in user
      */
     public static User getUserByEmail(String userEmail)
     {
@@ -279,12 +326,12 @@ public class UserManagementSystem implements InputChecks
     }
 
     /**
-     * checks if project.project.admin.admin.user login input matches administrator credentials.
-     * @param email email input by project.project.admin.admin.user
-     * @param password password input by project.project.admin.admin.user
-     * @return true if email and password equal to project.project.admin.admin credentials, false otherwise.
+     * checks if user login input matches administrator credentials.
+     * @param email email input by user
+     * @param password password input by user
+     * @return true if email and password equal to admin credentials, false otherwise.
      */
-    public static boolean isAdmin(String email, String password)
+    private static boolean isAdmin(String email, String password)
     {
         Admin admin = new Admin();
         return email.equals(admin.getEmail())
@@ -292,12 +339,12 @@ public class UserManagementSystem implements InputChecks
     }
 
     /**
-     * removes project.project.admin.admin.user, typically used by System Administrator
-     * @param userEmailToRemove email of project.project.admin.admin.user to be removed
+     * removes user, typically used by System Administrator
+     * @param userEmailToRemove email of user to be removed
      */
     public static void removeUser(String userEmailToRemove)
     {
-        //check if project.project.admin.admin.user exists and remove from arrayList
+        //check if user exists and remove from arrayList
         boolean userFound = false;
         for (int i =0; i < usersArray.size(); i++)
         {
@@ -311,7 +358,7 @@ public class UserManagementSystem implements InputChecks
             }
         }
 
-        //if project.project.admin.admin.user exists, rewrite file using updated arrayList without the removed project.project.admin.admin.user.
+        //if user exists, rewrite file using updated arrayList without the removed user.
         if(userFound)
         {
             try(BufferedWriter writer = new BufferedWriter(new FileWriter(USER_FILE)))

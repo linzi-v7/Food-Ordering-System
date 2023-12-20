@@ -3,6 +3,7 @@ import project.restaurant.Restaurant;
 
 import project.restaurant.restaurantRegistration;
 import project.admin.Admin;
+import project.review.review;
 import project.user.User;
 import project.user.UserManagementSystem;
 
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-public class main
+public class MainClass
 {
     public static void main(String[] args)
     {
@@ -18,7 +19,7 @@ public class main
         Scanner scanner = new Scanner(System.in);
         String userEmail = null;
         Restaurant restaurant = new Restaurant();
-restaurant.loadRestaurantsFromFile("restaurant.txt");
+        restaurant.loadRestaurantsFromFile("restaurant.txt");
         do
         {
             System.out.println("\t####### Food Ordering System #######\n");
@@ -28,7 +29,7 @@ restaurant.loadRestaurantsFromFile("restaurant.txt");
 
             String isUserCheck = scanner.nextLine();
 
-     if (isUserCheck.equalsIgnoreCase("yes")
+            if (isUserCheck.equalsIgnoreCase("yes")
                     || isUserCheck.equalsIgnoreCase("y"))
             {
                 String retry;
@@ -53,18 +54,18 @@ restaurant.loadRestaurantsFromFile("restaurant.txt");
                 decision= scanner.nextInt();
                 switch (decision)
                 {
-                case 2:
+                    case 2:
 
-                    restaurantRegistration.registerRestaurant(restaurant);
-                    break;
-                case 1:
-                 UserManagementSystem.registerUser(1);
+                        restaurantRegistration.registerRestaurant(restaurant);
+                        break;
+                    case 1:
+                        UserManagementSystem.registerUser(1);
 
-                    break;
+                        break;
 
-                default:
-                    System.out.println("please enter a correct number");
-            }
+                    default:
+                        System.out.println("please enter a correct number");
+                }
             }
             else if(isUserCheck.equalsIgnoreCase("exit"))
             {
@@ -102,38 +103,38 @@ restaurant.loadRestaurantsFromFile("restaurant.txt");
         if (loggedInUser != null)
         {
             Scanner scanner = new Scanner(System.in);
-int ChosenRestaurant;
+            int ChosenRestaurant;
             System.out.println("\n\t\tWelcome " + loggedInUser.getName() + "!");
 
             System.out.println("select what you want to do and enter the number of the operation that you want.");
             System.out.println("to display all restaurants enter: 1");
             System.out.println("to search for a specific restaurant enter: 2");
 //while(true) {
-    int decision = scanner.nextInt();
-    switch (decision) {
-        case 1:
-            int counter = 0;
-            for (ArrayList<String> restaurants : restaurant.getRestaurants()) {
-                counter++;
-                System.out.println(counter + "." + restaurants.get(0));
+            int decision = scanner.nextInt();
+            switch (decision) {
+                case 1:
+                    int counter = 0;
+                    for (ArrayList<String> restaurants : restaurant.getRestaurants()) {
+                        counter++;
+                        System.out.println(counter + "." + restaurants.get(0));
+
+                    }
+
+
+                    break;
+
+                case 2:
+                    restaurant.restaurantSearching(restaurant);
+                    break;
+
+                default:
+                    System.out.println("choose a value that exists within the choices");
 
             }
 
-
-            break;
-
-        case 2:
-            restaurant.restaurantSearching(restaurant);
-            break;
-
-        default:
-            System.out.println("choose a value that exists within the choices");
-
-    }
-
-    System.out.println("enter the number of the restaurant that you want");
-    ChosenRestaurant = scanner.nextInt();
-    String RestaurantName = restaurant.getRestaurants().get(ChosenRestaurant-1).get(0);
+            System.out.println("enter the number of the restaurant that you want");
+            ChosenRestaurant = scanner.nextInt();
+            String RestaurantName = restaurant.getRestaurants().get(ChosenRestaurant-1).get(0);
 
 //}
         }
@@ -142,6 +143,34 @@ int ChosenRestaurant;
             System.out.println("USER DOESN'T EXIST!");
             System.exit(-1);
         }
+    }
+
+
+    public static void mainreview(String[] args)
+    {
+
+
+        System.out.println("Welcome to the Review System!");
+
+        // Collect user information
+        review userReview = new review();
+        userReview.setName();
+        userReview.setNum_phone();
+        userReview.setRev_rest();
+        userReview.setRev_staf();
+        userReview.setRev_clean();
+        userReview.setRev_food();
+        userReview.setRev_design();
+        userReview.setComments();
+
+        // Specify the file path where you want to save the data
+        String filePath = "D:\\MY_Projects\\Food-Ordering-System\\reviews.txt";
+
+        // Save the data to the file
+        userReview.saveToFile(filePath);
+
+        System.out.println("Review saved successfully. Thank you for your feedback!");
+
     }
 
 

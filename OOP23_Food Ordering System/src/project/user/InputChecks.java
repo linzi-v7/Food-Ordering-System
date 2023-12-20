@@ -33,7 +33,7 @@ public interface InputChecks
 
         // Check if the length is reasonable
         int minLength = 7;
-        int maxLength = 15; // Example: +123456789012345
+        int maxLength = 15;
         int phoneNumberLength = phoneNumber.length();
 
         return phoneNumberLength >= minLength && phoneNumberLength <= maxLength;

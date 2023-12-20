@@ -63,8 +63,7 @@ public class Admin extends User implements AdminPermissions, InputChecks, Restau
                     removeUserPage();
                     break;
                 case 9:
-                    Restaurant restaurant = new Restaurant("McDonald's",
-                            "5th Settlement", "011", "3.7");
+                    Restaurant restaurant = new Restaurant();
                     generateBusinessReport(restaurant);
             }
             System.out.println("Would you like to exit program? (Y/N)");

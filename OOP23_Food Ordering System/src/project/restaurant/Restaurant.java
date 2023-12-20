@@ -23,6 +23,10 @@ public class Restaurant {
         return restaurants;
     }
 
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
     public void loadRestaurantsFromFile(String filepath) {
         try {
             Scanner fileScanner = new Scanner(new File(filepath));
@@ -65,7 +69,7 @@ public class Restaurant {
         boolean mailValidation, passwordValidation;
         mailValidation=restaurant.compareEmail(mail);
         passwordValidation=restaurant.comparePassword(password);
-boolean sameAccount = verifyAccount(mail,password);
+        boolean sameAccount = verifyAccount(mail,password);
         if ((mailValidation) && (passwordValidation)&&(sameAccount)) {
             return mail;
 
@@ -85,9 +89,9 @@ boolean sameAccount = verifyAccount(mail,password);
             }
 
         }
-return uniqueEmail;
+        return uniqueEmail;
     }
-        boolean comparePassword (String password) {
+    boolean comparePassword (String password) {
         boolean uniquePassword = false;
         for (ArrayList<String> row : restaurants) {
 
@@ -115,19 +119,19 @@ return uniqueEmail;
         }
 
     }
-boolean verifyAccount(String mail,String password)
-{
-    int index = 0;
-    for (ArrayList<String> restaurants2 :restaurants)
+    boolean verifyAccount(String mail,String password)
     {
-        if (restaurants2.size()>=3 && restaurants2.get(3).equals(mail))
-            index = restaurants2.indexOf(4);
+        int index = 0;
+        for (ArrayList<String> restaurants2 :restaurants)
+        {
+            if (restaurants2.size()>=3 && restaurants2.get(3).equals(mail))
+                index = restaurants2.indexOf(4);
+        }
+        for (ArrayList<String>restaurant3:restaurants) {
+            if (restaurant3.size() >= 4 && restaurant3.get(4).equals(password))
+                if (index == restaurant3.indexOf(4))
+                    return true;
+        }
+        return false;
     }
-    for (ArrayList<String>restaurant3:restaurants) {
-        if (restaurant3.size() >= 4 && restaurant3.get(4).equals(password))
-            if (index == restaurant3.indexOf(4))
-                return true;
-    }
-    return false;
-}
 }

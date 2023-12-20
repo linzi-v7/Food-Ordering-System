@@ -1,13 +1,22 @@
 package project.restaurant;
 
 
+import project.menu.Dish;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 public interface RestaurantPermissions
 {
-    default void addDishToMenu(Restaurant restaurant)
+    default void addDishToMenu(Dish dish)
     {
-       // restaurant.menu.addDish()
-    }
+        try (PrintWriter writer = new PrintWriter((new FileWriter("menus.txt")))) {
+                writer.write(dish.getRestaurantName() + "," + dish.getDishName()
+                        + "," + dish.getPrice() + "\n");
+        } catch (IOException exp) {
+            System.out.println(exp.getMessage());
+        }    }
 
     default void removeDishFromMenu(Restaurant restaurant)
     {

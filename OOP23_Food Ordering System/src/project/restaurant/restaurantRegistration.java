@@ -73,10 +73,10 @@ public class restaurantRegistration {
             restaurant.restaurantEmail = scanner.nextLine();
             System.out.println("do you want to change the Email ");
             String decision = scanner.nextLine().toLowerCase();
-notUniqueEmail = restaurant.compareEmail(restaurant.restaurantEmail);
-if(notUniqueEmail) {
-   System.out.println("this Email is already being used please enter an email that was never used here before");
-} else if (!decision.equals("yes")) break;
+            notUniqueEmail = restaurant.compareEmail(restaurant.restaurantEmail);
+            if(notUniqueEmail) {
+                System.out.println("this Email is already being used please enter an email that was never used here before");
+            } else if (!decision.equals("yes")) break;
 
         }
         //enters the email of the restaurant and checks if he wants to enter it again
