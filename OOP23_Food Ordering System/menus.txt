@@ -3,3 +3,6 @@ mac,burger,17.0
 bk,pizza,18.0
 mac,burger triple,30.0
 mac,burger triple,30.0
+faris,burger triple,30.0
+faris,burger triple,30.0
+nader,burger triple,30.0

@@ -10,12 +10,25 @@ import java.util.Objects;
 public class Menu {
 
     private ArrayList<Dish> menus;
+    public ArrayList<Dish> newDishes;
     public Menu() {
         this.menus = new ArrayList<>();
+        this.newDishes = new ArrayList<>();
     }
     public void addItem(String restaurantName, String dishName, Double price) {
         Dish dish = new Dish(restaurantName, dishName, price);
         menus.add(dish);
+    }
+
+    public void addNewDish(String restaurantName, String dishName, Double price) {
+        Dish dish = new Dish(restaurantName, dishName, price);
+
+           // if(menus.contains(dish)) {
+            //    System.out.println("Dish Already Exists!");
+            //}else
+            //{
+                newDishes.add(dish);
+           // }
     }
 
     public  void readMenuDataFile(String rName)
@@ -43,8 +56,10 @@ public class Menu {
     public void writeMenuDataFile()
     {
         try (PrintWriter writer = new PrintWriter((new FileWriter("menus.txt",true)))) {
-            for (Dish dish : menus) {
-                writer.write(dish.getRestaurantName() + "," + dish.getDishName() + "," + dish.getPrice() + "\n");
+            if(!newDishes.isEmpty()) {
+                for (Dish dish : newDishes) {
+                    writer.write(dish.getRestaurantName() + "," + dish.getDishName() + "," + dish.getPrice() + "\n");
+                }
             }
         } catch (IOException exp) {
             System.out.println(exp.getMessage());
