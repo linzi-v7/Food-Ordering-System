@@ -1,4 +1,5 @@
 package project.main;
+import project.cart.cart;
 import project.restaurant.Restaurant;
 
 import project.restaurant.restaurantRegistration;
@@ -6,6 +7,7 @@ import project.admin.Admin;
 import project.review.review;
 import project.user.User;
 import project.user.UserManagementSystem;
+import project.menu.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -94,18 +96,20 @@ public class MainClass
 
     }
 
-    //function to handle program flow after project.project.admin.admin.user logs in, should display restaurants, menus,etc..
+    //function to handle program flow after user logs in, should display restaurants, menus,etc..
     public static void userLaunchProgram(String userEmail,Restaurant restaurant)
     {
         User loggedInUser = UserManagementSystem.getUserByEmail(userEmail);
 
-        //if somehow the project.project.admin.admin.user doesn't exist (after multiple checks), we should terminate the program
+        //if somehow the user doesn't exist (after multiple checks), we should terminate the program
         if (loggedInUser != null)
         {
             Scanner scanner = new Scanner(System.in);
             int ChosenRestaurant;
             System.out.println("\n\t\tWelcome " + loggedInUser.getName() + "!");
 
+            //Display and search restaurant
+            /*
             System.out.println("select what you want to do and enter the number of the operation that you want.");
             System.out.println("to display all restaurants enter: 1");
             System.out.println("to search for a specific restaurant enter: 2");
@@ -134,7 +138,41 @@ public class MainClass
 
             System.out.println("enter the number of the restaurant that you want");
             ChosenRestaurant = scanner.nextInt();
-            String RestaurantName = restaurant.getRestaurants().get(ChosenRestaurant-1).get(0);
+
+             */
+           // String RestaurantName = restaurant.getRestaurants().get(ChosenRestaurant-1).get(0);
+
+            String RestaurantName = "mac";
+
+            //display the menu of selected restaurant
+            Menu menu = new Menu();
+            menu.readMenuDataFile(RestaurantName);
+
+            cart orderCart = new cart();
+            System.out.println("#### " + RestaurantName +"'s Menu ###");
+            menu.displayMenu(RestaurantName);
+
+            // User interaction
+            System.out.print("Enter the item number to add to the cart (0 to finish): ");
+            int choice;
+            while ((choice = scanner.nextInt()) != 0) {
+                if (choice > 0 && choice <= menu.getMenuSize()) {
+                    orderCart.addItem(menu.getMenuItem(choice - 1));
+                } else {
+                    System.out.println("Invalid choice. Try again.");
+                }
+                System.out.print("Enter the item number to add to the cart (0 to finish): ");
+            }
+
+            // Display the order
+            orderCart.displayCart();
+            System.out.println("Total: $" + orderCart.calculateTotal());
+
+
+            //orderProcessing();
+            //paymentProcessing();
+            //orderTracking();
+            //reviewProcessing();
 
 //}
         }
