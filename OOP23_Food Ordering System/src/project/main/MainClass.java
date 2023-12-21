@@ -1,5 +1,6 @@
 package project.main;
 import project.cart.cart;
+import project.payment.Payment;
 import project.restaurant.Restaurant;
 
 import project.restaurant.restaurantRegistration;
@@ -175,6 +176,7 @@ public class MainClass
             //reviewProcessing();
 
 //}
+            menu.writeMenuDataFile();
         }
         else
         {
