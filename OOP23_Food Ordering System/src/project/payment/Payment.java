@@ -114,6 +114,8 @@ public class Payment {
     }
 
 }
+/*
         System.out.println("Payment Method: " + payment.getPaymentMethod());
     }
 }
+*/

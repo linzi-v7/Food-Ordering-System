@@ -110,7 +110,7 @@ public class MainClass
             System.out.println("\n\t\tWelcome " + loggedInUser.getName() + "!");
 
             //Display and search restaurant
-            /*
+
             System.out.println("select what you want to do and enter the number of the operation that you want.");
             System.out.println("to display all restaurants enter: 1");
             System.out.println("to search for a specific restaurant enter: 2");
@@ -140,10 +140,10 @@ public class MainClass
             System.out.println("enter the number of the restaurant that you want");
             ChosenRestaurant = scanner.nextInt();
 
-             */
-           // String RestaurantName = restaurant.getRestaurants().get(ChosenRestaurant-1).get(0);
 
-            String RestaurantName = "mac";
+            String RestaurantName = restaurant.getRestaurants().get(ChosenRestaurant-1).get(0);
+
+
 
             //display the menu of selected restaurant
             Menu menu = new Menu();
