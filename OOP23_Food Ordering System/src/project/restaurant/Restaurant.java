@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
-
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 public class Restaurant {
     public String restaurantName;
     public String restaurantAddress;
@@ -29,7 +31,7 @@ public class Restaurant {
 
     public void loadRestaurantsFromFile(String filepath) {
         try {
-            Scanner fileScanner = new Scanner(new File(filepath));
+            Scanner fileScanner = new Scanner(new File("restaurants.txt"));
 
             while (fileScanner.hasNextLine()) {
                 String line = fileScanner.nextLine();
@@ -50,6 +52,23 @@ public class Restaurant {
             System.out.println("Error parsing price: " + e.getMessage());
         }
 
+    }
+
+    public void RestaurantSaveToFiles(ArrayList<ArrayList<String>> restaurants)
+    {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("restaurants.txt"))) {
+            for (ArrayList<String> row : restaurants) {
+                // Join elements of the row into a single string, separated by commas
+                String line = String.join(",", row);
+                // Write the line to the file
+                writer.write(line);
+                // Write a newline character to separate rows
+                writer.newLine();
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void addRestaurantDetails(String restaurantName, String restaurantContact, String restaurantAddress, String restaurantEmail, String restaurantPassword) {
