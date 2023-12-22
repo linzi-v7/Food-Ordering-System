@@ -23,14 +23,15 @@ public class MainClass
         Restaurant restaurant = new Restaurant();
         restaurant.loadRestaurantsFromFile();
 
+        String isUserCheck;
+
         do
         {
             System.out.println("\t####### Food Ordering System #######\n");
             System.out.println("\t\t\t\t Welcome!\n");
             System.out.println("Do you already have an account? Enter Yes or No\n" +
                     "Type exit to close program.");
-
-            String isUserCheck = scanner.nextLine();
+            isUserCheck = scanner.nextLine();
 
             if (isUserCheck.equalsIgnoreCase("yes")
                     || isUserCheck.equalsIgnoreCase("y"))
@@ -55,20 +56,19 @@ public class MainClass
                 while (repeat){
                     System.out.println("to register as  new user enter: 1\n" +
                             "to register as a new restaurant enter 2 ");
-                    if (scanner.hasNextInt())
+                    if (scanner.hasNextLine())
                     {
-                decision = scanner.nextInt();
+                decision = Integer.parseInt(scanner.nextLine());
 
                 switch (decision) {
 
                     case 2:
 
                         restaurantRegistration.registerRestaurant(restaurant);
-repeat = false;
+                        repeat = false;
                         break;
                     case 1:
-                        //   UserManagementSystem.registerUser(1);
-                        userLaunchProgram("pierre", restaurant);
+                          UserManagementSystem.registerUser(1);
                         repeat = false;
                         break;
 
@@ -78,7 +78,7 @@ repeat = false;
                 }
                     } else {
                         System.out.println("Invalid input. Please enter a number from the choices");
-scanner.next();
+                        scanner.nextLine();
 
                     }
             }
@@ -86,8 +86,7 @@ scanner.next();
             else if(isUserCheck.equalsIgnoreCase("exit"))
             {
                 System.exit(0);
-            }
-            else
+            }else
             {
                 System.out.println("Invalid Input");
             }
@@ -191,12 +190,14 @@ scanner.next();
             orderCart.displayCart();
             System.out.println("Total: $" + orderCart.calculateTotal());
 
+            if(orderCart.getCartSize()>0) {
 
-            //orderProcessing();
-            PaymentTest();
-            //orderTracking();
-            //reviewProcessing();
 
+                //orderProcessing();
+                PaymentTest();
+                //orderTracking();
+                //reviewProcessing();
+            }
 //}
         }
         else

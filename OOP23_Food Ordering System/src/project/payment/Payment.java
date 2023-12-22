@@ -66,37 +66,64 @@ public class Payment {
     }
 
     private void cash() {
-        System.out.println("Enter the amount of cash you want to pay:");
-        Scanner scanner = new Scanner(System.in);
-        int amount = scanner.nextInt();
-
-        if (amount > 0) {
-            System.out.println("Thanks for using our cash services.");
-            setPaymentStatus("Paid");
-        } else {
-            System.out.println("Invalid amount. Please enter a valid amount.");
-        }
+        System.out.println("Thanks for using our cash services.");
+        setPaymentStatus("Paid");
+        setPaymentMethod("Cash");
     }
 
     private void visa() {
         System.out.println("Enter your Visa details:");
+
         Scanner scanner = new Scanner(System.in);
-        String cardNumber = scanner.next();
-        while (cardNumber.length() != 16) {
-            System.out.print("Enter the 16-digit Card Number: ");
-            cardNumber = scanner.next();
-        }
-        System.out.print("Card Holder Name: ");
-        String cardHolderName = scanner.next();
-        System.out.print("CVV: ");
-        String cvv = scanner.next();
-        while (cvv.length() != 3) {
-            System.out.print("Enter the 3-digit CVV: ");
-            cvv = scanner.next();
+
+        // Card number validation (length and digits only)
+        long cardNumber = 0;
+        while (true) {
+            System.out.print("Enter the 16-digit Card Number (only digits allowed): ");
+            String cardNumberStr = scanner.next();
+
+            if (cardNumberStr.matches("^[0-9]{16}$")) {
+                cardNumber = Long.parseLong(cardNumberStr);
+                break; // Valid card number format
+            } else {
+                System.out.println("Invalid input. Please enter a 16-digit number.");
+            }
         }
 
-        System.out.println("Payment successful. Thank you!");
+        scanner.nextLine(); // Consume the newline character
+
+        // Cardholder name validation
+        String cardHolderName;
+        while (true) {
+            System.out.print("Card Holder Name (letters and spaces only): ");
+            cardHolderName = scanner.nextLine().trim(); // Handle spaces in name
+            if (cardHolderName.matches("^[a-zA-Z ]+$")) {
+                break; // Valid name format
+            } else {
+                System.out.println("Invalid name format. Please use letters and spaces only.");
+            }
+        }
+
+        // CVV input with validation loop
+        String cvv;
+        while (true) {
+            System.out.print("CVV (3 digits only): ");
+            cvv = scanner.next();
+
+            if (cvv.matches("^[0-9]{3}$")) {
+                break; // Valid CVV format
+            } else {
+                System.out.println("Invalid CVV. Please enter a 3-digit number.");
+            }
+        }
+
+        // Set payment status and method directly
         setPaymentStatus("Paid");
+        setPaymentMethod("Visa");
+
+        // ... (rest of your payment processing logic)
+
+        System.out.println("Payment successful. Thank you!");
     }
 
     private void wallet() {
@@ -104,18 +131,40 @@ public class Payment {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Wallet Owner: ");
         String walletOwner = scanner.next();
-        System.out.print("Password: ");
-        String password = scanner.next();
+
+        // Wallet password validation
+        String password;
+        while (true) {
+            System.out.print("Password (at least 8 characters with at least one capital letter and one number): ");
+            password = scanner.next();
+
+            if (password.length() >= 8 && password.matches(".*[A-Z].*") && password.matches(".*\\d.*")) {
+                break;  // Valid password format
+            } else {
+                System.out.println("Invalid password. Please meet the specified criteria.");
+            }
+        }
 
         // Implement actual logic to process wallet details securely
 
-        System.out.println("Payment successful. Thank you!");
+        // Set payment status and method directly
         setPaymentStatus("Paid");
+        setPaymentMethod("Digital Wallet");
+
+        System.out.println("Payment successful. Thank you!");
     }
 
-}
-/*
+
+    public static void main(String[] args) {
+        // Creating a Payment object with initial details
+        Payment payment = new Payment(123456, "Pending", "");
+
+        // Testing payment processing
+        payment.paymentProcess();
+
+        // Displaying the updated payment details
+        System.out.println("Transaction ID: " + payment.getTransactionId());
+        System.out.println("Payment Status: " + payment.getPaymentStatus());
         System.out.println("Payment Method: " + payment.getPaymentMethod());
     }
 }
-*/
