@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
 
-public class Order {
+public class Order implements OrderManagement {
     private String username;
     private List<String> items;
     private String status;

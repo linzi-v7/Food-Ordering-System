@@ -32,16 +32,11 @@ public interface RestaurantPermissions
         menu.writeMenuDataFile();
     }
 
-    default void removeDishFromMenu(Restaurant restaurant)
-    {
-        // restuarant.menu.removeDish();
-    }
-
 
     default void viewOrders()
     {
-        Order order = new Order("username");
-        order.viewOrder();
+        Order order = new Order("name");
+        order.viewOrders();
     }
 
 
