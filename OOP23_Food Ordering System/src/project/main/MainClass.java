@@ -1,6 +1,5 @@
 package project.main;
 import project.cart.cart;
-import project.payment.Payment;
 import project.restaurant.Restaurant;
 
 import project.restaurant.restaurantRegistration;
@@ -9,7 +8,6 @@ import project.review.review;
 import project.user.User;
 import project.user.UserManagementSystem;
 import project.menu.*;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -22,7 +20,9 @@ public class MainClass
         Scanner scanner = new Scanner(System.in);
         String userEmail = null;
         Restaurant restaurant = new Restaurant();
-        restaurant.loadRestaurantsFromFile("restaurant.txt");
+        restaurant.loadRestaurantsFromFile("\"C:\\Users\\Omar Fakharany\\IdeaProjects\\restaurant\\restaurants.txt\"");
+restaurant.addRestaurantDetails("pierre","p","p","p","p");
+        restaurant.addRestaurantDetails("petra","p","p","eno","p");
         do
         {
             System.out.println("\t####### Food Ordering System #######\n");
@@ -50,25 +50,38 @@ public class MainClass
 
             } else if (isUserCheck.equalsIgnoreCase("no")
                     || isUserCheck.equalsIgnoreCase("n")) {
-                int decision ;
+                int decision;
+                boolean repeat = true;
+                while (repeat){
+                    System.out.println("to register as  new user enter: 1\n" +
+                            "to register as a new restaurant enter 2 ");
+                    if (scanner.hasNextInt())
+                    {
+                decision = scanner.nextInt();
 
-                System.out.println("to register as  new user enter: 1\n" +
-                        "to register as a new restaurant enter 2 ");
-                decision= scanner.nextInt();
-                switch (decision)
-                {
+                switch (decision) {
+
                     case 2:
 
                         restaurantRegistration.registerRestaurant(restaurant);
+repeat = false;
                         break;
                     case 1:
-                        UserManagementSystem.registerUser(1);
-
+                        //   UserManagementSystem.registerUser(1);
+                        userLaunchProgram("pierre", restaurant);
+                        repeat = false;
                         break;
 
                     default:
                         System.out.println("please enter a correct number");
+
                 }
+                    } else {
+                        System.out.println("Invalid input. Please enter a number from the choices");
+scanner.next();
+
+                    }
+            }
             }
             else if(isUserCheck.equalsIgnoreCase("exit"))
             {
@@ -114,36 +127,46 @@ public class MainClass
             System.out.println("select what you want to do and enter the number of the operation that you want.");
             System.out.println("to display all restaurants enter: 1");
             System.out.println("to search for a specific restaurant enter: 2");
-//while(true) {
-            int decision = scanner.nextInt();
-            switch (decision) {
-                case 1:
-                    int counter = 0;
-                    for (ArrayList<String> restaurants : restaurant.getRestaurants()) {
-                        counter++;
-                        System.out.println(counter + "." + restaurants.get(0));
+            boolean repeat = true;
+            while (repeat) {
+                if (scanner.hasNextInt()) {
+                    int decision = scanner.nextInt();
+
+                    switch (decision) {
+                        case 1:
+                            int counter = 0;
+                            for (ArrayList<String> restaurants : restaurant.getRestaurants()) {
+                                counter++;
+                                System.out.println(counter + "." + restaurants.get(0));
+
+                            }
+
+
+                            break;
+
+                        case 2:
+                            restaurant.restaurantSearching(restaurant);
+
+                            break;
+
+                        default:
+                            System.out.println("choose a value that exists within the choices");
 
                     }
-
-
-                    break;
-
-                case 2:
-                    restaurant.restaurantSearching(restaurant);
-                    break;
-
-                default:
-                    System.out.println("choose a value that exists within the choices");
-
+                    repeat = false;
+                } else {
+                    System.out.println("Invalid input. Please enter a number from the choices");
+                    scanner.next();
+                }
             }
 
             System.out.println("enter the number of the restaurant that you want");
             ChosenRestaurant = scanner.nextInt();
 
 
-            String RestaurantName = restaurant.getRestaurants().get(ChosenRestaurant-1).get(0);
+             String RestaurantName = restaurant.getRestaurants().get(ChosenRestaurant-1).get(0);
 
-
+          //  String RestaurantName = "mac";
 
             //display the menu of selected restaurant
             Menu menu = new Menu();
@@ -176,27 +199,27 @@ public class MainClass
             //reviewProcessing();
 
 //}
-            menu.writeMenuDataFile();
         }
         else
         {
             System.out.println("USER DOESN'T EXIST!");
             System.exit(-1);
         }
+
     }
 
-public static void PaymentTest(String[] args) {
-        // Creating a Payment object with initial details
-        Payment payment = new Payment(123456, "Pending", "");
-
-        // Testing payment processing
-        payment.paymentProcess();
-
-        // Displaying the updated payment details
-        System.out.println("Transaction ID: " + payment.getTransactionId());
-        System.out.println("Payment Status: " + payment.getPaymentStatus());
-        System.out.println("Payment Method: " + payment.getPaymentMethod());
-    }
+//    public static void PaymentTest(String[] args) {
+//        // Creating a Payment object with initial details
+//        Payment payment = new Payment(123456, "Pending", "");
+//
+//        // Testing payment processing
+//        payment.paymentProcess();
+//
+//        // Displaying the updated payment details
+//        System.out.println("Transaction ID: " + payment.getTransactionId());
+//        System.out.println("Payment Status: " + payment.getPaymentStatus());
+//        System.out.println("Payment Method: " + payment.getPaymentMethod());
+//    }
     public static void mainreview(String[] args)
     {
 
