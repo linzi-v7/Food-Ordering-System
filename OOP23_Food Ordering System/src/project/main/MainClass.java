@@ -160,13 +160,22 @@ public class MainClass
                 }
             }
 
-            System.out.println("enter the number of the restaurant that you want");
-            ChosenRestaurant = scanner.nextInt();
 
+            String RestaurantName;
+            while(true)
+            {
+            try {
+                System.out.println("enter the number of the restaurant that you want");
+                ChosenRestaurant = scanner.nextInt();
+                RestaurantName = restaurant.getRestaurants().get(ChosenRestaurant - 1).get(0);
+                break;
+            }
+            catch(IndexOutOfBoundsException exp)
+                {
+                    System.out.println("Invalid Input! Try Again!");
 
-             String RestaurantName = restaurant.getRestaurants().get(ChosenRestaurant-1).get(0);
-
-
+                }
+            }
             //display the menu of selected restaurant
             Menu menu = new Menu();
             menu.readMenuDataFile(RestaurantName);
