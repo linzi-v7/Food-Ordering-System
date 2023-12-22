@@ -1,6 +1,5 @@
 package project.main;
 import project.cart.cart;
-import project.payment.Payment;
 import project.restaurant.Restaurant;
 
 import project.restaurant.restaurantRegistration;
@@ -21,8 +20,9 @@ public class MainClass
         Scanner scanner = new Scanner(System.in);
         String userEmail = null;
         Restaurant restaurant = new Restaurant();
-        restaurant.loadRestaurantsFromFile();
-
+        restaurant.loadRestaurantsFromFile("\"C:\\Users\\Omar Fakharany\\IdeaProjects\\restaurant\\restaurants.txt\"");
+restaurant.addRestaurantDetails("pierre","p","p","pierre105","p");
+        restaurant.addRestaurantDetails("petra","p","p","p","p");
         do
         {
             System.out.println("\t####### Food Ordering System #######\n");
@@ -69,7 +69,9 @@ repeat = false;
                     case 1:
                         //   UserManagementSystem.registerUser(1);
                         userLaunchProgram("pierre", restaurant);
-                        repeat = false;
+           //   restaurant.getRestaurantEmail("pierre_atef");
+                       // System.out.println(output);
+                 repeat = false;
                         break;
 
                     default:
@@ -100,7 +102,7 @@ scanner.next();
                 adminLaunchProgram();
                 break;
             case Role.RESTAURANT_IDENTIFIER:
-                restaurantLaunchProgram(userEmail);
+                //restaurantLaunchProgram(restaurant);
                 break;
             case Role.USER_IDENTIFIER:
                 userLaunchProgram(userEmail,restaurant);
@@ -140,23 +142,24 @@ scanner.next();
                                 System.out.println(counter + "." + restaurants.get(0));
 
                             }
-
+repeat=false;
 
                             break;
 
                         case 2:
-                            restaurant.restaurantSearching(restaurant);
-
+                   restaurant.restaurantSearching(restaurant);
+repeat=false;
                             break;
 
                         default:
                             System.out.println("choose a value that exists within the choices");
 
                     }
-                    repeat = false;
+
                 } else {
                     System.out.println("Invalid input. Please enter a number from the choices");
                     scanner.next();
+
                 }
             }
 
@@ -166,6 +169,7 @@ scanner.next();
 
              String RestaurantName = restaurant.getRestaurants().get(ChosenRestaurant-1).get(0);
 
+          //  String RestaurantName = "mac";
 
             //display the menu of selected restaurant
             Menu menu = new Menu();
@@ -193,7 +197,7 @@ scanner.next();
 
 
             //orderProcessing();
-            PaymentTest();
+            //paymentProcessing();
             //orderTracking();
             //reviewProcessing();
 
@@ -207,18 +211,18 @@ scanner.next();
 
     }
 
-    public static void PaymentTest() {
-        // Creating a Payment object with initial details
-        Payment payment = new Payment(123456, "Pending", "");
-
-        // Testing payment processing
-        payment.paymentProcess();
-
-        // Displaying the updated payment details
-        System.out.println("Transaction ID: " + payment.getTransactionId());
-        System.out.println("Payment Status: " + payment.getPaymentStatus());
-        System.out.println("Payment Method: " + payment.getPaymentMethod());
-    }
+//    public static void PaymentTest(String[] args) {
+//        // Creating a Payment object with initial details
+//        Payment payment = new Payment(123456, "Pending", "");
+//
+//        // Testing payment processing
+//        payment.paymentProcess();
+//
+//        // Displaying the updated payment details
+//        System.out.println("Transaction ID: " + payment.getTransactionId());
+//        System.out.println("Payment Status: " + payment.getPaymentStatus());
+//        System.out.println("Payment Method: " + payment.getPaymentMethod());
+//    }
     public static void mainreview(String[] args)
     {
 
@@ -255,16 +259,6 @@ scanner.next();
         sysAdmin.runDashboard();
     }
 
-    public static  void restaurantLaunchProgram(String restaurantEmail)
-    {
-        Restaurant loggedInRestaurant = new Restaurant();
-        loggedInRestaurant.loadRestaurantsFromFile();
-        loggedInRestaurant.getRestaurantEmail(restaurantEmail);
-
-        System.out.println("\t\t Welcome " + loggedInRestaurant.getRestaurantName() + "!");
-
-
-    }
 
 
 }
