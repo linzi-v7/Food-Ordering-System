@@ -6,3 +6,5 @@ mac,burger triple,30.0
 faris,burger triple,30.0
 faris,burger triple,30.0
 nader,burger triple,30.0
+mac,triple king burger,50.0
+faris,food,30.0

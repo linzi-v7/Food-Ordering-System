@@ -36,17 +36,10 @@ public class Dish
     @Override
     public boolean equals(Object obj) {
         Dish otherDish = (Dish) obj;
-        boolean equalName = (this.restaurantName == otherDish.restaurantName);
-        boolean equalItem = (this.dishName == otherDish.dishName);
+        boolean equalName = (this.restaurantName.equals(otherDish.restaurantName));
+        boolean equalItem = (this.dishName.equals(otherDish.dishName));
         boolean equalPrice = (this.price == otherDish.price);
 
-        if (equalName && equalItem && equalPrice)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return equalName && equalItem && equalPrice;
     }
 }

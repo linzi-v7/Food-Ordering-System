@@ -99,7 +99,7 @@ scanner.next();
                 adminLaunchProgram();
                 break;
             case Role.RESTAURANT_IDENTIFIER:
-               // restaurantLaunchProgram(userEmail);
+                restaurantLaunchProgram(userEmail);
                 break;
             case Role.USER_IDENTIFIER:
                 userLaunchProgram(userEmail,restaurant);
@@ -253,15 +253,17 @@ scanner.next();
 
         sysAdmin.runDashboard();
     }
-/*
+
     public static  void restaurantLaunchProgram(String restaurantEmail)
     {
-        //Restaurant loggedInRestaurant = getRestaurantByEmail(restaurantEmail)
+        Restaurant loggedInRestaurant = new Restaurant();
+        loggedInRestaurant.loadRestaurantsFromFile();
+        loggedInRestaurant.getRestaurantEmail(restaurantEmail);
 
         System.out.println("\t\t Welcome " + loggedInRestaurant.getRestaurantName() + "!");
 
 
     }
 
-*/
+
 }

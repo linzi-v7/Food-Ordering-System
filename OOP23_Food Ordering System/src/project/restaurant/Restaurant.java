@@ -60,9 +60,9 @@ public class Restaurant {
         return restaurantPassword;
     }
 
-    public void loadRestaurantsFromFile(String filepath) {
+    public void loadRestaurantsFromFile() {
         try {
-            Scanner fileScanner = new Scanner(new File("\"C:\\Users\\Omar Fakharany\\IdeaProjects\\restaurant\\restaurants.txt\""));
+            Scanner fileScanner = new Scanner(new File("restaurants.txt"));
 
             while (fileScanner.hasNextLine()) {
                 String line = fileScanner.nextLine();
@@ -86,7 +86,7 @@ public class Restaurant {
     }
 
     public void RestaurantSaveToFiles(ArrayList<ArrayList<String>> restaurants) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("\"C:\\Users\\Omar Fakharany\\IdeaProjects\\restaurant\\restaurants.txt\""))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("restaurants.txt"))) {
             for (ArrayList<String> row : restaurants) {
                 // Join elements of the row into a single string, separated by commas
                 String line = String.join(",", row);
@@ -187,9 +187,6 @@ public class Restaurant {
     public Restaurant getRestaurantEmail(String mail)
     {
 
-        Restaurant loggedInRestaurant = null;
-
-
        
         for (ArrayList<String> restaurants2 : restaurants) {
             if (restaurants2.size() >= 3 && restaurants2.get(3).equals(mail))
@@ -202,10 +199,10 @@ public class Restaurant {
                 String address = restaurants2.get(2);
                 String email = restaurants2.get(3);
                 String password = restaurants2.get(4);
-                 loggedInRestaurant = new Restaurant(name,address,phoneNumber,email,password);
+                 return new Restaurant(name,address,phoneNumber,email,password);
             }
         }
-            return loggedInRestaurant;
+            return null;
 
     }
 }

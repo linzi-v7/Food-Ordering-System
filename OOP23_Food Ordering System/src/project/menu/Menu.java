@@ -24,14 +24,24 @@ public class Menu {
     }
 
     public void addNewDish(String restaurantName, String dishName, Double price) {
-        Dish dish = new Dish(restaurantName, dishName, price);
-        int index = allMenus.indexOf(dish);
-           if(index != -1) {
-               newDishes.add(dish);
-            }else
+        Dish dishToAdd = new Dish(restaurantName, dishName, price);
+        boolean found = false;
+        for (Dish dish:allMenus)
+        {
+            if(dishToAdd.equals(dish))
             {
-                System.out.println("Dish Already Exists");
+                found = true;
             }
+        }
+
+        if(!found)
+        {
+            newDishes.add(dishToAdd);
+        }
+        else
+        {
+            System.out.println("DISH ALREADY EXISTS!");
+        }
     }
 
     public  void readMenuDataFile(String rName)

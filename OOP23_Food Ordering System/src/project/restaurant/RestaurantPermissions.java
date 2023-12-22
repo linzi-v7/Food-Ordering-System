@@ -2,38 +2,48 @@ package project.restaurant;
 
 
 import project.menu.Dish;
+import project.menu.Menu;
 import project.order.Order;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.random.*;
 
 public interface RestaurantPermissions
 {
-    default void addDishToMenu(Dish dish)
+    default void addDishToMenuPage(Restaurant restaurant)
     {
-        try (PrintWriter writer = new PrintWriter((new FileWriter("menus.txt")))) {
-                writer.write(dish.getRestaurantName() + "," + dish.getDishName()
-                        + "," + dish.getPrice() + "\n");
-        } catch (IOException exp) {
-            System.out.println(exp.getMessage());
-        }    }
+        Menu menu = new Menu();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("\t\t### Restaurant Add Dish To Menu Page ###\n");
+
+        menu.readMenuDataFile(restaurant.getRestaurantName());
+
+        System.out.print("Enter Dish Name: ");
+        String dishName = scanner.nextLine();
+
+        System.out.print("Enter Dish Price: ");
+        Double dishPrice = Double.parseDouble(scanner.nextLine());
+
+        menu.addNewDish(restaurant.getRestaurantName(),dishName,dishPrice);
+        menu.writeMenuDataFile();
+    }
 
     default void removeDishFromMenu(Restaurant restaurant)
     {
         // restuarant.menu.removeDish();
     }
 
+
     default void viewOrders()
     {
+        Order order = new Order("username");
+        order.viewOrder();
     }
 
-    default void updateDishPrice(Restaurant restaurant)
-    {
-        //restaurant.menu.updateDish();
-    }
 
     //view profit,etc...
     default void generateBusinessReport(Restaurant restaurant)

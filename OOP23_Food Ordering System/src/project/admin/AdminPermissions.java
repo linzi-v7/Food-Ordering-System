@@ -22,9 +22,9 @@ public interface AdminPermissions extends RestaurantPermissions
 
     default void addRestaurant(Restaurant restaurant)
     {
-        restaurant.addRestaurantDetails(restaurant.restaurantName,
-                restaurant.restaurantContact, restaurant.restaurantAddress,
-                restaurant.restaurantEmail, restaurant.restaurantPassword);
+        restaurant.addRestaurantDetails(restaurant.getRestaurantName(),
+                restaurant.getRestaurantContact(), restaurant.getRestaurantAddress(),
+                restaurant.getRestaurantEmail(), restaurant.getRestaurantPassword());
 
     }
 
