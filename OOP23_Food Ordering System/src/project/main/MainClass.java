@@ -1,5 +1,6 @@
 package project.main;
 import project.cart.cart;
+import project.payment.Payment;
 import project.restaurant.Restaurant;
 
 import project.restaurant.restaurantRegistration;
@@ -192,7 +193,7 @@ scanner.next();
 
 
             //orderProcessing();
-            //paymentProcessing();
+            PaymentTest();
             //orderTracking();
             //reviewProcessing();
 
@@ -206,18 +207,18 @@ scanner.next();
 
     }
 
-//    public static void PaymentTest(String[] args) {
-//        // Creating a Payment object with initial details
-//        Payment payment = new Payment(123456, "Pending", "");
-//
-//        // Testing payment processing
-//        payment.paymentProcess();
-//
-//        // Displaying the updated payment details
-//        System.out.println("Transaction ID: " + payment.getTransactionId());
-//        System.out.println("Payment Status: " + payment.getPaymentStatus());
-//        System.out.println("Payment Method: " + payment.getPaymentMethod());
-//    }
+    public static void PaymentTest() {
+        // Creating a Payment object with initial details
+        Payment payment = new Payment(123456, "Pending", "");
+
+        // Testing payment processing
+        payment.paymentProcess();
+
+        // Displaying the updated payment details
+        System.out.println("Transaction ID: " + payment.getTransactionId());
+        System.out.println("Payment Status: " + payment.getPaymentStatus());
+        System.out.println("Payment Method: " + payment.getPaymentMethod());
+    }
     public static void mainreview(String[] args)
     {
 
