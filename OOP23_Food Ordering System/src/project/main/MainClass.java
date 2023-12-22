@@ -1,5 +1,6 @@
 package project.main;
 import project.cart.cart;
+import project.payment.Payment;
 import project.restaurant.Restaurant;
 
 import project.restaurant.restaurantRegistration;
@@ -20,17 +21,17 @@ public class MainClass
         Scanner scanner = new Scanner(System.in);
         String userEmail = null;
         Restaurant restaurant = new Restaurant();
-        restaurant.loadRestaurantsFromFile("\"C:\\Users\\Omar Fakharany\\IdeaProjects\\restaurant\\restaurants.txt\"");
-restaurant.addRestaurantDetails("pierre","p","p","pierre105","p");
-        restaurant.addRestaurantDetails("petra","p","p","p","p");
+        restaurant.loadRestaurantsFromFile();
+
+        String isUserCheck;
+
         do
         {
             System.out.println("\t####### Food Ordering System #######\n");
             System.out.println("\t\t\t\t Welcome!\n");
             System.out.println("Do you already have an account? Enter Yes or No\n" +
                     "Type exit to close program.");
-
-            String isUserCheck = scanner.nextLine();
+            isUserCheck = scanner.nextLine();
 
             if (isUserCheck.equalsIgnoreCase("yes")
                     || isUserCheck.equalsIgnoreCase("y"))
@@ -55,23 +56,20 @@ restaurant.addRestaurantDetails("pierre","p","p","pierre105","p");
                 while (repeat){
                     System.out.println("to register as  new user enter: 1\n" +
                             "to register as a new restaurant enter 2 ");
-                    if (scanner.hasNextInt())
+                    if (scanner.hasNextLine())
                     {
-                decision = scanner.nextInt();
+                decision = Integer.parseInt(scanner.nextLine());
 
                 switch (decision) {
 
                     case 2:
 
                         restaurantRegistration.registerRestaurant(restaurant);
-repeat = false;
+                        repeat = false;
                         break;
                     case 1:
-                        //   UserManagementSystem.registerUser(1);
-                        userLaunchProgram("pierre", restaurant);
-           //   restaurant.getRestaurantEmail("pierre_atef");
-                       // System.out.println(output);
-                 repeat = false;
+                          UserManagementSystem.registerUser(1);
+                        repeat = false;
                         break;
 
                     default:
@@ -80,7 +78,7 @@ repeat = false;
                 }
                     } else {
                         System.out.println("Invalid input. Please enter a number from the choices");
-scanner.next();
+                        scanner.nextLine();
 
                     }
             }
@@ -88,8 +86,7 @@ scanner.next();
             else if(isUserCheck.equalsIgnoreCase("exit"))
             {
                 System.exit(0);
-            }
-            else
+            }else
             {
                 System.out.println("Invalid Input");
             }
@@ -102,7 +99,7 @@ scanner.next();
                 adminLaunchProgram();
                 break;
             case Role.RESTAURANT_IDENTIFIER:
-                //restaurantLaunchProgram(restaurant);
+                restaurantLaunchProgram(userEmail);
                 break;
             case Role.USER_IDENTIFIER:
                 userLaunchProgram(userEmail,restaurant);
@@ -142,13 +139,13 @@ scanner.next();
                                 System.out.println(counter + "." + restaurants.get(0));
 
                             }
-repeat=false;
+                            repeat=false;
 
                             break;
 
                         case 2:
-                   restaurant.restaurantSearching(restaurant);
-repeat=false;
+                            restaurant.restaurantSearching(restaurant);
+                            repeat=false;
                             break;
 
                         default:
@@ -169,7 +166,6 @@ repeat=false;
 
              String RestaurantName = restaurant.getRestaurants().get(ChosenRestaurant-1).get(0);
 
-          //  String RestaurantName = "mac";
 
             //display the menu of selected restaurant
             Menu menu = new Menu();
@@ -195,12 +191,14 @@ repeat=false;
             orderCart.displayCart();
             System.out.println("Total: $" + orderCart.calculateTotal());
 
+            if(orderCart.getCartSize()>0) {
 
-            //orderProcessing();
-            //paymentProcessing();
-            //orderTracking();
-            //reviewProcessing();
 
+                //orderProcessing();
+                PaymentTest();
+                //orderTracking();
+                //reviewProcessing();
+            }
 //}
         }
         else
@@ -211,18 +209,18 @@ repeat=false;
 
     }
 
-//    public static void PaymentTest(String[] args) {
-//        // Creating a Payment object with initial details
-//        Payment payment = new Payment(123456, "Pending", "");
-//
-//        // Testing payment processing
-//        payment.paymentProcess();
-//
-//        // Displaying the updated payment details
-//        System.out.println("Transaction ID: " + payment.getTransactionId());
-//        System.out.println("Payment Status: " + payment.getPaymentStatus());
-//        System.out.println("Payment Method: " + payment.getPaymentMethod());
-//    }
+    public static void PaymentTest() {
+        // Creating a Payment object with initial details
+        Payment payment = new Payment(123456, "Pending", "");
+
+        // Testing payment processing
+        payment.paymentProcess();
+
+        // Displaying the updated payment details
+        System.out.println("Transaction ID: " + payment.getTransactionId());
+        System.out.println("Payment Status: " + payment.getPaymentStatus());
+        System.out.println("Payment Method: " + payment.getPaymentMethod());
+    }
     public static void mainreview(String[] args)
     {
 
@@ -259,6 +257,16 @@ repeat=false;
         sysAdmin.runDashboard();
     }
 
+    public static  void restaurantLaunchProgram(String restaurantEmail)
+    {
+        Restaurant loggedInRestaurant = new Restaurant();
+        loggedInRestaurant.loadRestaurantsFromFile();
+        loggedInRestaurant.getRestaurantEmail(restaurantEmail);
+
+        System.out.println("\t\t Welcome " + loggedInRestaurant.getRestaurantName() + "!");
+
+
+    }
 
 
 }

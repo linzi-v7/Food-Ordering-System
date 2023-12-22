@@ -26,11 +26,17 @@ public class cart {
     }
 
     // Display items in the cart
-    public void displayCart() {
+    public void displayCart()
+    {
         System.out.println("Items in the cart:");
         for (Dish item : cart) {
             System.out.println(item.getDishName() + " - $" + item.getPrice());
         }
+
+    }
+
+    public int getCartSize() {
+        return cart.size();
     }
 }
 
