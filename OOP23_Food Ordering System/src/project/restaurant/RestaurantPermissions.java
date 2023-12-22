@@ -6,6 +6,8 @@ import project.menu.Dish;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Random;
+import java.util.random.*;
 
 public interface RestaurantPermissions
 {
@@ -36,9 +38,11 @@ public interface RestaurantPermissions
     //view profit,etc...
     default void generateBusinessReport(Restaurant restaurant)
     {
+        Random rand = new Random();
+        System.out.println("\t\t#### BUSINESS REPORT ####");
         System.out.println("Business Report For " + restaurant.getRestaurantName());
-        System.out.println("Users served: 500");
-        System.out.println("Revenue for the day: 1000$");
+        System.out.println("Users served: " + rand.nextInt(5000));
+        System.out.println("Revenue for the day: " + rand.nextInt(10000) + "$");
         System.out.println("Restaurant Performance: GREAT");
     }
 
