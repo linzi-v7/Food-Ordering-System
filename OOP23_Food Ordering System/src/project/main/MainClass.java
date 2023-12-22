@@ -170,7 +170,20 @@ public class MainClass
 
 
             //orderProcessing();
-            //paymentProcessing();
+            
+            public static void PaymentTest(String[] args) {
+        // Creating a Payment object with initial details
+        Payment payment = new Payment(123456, "Pending", "");
+
+        // Testing payment processing
+        payment.paymentProcess();
+
+        // Displaying the updated payment details
+        System.out.println("Transaction ID: " + payment.getTransactionId());
+        System.out.println("Payment Status: " + payment.getPaymentStatus());
+        System.out.println("Payment Method: " + payment.getPaymentMethod());
+        }
+           
             //orderTracking();
             //reviewProcessing();
 
@@ -183,18 +196,7 @@ public class MainClass
         }
     }
 
-public static void PaymentTest(String[] args) {
-        // Creating a Payment object with initial details
-        Payment payment = new Payment(123456, "Pending", "");
 
-        // Testing payment processing
-        payment.paymentProcess();
-
-        // Displaying the updated payment details
-        System.out.println("Transaction ID: " + payment.getTransactionId());
-        System.out.println("Payment Status: " + payment.getPaymentStatus());
-        System.out.println("Payment Method: " + payment.getPaymentMethod());
-    }
     public static void mainreview(String[] args)
     {
 
