@@ -14,7 +14,7 @@ public class restaurantRegistration {
         while (true) {
             System.out.print("Enter restaurant name: ");
             restaurant.restaurantName = scanner.nextLine();
-            System.out.print("do you want to change the restaurant name ");
+            System.out.print("do you want to change the restaurant name? if not enter any key");
             String decision = scanner.nextLine().toLowerCase();
 
             if (!decision.equals("yes")) break;
@@ -47,7 +47,7 @@ public class restaurantRegistration {
 
             }
             //checks length of the number
-            System.out.print("do you want to change the phone number?");
+            System.out.print("do you want to change the phone number? if not enter any key");
             String decision = scanner.nextLine().toLowerCase();
 
             if (!decision.equals("yes")) break;
@@ -61,7 +61,7 @@ public class restaurantRegistration {
 
             System.out.println("Enter restaurant address: ");
             restaurant.restaurantAddress = scanner.nextLine();
-            System.out.print("do you want to change the restaurant address ?");
+            System.out.print("do you want to change the restaurant address? if not enter any key");
             String decision = scanner.nextLine().toLowerCase();
             if (!decision.equals("yes")) break;
         }
@@ -71,12 +71,12 @@ public class restaurantRegistration {
             boolean notUniqueEmail;
             System.out.println("Enter restaurant Email ");
             restaurant.restaurantEmail = scanner.nextLine();
-            System.out.println("do you want to change the Email ");
+            System.out.println("do you want to change the Email? if not enter any key");
             String decision = scanner.nextLine().toLowerCase();
-            notUniqueEmail = restaurant.compareEmail(restaurant.restaurantEmail);
-            if(notUniqueEmail) {
-                System.out.println("this Email is already being used please enter an email that was never used here before");
-            } else if (!decision.equals("yes")) break;
+notUniqueEmail = restaurant.compareEmail(restaurant.restaurantEmail);
+if(notUniqueEmail) {
+   System.out.println("this Email is already being used please enter an email that was never used here before");
+} else if (!decision.equals("yes")) break;
 
         }
         //enters the email of the restaurant and checks if he wants to enter it again
@@ -84,7 +84,7 @@ public class restaurantRegistration {
 
             System.out.print("Enter restaurant password ");
             restaurant.restaurantPassword = scanner.next();
-            System.out.print("do you want to change the password ");
+            System.out.print("do you want to change the password? if not enter any key ");
             String decision = scanner.next().toLowerCase();
 
             if (!decision.equals("yes")) break;
@@ -92,7 +92,6 @@ public class restaurantRegistration {
         }
 
         restaurant.addRestaurantDetails(restaurant.restaurantName, restaurant.restaurantContact, restaurant.restaurantAddress, restaurant.restaurantEmail, restaurant.restaurantPassword);
-        restaurant.RestaurantSaveToFiles(restaurant.getRestaurants());
 
     }
 
