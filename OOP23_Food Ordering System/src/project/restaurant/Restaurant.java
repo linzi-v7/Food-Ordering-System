@@ -44,6 +44,22 @@ public class Restaurant {
         return restaurantName;
     }
 
+    public String getRestaurantAddress() {
+        return restaurantAddress;
+    }
+
+    public String getRestaurantContact() {
+        return restaurantContact;
+    }
+
+    public String getRestaurantEmail() {
+        return restaurantEmail;
+    }
+
+    public String getRestaurantPassword() {
+        return restaurantPassword;
+    }
+
     public void loadRestaurantsFromFile(String filepath) {
         try {
             Scanner fileScanner = new Scanner(new File("\"C:\\Users\\Omar Fakharany\\IdeaProjects\\restaurant\\restaurants.txt\""));
@@ -168,9 +184,10 @@ public class Restaurant {
         return false;
     }
 
-    public String getRestaurantEmail(String mail)
+    public Restaurant getRestaurantEmail(String mail)
     {
 
+        Restaurant loggedInRestaurant = null;
 
 
        
@@ -185,10 +202,10 @@ public class Restaurant {
                 String address = restaurants2.get(2);
                 String email = restaurants2.get(3);
                 String password = restaurants2.get(4);
-                 
+                 loggedInRestaurant = new Restaurant(name,address,phoneNumber,email,password);
             }
         }
-            return null;
+            return loggedInRestaurant;
 
     }
 }
