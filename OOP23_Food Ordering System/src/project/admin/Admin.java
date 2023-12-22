@@ -14,11 +14,12 @@ public class Admin extends User implements AdminPermissions, InputChecks, Restau
 
     public Admin()
     {
-        super("System Administrator", "admin@gmail.com", "admin123", "HQ","123456789");
+        super("System Administrator", "admin", "admin123", "HQ","123456789");
     }
 
     public void runDashboard()
     {
+
         Scanner scanner = new Scanner(System.in);
         String exitCheck;
         do {
@@ -29,10 +30,10 @@ public class Admin extends User implements AdminPermissions, InputChecks, Restau
             System.out.println("\t\tSYSTEM HEALTH: GREAT\n"); //for realism only
 
             System.out.println("Options:\n0.Exit\n1.Add User\n2.Remove User\n" +
-                    "3.Add Restaurant\n4.Remove Restaurant\n5.Add Dish To Menu\n" +
-                    "6.Remove Dish From Menu\n7.Update Dish Price" +
-                    "\n8.View Pending Orders Of Specific Restaurant" +
-                    "\n9.Generate Business Report For Restaurant");
+                    "3.Add Restaurant\n4.Add Dish To Menu\n" +
+                    "5.Remove Dish From Menu"+
+                    "\n6.View Pending Orders" +
+                    "\n7.Generate Business Report For Restaurant");
 
 
             int choice;
@@ -40,15 +41,15 @@ public class Admin extends User implements AdminPermissions, InputChecks, Restau
 
                 try {
                     choice = Integer.parseInt(scanner.nextLine());
-                    if (choice < 0 || choice > 9) {
-                        System.out.println("Invalid choice. Please enter a number between 0 and 9.");
+                    if (choice < 0 || choice > 7) {
+                        System.out.println("Invalid choice. Please enter a number between 0 and 7.");
                     }
                 } catch (NumberFormatException exp) {
                     System.out.println("Invalid input. Please enter a valid number." +
                             " To exit type 0.");
                     choice = -1; // Set choice to an invalid value to trigger the loop again
                 }
-            }while((choice < 0 || choice > 9));
+            }while((choice < 0 || choice > 7));
 
 
             switch (choice) {
@@ -62,9 +63,16 @@ public class Admin extends User implements AdminPermissions, InputChecks, Restau
                 case 2:
                     removeUserPage();
                     break;
-                case 9:
-                    Restaurant restaurant = new Restaurant();
-                    generateBusinessReport(restaurant);
+                case 3:
+                    addRestaurantPage();
+                    break;
+                case 4:
+                    break;
+                case 7:
+                    System.out.print("Enter Restaurant Name: ");
+                    String restaurantName = scanner.nextLine();
+                    Restaurant restaurantReport = new Restaurant(restaurantName);
+                    generateBusinessReport(restaurantReport);
             }
             System.out.println("Would you like to exit program? (Y/N)");
             exitCheck = scanner.nextLine();
@@ -83,8 +91,38 @@ public class Admin extends User implements AdminPermissions, InputChecks, Restau
         System.out.print("Enter User's Email To Be Removed: ");
         String emailToRemove = scanner.nextLine();
 
-        removeUser(emailToRemove);
-        System.out.println("USER REMOVED SUCCESSFULLY!");
+        if (removeUser(emailToRemove))
+        {
+            System.out.println("USER REMOVED SUCCESSFULLY!");
+        }
+    }
+
+    void addRestaurantPage()
+    {
+
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("\t\t### Admin Restaurant Registration Page ###\n");
+
+        System.out.print("Enter Restaurant Name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter Restaurant Address: ");
+        String address = scanner.nextLine();
+
+        System.out.print("Enter Restaurant Contact: ");
+        String contact = scanner.nextLine();
+
+        System.out.print("Enter Restaurant Email: ");
+        String email = scanner.nextLine();
+
+        System.out.print("Enter Restaurant Password: ");
+        String password = scanner.nextLine();
+
+        Restaurant restaurant = new Restaurant(name,address,contact,email,password);
+        restaurant.loadRestaurantsFromFile();
+        addRestaurant(restaurant);
+        restaurant.RestaurantSaveToFiles(restaurant.getRestaurants());
+
 
     }
 

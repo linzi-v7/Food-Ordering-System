@@ -21,6 +21,21 @@ public class Restaurant {
 
     }
 
+    public Restaurant(String restaurantName)
+    {
+        this.restaurants = new ArrayList<>();
+        this.restaurantName = restaurantName;
+    }
+
+    public Restaurant(String restaurantName, String restaurantAddress, String restaurantContact, String restaurantEmail, String restaurantPassword) {
+        this.restaurantName = restaurantName;
+        this.restaurantAddress = restaurantAddress;
+        this.restaurantContact = restaurantContact;
+        this.restaurantEmail = restaurantEmail;
+        this.restaurantPassword = restaurantPassword;
+        this.restaurants = new ArrayList<>();
+    }
+
     public ArrayList<ArrayList<String>> getRestaurants() {
         return restaurants;
     }

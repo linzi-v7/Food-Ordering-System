@@ -6,12 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="d01ccfb9-7a84-48ab-a02f-25d9b8755d94" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/project/cart/carttest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/admin/AdminPermissions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/admin/AdminPermissions.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/project/main/MainClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/main/MainClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/project/menu/menutest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/project/restaurant/Restaurant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/restaurant/Restaurant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/project/restaurant/restaurantRegistration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/restaurant/restaurantRegistration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/project/user/UserManagementSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/user/UserManagementSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/restaurant/RestaurantPermissions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/restaurant/RestaurantPermissions.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

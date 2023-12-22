@@ -342,7 +342,7 @@ public class UserManagementSystem implements InputChecks
      * removes user, typically used by System Administrator
      * @param userEmailToRemove email of user to be removed
      */
-    public static void removeUser(String userEmailToRemove)
+    public static boolean removeUser(String userEmailToRemove)
     {
         //check if user exists and remove from arrayList
         boolean userFound = false;
@@ -378,7 +378,7 @@ public class UserManagementSystem implements InputChecks
             System.out.println("User Doesn't Exist!");
         }
 
-
+        return userFound;
     }
 
 

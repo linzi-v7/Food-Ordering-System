@@ -1,5 +1,6 @@
 package project.admin;
 
+import project.restaurant.Restaurant;
 import project.restaurant.RestaurantPermissions;
 import project.user.UserManagementSystem;
 import project.user.User;
@@ -14,20 +15,17 @@ public interface AdminPermissions extends RestaurantPermissions
         UserManagementSystem.storeUserData(user);
     }
 
-    default void removeUser(String userEmailToRemove)
+    default boolean removeUser(String userEmailToRemove)
     {
-     UserManagementSystem.removeUser(userEmailToRemove);
-    }
-/*
-    default void addRestaurant(String name, String email, String password, String address)
-    {
-        //RestaurantRegistration(......)
+     return UserManagementSystem.removeUser(userEmailToRemove);
     }
 
-    default void removeRestaurant(Restaurant restaurant)
+    default void addRestaurant(Restaurant restaurant)
     {
-        //same logic of remove user
+        restaurant.addRestaurantDetails(restaurant.restaurantName,
+                restaurant.restaurantContact, restaurant.restaurantAddress,
+                restaurant.restaurantEmail, restaurant.restaurantPassword);
+
     }
 
- */
 }
