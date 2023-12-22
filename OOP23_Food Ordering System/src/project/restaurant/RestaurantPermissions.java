@@ -2,6 +2,7 @@ package project.restaurant;
 
 
 import project.menu.Dish;
+import project.order.Order;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -27,7 +28,6 @@ public interface RestaurantPermissions
 
     default void viewOrders()
     {
-        //OrderManagement.viewOrders();
     }
 
     default void updateDishPrice(Restaurant restaurant)

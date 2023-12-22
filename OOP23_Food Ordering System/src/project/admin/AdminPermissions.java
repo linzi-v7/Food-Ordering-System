@@ -27,11 +27,5 @@ public interface AdminPermissions extends RestaurantPermissions
                 restaurant.restaurantEmail, restaurant.restaurantPassword);
 
     }
-/*
-    default void removeRestaurant(Restaurant restaurant)
-    {
-        //same logic of remove user
-    }
 
- */
 }

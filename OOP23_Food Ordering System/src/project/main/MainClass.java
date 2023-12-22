@@ -258,7 +258,7 @@ scanner.next();
     {
         //Restaurant loggedInRestaurant = getRestaurantByEmail(restaurantEmail)
 
-        System.out.println("\t\t Welcome " + loggedInrestaurant.getRestaurantName() + "!");
+        System.out.println("\t\t Welcome " + loggedInRestaurant.getRestaurantName() + "!");
 
 
     }
