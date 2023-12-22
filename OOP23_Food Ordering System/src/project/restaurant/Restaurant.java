@@ -8,11 +8,11 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 public class Restaurant {
-    public String restaurantName;
-    public String restaurantAddress;
-    public String restaurantContact;
-    public String restaurantEmail;
-    public String restaurantPassword;
+    protected String restaurantName;
+    protected String restaurantAddress;
+    protected String restaurantContact;
+    protected String restaurantEmail;
+    protected String restaurantPassword;
 
     ArrayList<ArrayList<String>> restaurants;
 
@@ -29,9 +29,9 @@ public class Restaurant {
         return restaurantName;
     }
 
-    public void loadRestaurantsFromFile() {
+    public void loadRestaurantsFromFile(String filepath) {
         try {
-            Scanner fileScanner = new Scanner(new File("restaurants.txt"));
+            Scanner fileScanner = new Scanner(new File("\"C:\\Users\\Omar Fakharany\\IdeaProjects\\restaurant\\restaurants.txt\""));
 
             while (fileScanner.hasNextLine()) {
                 String line = fileScanner.nextLine();
@@ -54,9 +54,8 @@ public class Restaurant {
 
     }
 
-   public void RestaurantSaveToFiles(ArrayList<ArrayList<String>> restaurants)
-    {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("restaurants.txt"))) {
+    public void RestaurantSaveToFiles(ArrayList<ArrayList<String>> restaurants) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("\"C:\\Users\\Omar Fakharany\\IdeaProjects\\restaurant\\restaurants.txt\""))) {
             for (ArrayList<String> row : restaurants) {
                 // Join elements of the row into a single string, separated by commas
                 String line = String.join(",", row);
@@ -83,13 +82,13 @@ public class Restaurant {
     }
 
 
-    public  String login(Restaurant restaurant,String mail,String password) {
+    public String login(Restaurant restaurant, String mail, String password) {
 
         boolean mailValidation, passwordValidation;
-        mailValidation=restaurant.compareEmail(mail);
-        passwordValidation=restaurant.comparePassword(password);
-        boolean sameAccount = verifyAccount(mail,password);
-        if ((mailValidation) && (passwordValidation)&&(sameAccount)) {
+        mailValidation = restaurant.compareEmail(mail);
+        passwordValidation = restaurant.comparePassword(password);
+        boolean sameAccount = verifyAccount(mail, password);
+        if ((mailValidation) && (passwordValidation) && (sameAccount)) {
             return mail;
 
         }
@@ -110,7 +109,8 @@ public class Restaurant {
         }
         return uniqueEmail;
     }
-    boolean comparePassword (String password) {
+
+    boolean comparePassword(String password) {
         boolean uniquePassword = false;
         for (ArrayList<String> row : restaurants) {
 
@@ -123,34 +123,57 @@ public class Restaurant {
 
         return uniquePassword;
     }
-    public void restaurantSearching(Restaurant restaurant)
-    {
 
-        int counter=0;
+    public void restaurantSearching(Restaurant restaurant) {
+
+        int counter = 0;
         System.out.println("enter the name of the restaurant you're searching for:");
         Scanner scanner = new Scanner(System.in);
         String search = scanner.nextLine();
-        for(ArrayList<String> restaurant1: restaurant.restaurants){
-            if(restaurant1.get(0).startsWith(search)) {
+        for (ArrayList<String> restaurant1 : restaurant.restaurants) {
+            if (restaurant1.get(0).startsWith(search)) {
                 counter++;
                 System.out.println(counter + "." + restaurant1.get(0));
             }
         }
 
     }
-    boolean verifyAccount(String mail,String password)
-    {
+
+    private boolean verifyAccount(String mail, String password) {
         int index = 0;
-        for (ArrayList<String> restaurants2 :restaurants)
-        {
-            if (restaurants2.size()>=3 && restaurants2.get(3).equals(mail))
+        for (ArrayList<String> restaurants2 : restaurants) {
+            if (restaurants2.size() >= 3 && restaurants2.get(3).equals(mail))
                 index = restaurants2.indexOf(4);
         }
-        for (ArrayList<String>restaurant3:restaurants) {
+        for (ArrayList<String> restaurant3 : restaurants) {
             if (restaurant3.size() >= 4 && restaurant3.get(4).equals(password))
                 if (index == restaurant3.indexOf(4))
                     return true;
         }
         return false;
+    }
+
+    public String getRestaurantEmail(String mail)
+    {
+
+
+
+       
+        for (ArrayList<String> restaurants2 : restaurants) {
+            if (restaurants2.size() >= 3 && restaurants2.get(3).equals(mail))
+            {
+            
+
+
+                String name = restaurants2.get(0);
+                String phoneNumber = restaurants2.get(1);
+                String address = restaurants2.get(2);
+                String email = restaurants2.get(3);
+                String password = restaurants2.get(4);
+                 
+            }
+        }
+            return null;
+
     }
 }
