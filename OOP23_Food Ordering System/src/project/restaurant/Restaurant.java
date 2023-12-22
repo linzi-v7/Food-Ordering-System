@@ -29,9 +29,9 @@ public class Restaurant {
         return restaurantName;
     }
 
-    public void loadRestaurantsFromFile(String filepath) {
+    public void loadRestaurantsFromFile() {
         try {
-            Scanner fileScanner = new Scanner(new File("\"C:\\Users\\Omar Fakharany\\IdeaProjects\\restaurant\\restaurants.txt\""));
+            Scanner fileScanner = new Scanner(new File("restaurants.txt"));
 
             while (fileScanner.hasNextLine()) {
                 String line = fileScanner.nextLine();
@@ -56,7 +56,7 @@ public class Restaurant {
 
    public void RestaurantSaveToFiles(ArrayList<ArrayList<String>> restaurants)
     {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("\"C:\\Users\\Omar Fakharany\\IdeaProjects\\restaurant\\restaurants.txt\""))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("restaurants.txt"))) {
             for (ArrayList<String> row : restaurants) {
                 // Join elements of the row into a single string, separated by commas
                 String line = String.join(",", row);

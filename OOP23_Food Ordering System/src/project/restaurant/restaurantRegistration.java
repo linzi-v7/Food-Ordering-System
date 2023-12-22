@@ -92,7 +92,7 @@ if(notUniqueEmail) {
         }
 
         restaurant.addRestaurantDetails(restaurant.restaurantName, restaurant.restaurantContact, restaurant.restaurantAddress, restaurant.restaurantEmail, restaurant.restaurantPassword);
-
+        restaurant.RestaurantSaveToFiles(restaurant.getRestaurants());
     }
 
 }

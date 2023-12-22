@@ -280,13 +280,13 @@ public class UserManagementSystem implements InputChecks
         {
             System.out.println("Login Successful!");
             Role.setRoleIdentifier(Role.USER_IDENTIFIER);
-            return email; //login successful, returns email to use later to get project.project.admin.admin.user data
+            return email; //login successful, returns email to use later to get user data
         }
         else if ((!restaurantValidation.equals("null")))
         {
             System.out.println("Login Successful!");
             Role.setRoleIdentifier(Role.RESTAURANT_IDENTIFIER);
-            return email; //login successful, returns email to use later to get project.project.admin.admin.user data
+            return email; //login successful, returns email to use later to get restaurant data
         }
         else
         {

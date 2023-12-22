@@ -20,9 +20,8 @@ public class MainClass
         Scanner scanner = new Scanner(System.in);
         String userEmail = null;
         Restaurant restaurant = new Restaurant();
-        restaurant.loadRestaurantsFromFile("\"C:\\Users\\Omar Fakharany\\IdeaProjects\\restaurant\\restaurants.txt\"");
-restaurant.addRestaurantDetails("pierre","p","p","p","p");
-        restaurant.addRestaurantDetails("petra","p","p","eno","p");
+        restaurant.loadRestaurantsFromFile();
+
         do
         {
             System.out.println("\t####### Food Ordering System #######\n");
@@ -100,7 +99,7 @@ scanner.next();
                 adminLaunchProgram();
                 break;
             case Role.RESTAURANT_IDENTIFIER:
-                //restaurantLaunchProgram(restaurant);
+                restaurantLaunchProgram(restaurant);
                 break;
             case Role.USER_IDENTIFIER:
                 userLaunchProgram(userEmail,restaurant);
@@ -166,7 +165,6 @@ scanner.next();
 
              String RestaurantName = restaurant.getRestaurants().get(ChosenRestaurant-1).get(0);
 
-          //  String RestaurantName = "mac";
 
             //display the menu of selected restaurant
             Menu menu = new Menu();
@@ -256,6 +254,10 @@ scanner.next();
         sysAdmin.runDashboard();
     }
 
+    public static  void restaurantLaunchProgram(Restaurant restaurant)
+    {
+        System.out.println("\t\t Welcome " + restaurant.getRestaurantName() + "!");
+    }
 
 
 }
