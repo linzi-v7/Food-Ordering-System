@@ -139,23 +139,24 @@ public class MainClass
                                 System.out.println(counter + "." + restaurants.get(0));
 
                             }
-
+                            repeat=false;
 
                             break;
 
                         case 2:
                             restaurant.restaurantSearching(restaurant);
-
+                            repeat=false;
                             break;
 
                         default:
                             System.out.println("choose a value that exists within the choices");
 
                     }
-                    repeat = false;
+
                 } else {
                     System.out.println("Invalid input. Please enter a number from the choices");
                     scanner.next();
+
                 }
             }
 
