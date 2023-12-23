@@ -7,7 +7,7 @@ import java.util.Scanner;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-public class Restaurant {
+public class Restaurant implements RestaurantPermissions{
     protected String restaurantName;
     protected String restaurantAddress;
     protected String restaurantContact;
@@ -184,14 +184,16 @@ public class Restaurant {
         return false;
     }
 
-    public Restaurant getRestaurantEmail(String mail)
+    public ArrayList<String> getRestaurantEmail(String mail)
     {
+        ArrayList<String> restaurant = new ArrayList<>();
 
-       
+
+
         for (ArrayList<String> restaurants2 : restaurants) {
             if (restaurants2.size() >= 3 && restaurants2.get(3).equals(mail))
             {
-            
+
 
 
                 String name = restaurants2.get(0);
@@ -199,10 +201,10 @@ public class Restaurant {
                 String address = restaurants2.get(2);
                 String email = restaurants2.get(3);
                 String password = restaurants2.get(4);
-                 return new Restaurant(name,address,phoneNumber,email,password);
+                return restaurants2;
             }
         }
-            return null;
+        return null;
 
     }
 }

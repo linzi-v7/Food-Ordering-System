@@ -24,7 +24,6 @@ public class Admin extends User implements AdminPermissions, InputChecks, Restau
         Scanner scanner = new Scanner(System.in);
         String exitCheck;
         do {
-            exitCheck = "N";
 
             System.out.println("\t\t####### Admin Dashboard ########\n");
             System.out.println("\t\tWelcome System Administrator!\n");
