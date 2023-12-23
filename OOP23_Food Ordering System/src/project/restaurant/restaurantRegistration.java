@@ -29,7 +29,9 @@ public class restaurantRegistration {
 
             boolean repeat = true;
             while (repeat) {
+
                 System.out.println("enter phone number:");
+
                 while (!scanner.hasNextInt()) {
                     scanner.next();
                     // Clear the buffer
@@ -39,7 +41,8 @@ public class restaurantRegistration {
 
                 }
                 //checks that the phone number is nothing else but numbers
-                restaurant.restaurantContact = scanner.nextLine();
+
+                restaurant.restaurantContact = scanner.next();
 
 
                 int compareNumber = restaurant.restaurantContact.length();
@@ -48,11 +51,12 @@ public class restaurantRegistration {
                 } else
 
                     System.out.println("please enter the full number");
-scanner.next();
+
 
             }
             //checks length of the number
             System.out.print("do you want to change the phone number? if not enter any key");
+            scanner.next();
             String decision = scanner.nextLine().toLowerCase();
 
             if (!decision.equals("yes")) break;
@@ -88,7 +92,7 @@ if(notUniqueEmail) {
         while (true) {
 
             System.out.print("Enter restaurant password ");
-            restaurant.restaurantPassword = scanner.next();
+            restaurant.restaurantPassword = scanner.nextLine();
             System.out.print("do you want to change the password? if not enter any key ");
             String decision = scanner.next().toLowerCase();
 
