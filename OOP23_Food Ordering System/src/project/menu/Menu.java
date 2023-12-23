@@ -19,8 +19,23 @@ public class Menu {
         readMenuDataFile();
     }
     public void addItem(String restaurantName, String dishName, Double price) {
-        Dish dish = new Dish(restaurantName, dishName, price);
-        restaurantMenu.add(dish);
+        Dish dishToAdd = new Dish(restaurantName, dishName, price);
+        boolean found = false;
+
+        for (Dish dish:restaurantMenu)
+        {
+            if (dishToAdd.equals(dish))
+            {
+                found = true;
+                break;
+            }
+        }
+
+        if(!found)
+        {
+            restaurantMenu.add(dishToAdd);
+        }
+
     }
 
     public void addNewDish(String restaurantName, String dishName, Double price) {
@@ -28,9 +43,9 @@ public class Menu {
         boolean found = false;
         for (Dish dish:allMenus)
         {
-            if(dishToAdd.equals(dish))
-            {
+            if (dishToAdd.equals(dish)) {
                 found = true;
+                break;
             }
         }
 

@@ -6,6 +6,7 @@ import project.restaurant.Restaurant;
 import project.restaurant.restaurantRegistration;
 import project.admin.Admin;
 import project.review.review;
+import project.user.InputChecks;
 import project.user.User;
 import project.user.UserManagementSystem;
 import project.menu.*;
@@ -99,7 +100,7 @@ public class MainClass
                 adminLaunchProgram();
                 break;
             case Role.RESTAURANT_IDENTIFIER:
-                restaurantLaunchProgram(userEmail);
+                restaurantLaunchProgram(userEmail,restaurant);
                 break;
             case Role.USER_IDENTIFIER:
                 userLaunchProgram(userEmail,restaurant);
@@ -266,14 +267,67 @@ public class MainClass
         sysAdmin.runDashboard();
     }
 
-    public static  void restaurantLaunchProgram(String restaurantEmail)
+    public static  void restaurantLaunchProgram(String restaurantEmail,Restaurant restaurant)
     {
-        Restaurant loggedInRestaurant = new Restaurant();
-        loggedInRestaurant.loadRestaurantsFromFile();
-        loggedInRestaurant.getRestaurantEmail(restaurantEmail);
+        ArrayList<String> restaurantData = restaurant.getRestaurantEmail(restaurantEmail);
+        String name= restaurantData.get(0);
+        String phone=restaurantData.get(1);
+        String address= restaurantData.get(2);
+        String email= restaurantData.get(3);
+        String password= restaurantData.get(4);
 
-        System.out.println("\t\t Welcome " + loggedInRestaurant.getRestaurantName() + "!");
+        Restaurant loggedInRestaurant = new Restaurant(name,address,phone,email,password);
+        Menu  restaurantMenu = new Menu();
 
+        Scanner scanner = new Scanner(System.in);
+        String exitCheck;
+        do {
+
+            System.out.println("\n\t\t####### Restaurant Dashboard ########\n");
+            System.out.println("\t\t\t Welcome " + loggedInRestaurant.getRestaurantName() + "!");
+
+            System.out.println("\n##### " +loggedInRestaurant.getRestaurantName() + "'s Menu #####");
+            restaurantMenu.readMenuDataFile(loggedInRestaurant.getRestaurantName());
+            restaurantMenu.displayMenu(loggedInRestaurant.getRestaurantName());
+
+            System.out.println("\nOptions:\n0.Exit\n" +
+                    "1.Add Dish To Menu" +
+                    "\n2.View Pending Orders" +
+                    "\n3.Generate Business Report For Restaurant");
+
+
+            int choice;
+            do {
+
+                try {
+                    choice = Integer.parseInt(scanner.nextLine());
+                    if (choice < 0 || choice > 3) {
+                        System.out.println("Invalid choice. Please enter a number between 0 and 3.");
+                    }
+                } catch (NumberFormatException exp) {
+                    System.out.println("Invalid input. Please enter a valid number." +
+                            " To exit type 0.");
+                    choice = -1; // Set choice to an invalid value to trigger the loop again
+                }
+            }while((choice < 0 || choice > 3));
+
+
+            switch (choice) {
+                case 0:
+                    System.exit(0);
+                    break;
+                case 1:
+                    restaurant.addDishToMenuPage(loggedInRestaurant);
+                    break;
+                case 2:
+                    restaurant.viewOrders();
+                    break;
+                case 3:
+                    restaurant.generateBusinessReport(loggedInRestaurant);
+            }
+            System.out.println("Would you like to exit program? (Y/N)");
+            exitCheck = scanner.nextLine();
+        }while(exitCheck.equalsIgnoreCase("n") || exitCheck.equalsIgnoreCase("no"));
 
     }
 

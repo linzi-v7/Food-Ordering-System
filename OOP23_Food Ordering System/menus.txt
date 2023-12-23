@@ -8,3 +8,7 @@ faris,burger triple,30.0
 nader,burger triple,30.0
 mac,triple king burger,50.0
 faris,food,30.0
+Burger King,my dish,12.0
+Burger King,triple whopper,20.0
+Burger King,double whopper,20.0
+Burger King,quadruple whopper,50.0
