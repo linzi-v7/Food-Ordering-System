@@ -6,11 +6,11 @@ import project.restaurant.Restaurant;
 import project.restaurant.restaurantRegistration;
 import project.admin.Admin;
 import project.review.review;
-import project.user.InputChecks;
 import project.user.User;
 import project.user.UserManagementSystem;
 import project.menu.*;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
@@ -176,6 +176,11 @@ public class MainClass
                     System.out.println("Invalid Input! Try Again!");
 
                 }
+            catch (InputMismatchException exception)
+            {
+                System.out.println("please enter a valid number");
+                scanner.next();
+            }
             }
             //display the menu of selected restaurant
             Menu menu = new Menu();
