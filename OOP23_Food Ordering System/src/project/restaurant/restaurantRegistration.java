@@ -5,7 +5,10 @@ import java.util.Scanner;
 
 public class restaurantRegistration {
 
-
+    /**
+     * function to register a new restaurant
+     * @param restaurant the object that will be storing the inputs into
+     */
     public static void registerRestaurant(Restaurant restaurant) {
 
 
@@ -38,12 +41,14 @@ public class restaurantRegistration {
                 //checks that the phone number is nothing else but numbers
                 restaurant.restaurantContact = scanner.nextLine();
 
+
                 int compareNumber = restaurant.restaurantContact.length();
                 if ((compareNumber == 11)||(compareNumber==5)) {
                     repeat = false;
                 } else
-                    System.out.println("please enter the full number");
 
+                    System.out.println("please enter the full number");
+scanner.next();
 
             }
             //checks length of the number
@@ -92,7 +97,7 @@ if(notUniqueEmail) {
         }
 
         restaurant.addRestaurantDetails(restaurant.restaurantName, restaurant.restaurantContact, restaurant.restaurantAddress, restaurant.restaurantEmail, restaurant.restaurantPassword);
-        restaurant.RestaurantSaveToFiles(restaurant.getRestaurants());
+
     }
 
 }
