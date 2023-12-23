@@ -6,12 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d01ccfb9-7a84-48ab-a02f-25d9b8755d94" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/menus.txt" beforeDir="false" afterPath="$PROJECT_DIR$/menus.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurants.txt" beforeDir="false" afterPath="$PROJECT_DIR$/restaurants.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/project/admin/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/admin/Admin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/project/main/MainClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/main/MainClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/project/menu/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/menu/Menu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/project/restaurant/Restaurant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/restaurant/Restaurant.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +34,12 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/faris/Desktop&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

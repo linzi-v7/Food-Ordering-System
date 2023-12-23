@@ -1,14 +1,20 @@
-mac,burger double,30.0
-mac,burger,17.0
-bk,pizza,18.0
-mac,burger triple,30.0
-mac,burger triple,30.0
-faris,burger triple,30.0
-faris,burger triple,30.0
-nader,burger triple,30.0
-mac,triple king burger,50.0
-faris,food,30.0
-Burger King,my dish,12.0
-Burger King,triple whopper,20.0
-Burger King,double whopper,20.0
-Burger King,quadruple whopper,50.0
+McLonalds,Pseudo Fries,1.99
+McLonalds,McMock Muffin,2.79
+McLonalds,Binary Bites Burger,10.1
+McLonalds,HTML5 Honey Mustard Wrap,4.29
+McLonalds,CTRL+Z Zucchini Fries,2.99
+Kurger Bing,Java Whopper,10.1
+Kurger Bing,RAM And Cheese Bites,3.99
+Kurger Bing,Kernel Kickin' Spicy Nuggets,4.5
+Kurger Bing,Ctrl+Alt+Delicious Chicken Sandwich,7.77
+Kurger Bing,Hash Brown Hash Code Deluxe,5.49
+Kazooba,Overrated Fried Chicken!,100.0
+Kazooba,Chickenless Chicken Burger,77.77
+Kazooba,Crispy Catastrophe Crunch,25.99
+Kazooba,Apocalyptic Molten Cake,200.0
+Kazooba,Totally Unique Fried Chicken Meal!,500.7
+FCIS ASU Bistro & Grill,Statistical Analysis Grilled Students,0.99
+FCIS ASU Bistro & Grill,Object Oriented Fried Chicken,7.99
+FCIS ASU Bistro & Grill,Code Cruncher Chicken Tenders,10.99
+FCIS ASU Bistro & Grill,Git Commit Grilled Cheese,5.99
+FCIS ASU Bistro & Grill,Primary Key Lime Pie,10.1
