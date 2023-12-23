@@ -69,8 +69,8 @@ public class Restaurant implements RestaurantPermissions{
                 String[] parts = line.split(",");
                 if (parts.length == 5) {
                     String restaurantName = parts[0].trim();
-                    String restaurantAddress = parts[1].trim();
-                    String restaurantContact = parts[2].trim();
+                    String restaurantContact = parts[1].trim();
+                    String restaurantAddress = parts[2].trim();
                     String restaurantEmail = parts[3].trim();
                     String restaurantPassword = parts[4].trim();
                     addRestaurantDetails(restaurantName, restaurantContact, restaurantAddress, restaurantEmail, restaurantPassword);
