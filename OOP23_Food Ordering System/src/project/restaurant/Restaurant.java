@@ -7,7 +7,8 @@ import java.util.Scanner;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-public class Restaurant implements RestaurantPermissions{
+
+public class Restaurant implements RestaurantPermissions {
     protected String restaurantName;
     protected String restaurantAddress;
     protected String restaurantContact;
@@ -18,11 +19,9 @@ public class Restaurant implements RestaurantPermissions{
 
     public Restaurant() {
         this.restaurants = new ArrayList<>();
-
     }
 
-    public Restaurant(String restaurantName)
-    {
+    public Restaurant(String restaurantName) {
         this.restaurants = new ArrayList<>();
         this.restaurantName = restaurantName;
     }
@@ -184,16 +183,12 @@ public class Restaurant implements RestaurantPermissions{
         return false;
     }
 
-    public ArrayList<String> getRestaurantEmail(String mail)
-    {
+    public ArrayList<String> getRestaurantEmail(String mail) {
         ArrayList<String> restaurant = new ArrayList<>();
 
 
-
         for (ArrayList<String> restaurants2 : restaurants) {
-            if (restaurants2.size() >= 3 && restaurants2.get(3).equals(mail))
-            {
-
+            if (restaurants2.size() >= 3 && restaurants2.get(3).equals(mail)) {
 
 
                 String name = restaurants2.get(0);

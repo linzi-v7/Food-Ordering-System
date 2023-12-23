@@ -6,6 +6,23 @@
   <component name="ChangeListManager">
     <list default="true" id="d01ccfb9-7a84-48ab-a02f-25d9b8755d94" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/admin/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/admin/Admin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/admin/AdminPermissions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/admin/AdminPermissions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/cart/cart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/cart/cart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/main/MainClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/main/MainClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/main/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/main/Role.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/menu/Dish.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/menu/Dish.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/menu/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/menu/Menu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/order/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/order/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/payment/Payment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/payment/Payment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/restaurant/Restaurant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/restaurant/Restaurant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/restaurant/RestaurantPermissions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/restaurant/RestaurantPermissions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/restaurant/restaurantRegistration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/restaurant/restaurantRegistration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/review/review.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/review/review.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/user/InputChecks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/user/InputChecks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/user/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/user/UserManagementSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/user/UserManagementSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/users.txt" beforeDir="false" afterPath="$PROJECT_DIR$/users.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +37,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectColorInfo">{
@@ -30,18 +52,40 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/faris/Desktop&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.MainClass.executor": "Run",
+    "Application.Unnamed.executor": "Run",
+    "Notification.DisplayName-DoNotAsk-WindowsDefender": "Microsoft Defender configuration",
+    "Notification.DoNotAsk-WindowsDefender": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "extract.method.default.visibility": "private",
+    "git-widget-placeholder": "testing-sth",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
+  <component name="RunManager">
+    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="project.main.MainClass" />
+      <module name="OOP23_Food Ordering System" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-21.0.1-openjdk-21.0.1-3183f394aec4-7d648f2c" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -50,7 +94,11 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1702985281469</updated>
+      <workItem from="1703367214668" duration="6425000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
 </project>

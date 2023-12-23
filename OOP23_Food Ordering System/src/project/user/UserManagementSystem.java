@@ -11,8 +11,13 @@ import java.util.Scanner;
 /**
  * Class to handle user login and registration functions. All functions are static.
  */
-public class UserManagementSystem implements InputChecks
-{
+public class UserManagementSystem implements InputChecks {
+    //data index in users.txt file
+    public static final int USER_NAME_INDEX = 0;
+    public static final int USER_EMAIL_INDEX = 1;
+    public static final int USER_PASSWORD_INDEX = 2;
+    public static final int USER_ADDRESS_INDEX = 3;
+    public static final int USER_PHONE_INDEX = 4;
     //IMPORTANT NOTES FOR USERS FILE.
     //- FILE MUST NOT END WITH DOUBLE \N TO AVOID ARRAY OUT OF BOUND EXCEPTION
     //if file ended with \n on a separate line, the userdata array thinks it's a row that contains user
@@ -20,14 +25,6 @@ public class UserManagementSystem implements InputChecks
     //- DO NOT REMOVE THE SYSTEM ADMINISTRATOR'S ACCOUNT SAVED IN THE FIRST LINE!
     //- IF YOU EDIT MANUALLY ON THE USERS FILE, MAKE SURE TO SEPARATE THEM WITH DELIMITER (;)
     private static final String USER_FILE = "users.txt";
-
-    //data index in users.txt file
-    public static final int USER_NAME_INDEX = 0;
-    public static final int USER_EMAIL_INDEX = 1;
-    public static final int USER_PASSWORD_INDEX = 2;
-    public static final int USER_ADDRESS_INDEX = 3;
-    public static final int USER_PHONE_INDEX = 4;
-
     private static ArrayList<String> usersArray = new ArrayList<>();
 
 
@@ -35,17 +32,14 @@ public class UserManagementSystem implements InputChecks
      * reads users.txt file and stores them in an array
      * to use throughout the program. this function should be called at the beginning of the program.
      */
-    public static void readUserDataFile()
-    {
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(USER_FILE)))
-        {
+    public static void readUserDataFile() {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(USER_FILE))) {
             String row;
             while ((row = bufferedReader.readLine()) != null) //reads each line until there is none
             {
                 usersArray.add(row);
             }
-        }catch(IOException exp)
-        {
+        } catch (IOException exp) {
             System.out.println(exp.getMessage());
         }
     }
@@ -60,7 +54,7 @@ public class UserManagementSystem implements InputChecks
         //get input
         Scanner scanner = new Scanner(System.in);
 
-        if(mode == 1) //USER
+        if (mode == 1) //USER
         {
             System.out.println("\t\t ######## Registration Page ########" +
                     "\nAt any point type exit to return to welcome page.");
@@ -71,24 +65,20 @@ public class UserManagementSystem implements InputChecks
         }
 
         String name;
-        do
-        {
+        do {
             System.out.print("Enter Name: ");
             name = scanner.nextLine();
             if (InputChecks.checkExit(name)) {
                 return;
             }
 
-            if(InputChecks.checkDelimiter(name))
-            {
+            if (InputChecks.checkDelimiter(name)) {
                 System.out.println("Invalid Name! Please Try Again!");
-            }
-            else
-            {
+            } else {
                 break;
             }
 
-        }while(true);
+        } while (true);
 
 
         String email;
@@ -118,59 +108,47 @@ public class UserManagementSystem implements InputChecks
 
 
         String password;
-        do
-        {
+        do {
             System.out.print("Enter Password: ");
             password = scanner.nextLine();
             if (InputChecks.checkExit(password)) {
                 return;
             }
 
-            if(InputChecks.checkDelimiter(password))
-            {
+            if (InputChecks.checkDelimiter(password)) {
                 System.out.println("Invalid Password! Please Try Again!");
-            }
-            else
-            {
+            } else {
                 break;
             }
-        }while(true);
+        } while (true);
 
         String address;
-        do
-        {
+        do {
             System.out.print("Enter Address: ");
             address = scanner.nextLine();
             if (InputChecks.checkExit(address)) {
                 return;
             }
 
-            if(InputChecks.checkDelimiter(address))
-            {
+            if (InputChecks.checkDelimiter(address)) {
                 System.out.println("Invalid Address! Please Try Again!");
-            }
-            else
-            {
+            } else {
                 break;
             }
-        }while(true);
+        } while (true);
 
         String phoneNumber;
-        do
-        {
+        do {
             System.out.print("Enter Phone Number: ");
             phoneNumber = scanner.nextLine();
-            if (InputChecks.checkExit(address))
-            {
+            if (InputChecks.checkExit(address)) {
                 return;
             }
 
             if (!InputChecks.validatePhoneNumber(phoneNumber)
-                || InputChecks.checkDelimiter(phoneNumber))
-            {
+                    || InputChecks.checkDelimiter(phoneNumber)) {
                 System.out.println("Invalid Phone Number! Try Again!");
-            } else
-            {
+            } else {
                 break;
             }
         } while (true);
@@ -183,10 +161,10 @@ public class UserManagementSystem implements InputChecks
 
     /**
      * stores user data after registering, stores in local arrayList then in file.
+     *
      * @param user user to be stored
      */
-    public static void storeUserData(User user)
-    {
+    public static void storeUserData(User user) {
 
         usersArray.add(user.getName() + ";"
                 + user.getEmail() + ";"
@@ -213,39 +191,34 @@ public class UserManagementSystem implements InputChecks
      * takes a parameter and its index in the users.txt file and checks if value already exists.
      *
      * @param valueToCheck the value to be compared to
-     * @param valueIndex index of the value in users.txt (name = 0, email = 1, password = 2, address = 3)
+     * @param valueIndex   index of the value in users.txt (name = 0, email = 1, password = 2, address = 3)
      * @return true if duplicate found, false if no matching value was found
      */
-    private static boolean checkDuplicateUser(String valueToCheck, int valueIndex)
-    {
-        for (String s : usersArray)
-        {
+    private static boolean checkDuplicateUser(String valueToCheck, int valueIndex) {
+        for (String s : usersArray) {
             String[] userData = s.split(";");
             String value = userData[valueIndex];
-            if (value.equals(valueToCheck))
-            {
+            if (value.equals(valueToCheck)) {
                 return true; // found duplicate value
             }
         }
 
-           return false;
+        return false;
     }
 
     /**
      * function to check email and password found in user data file
-     * @param emailInput  email input by user
+     *
+     * @param emailInput    email input by user
      * @param passwordInput password input by user
      * @return true if email and password on the same row are equal to input given, false if not found.
      */
-    private static boolean checkDuplicateUser(String emailInput, String passwordInput)
-    {
-        for (String s : usersArray)
-        {
+    private static boolean checkDuplicateUser(String emailInput, String passwordInput) {
+        for (String s : usersArray) {
             String[] userData = s.split(";");
             String email = userData[USER_EMAIL_INDEX];
             String password = userData[USER_PASSWORD_INDEX];
-            if (email.equals(emailInput) && password.equals(passwordInput))
-            {
+            if (email.equals(emailInput) && password.equals(passwordInput)) {
                 return true; // found account credentials
             }
         }
@@ -256,10 +229,10 @@ public class UserManagementSystem implements InputChecks
     /**
      * prompts users to enter email and password and checks if values exist on the same row after each
      * other in users.txt file.
+     *
      * @return String of logged-in user if available, if not available returns the String "null"
      */
-    public static String loginUser(Restaurant restaurant)
-    {
+    public static String loginUser(Restaurant restaurant) {
         System.out.println("\t\t ######## Login Page ########");
         Scanner scanner = new Scanner(System.in);
 
@@ -269,27 +242,20 @@ public class UserManagementSystem implements InputChecks
         System.out.print("Enter Password: ");
         String password = scanner.nextLine();
 
-        String restaurantValidation= restaurant.login(restaurant,email,password);
-        if(isAdmin(email,password))
-        {
+        String restaurantValidation = restaurant.login(restaurant, email, password);
+        if (isAdmin(email, password)) {
             System.out.println("Login Successful!");
             Role.setRoleIdentifier(Role.ADMIN_IDENTIFIER);
             return "admin";
-        }
-        else if(checkDuplicateUser(email,password))
-        {
+        } else if (checkDuplicateUser(email, password)) {
             System.out.println("Login Successful!");
             Role.setRoleIdentifier(Role.USER_IDENTIFIER);
             return email; //login successful, returns email to use later to get user data
-        }
-        else if ((!restaurantValidation.equals("null")))
-        {
+        } else if ((!restaurantValidation.equals("null"))) {
             System.out.println("Login Successful!");
             Role.setRoleIdentifier(Role.RESTAURANT_IDENTIFIER);
             return email; //login successful, returns email to use later to get restaurant data
-        }
-        else
-        {
+        } else {
             System.out.println("Credentials wrong");
             return "null"; //login has some kind of error so it returns false
         }
@@ -303,11 +269,9 @@ public class UserManagementSystem implements InputChecks
      *                  during other functions, so logically it can't be null.
      * @return a new User object containing the data of the currently logged-in user
      */
-    public static User getUserByEmail(String userEmail)
-    {
+    public static User getUserByEmail(String userEmail) {
 
-        for (String s : usersArray)
-        {
+        for (String s : usersArray) {
             String[] userData = s.split(";");
             String storedEmail = userData[USER_EMAIL_INDEX];
             if (storedEmail.equals(userEmail)) {
@@ -316,10 +280,9 @@ public class UserManagementSystem implements InputChecks
                 String password = userData[USER_PASSWORD_INDEX];
                 String address = userData[USER_ADDRESS_INDEX];
                 String phoneNumber = userData[USER_PHONE_INDEX];
-                return new User(name, email, password, address,phoneNumber);
+                return new User(name, email, password, address, phoneNumber);
             }
         }
-
 
 
         return null;
@@ -327,12 +290,12 @@ public class UserManagementSystem implements InputChecks
 
     /**
      * checks if user login input matches administrator credentials.
-     * @param email email input by user
+     *
+     * @param email    email input by user
      * @param password password input by user
      * @return true if email and password equal to admin credentials, false otherwise.
      */
-    private static boolean isAdmin(String email, String password)
-    {
+    private static boolean isAdmin(String email, String password) {
         Admin admin = new Admin();
         return email.equals(admin.getEmail())
                 && password.equals(admin.getPassword());
@@ -340,18 +303,16 @@ public class UserManagementSystem implements InputChecks
 
     /**
      * removes user, typically used by System Administrator
+     *
      * @param userEmailToRemove email of user to be removed
      */
-    public static boolean removeUser(String userEmailToRemove)
-    {
+    public static boolean removeUser(String userEmailToRemove) {
         //check if user exists and remove from arrayList
         boolean userFound = false;
-        for (int i =0; i < usersArray.size(); i++)
-        {
+        for (int i = 0; i < usersArray.size(); i++) {
             String[] userData = usersArray.get(i).split(";");
             String userEmail = userData[1];
-            if(userEmail.equals(userEmailToRemove))
-            {
+            if (userEmail.equals(userEmailToRemove)) {
                 usersArray.remove(i);
                 userFound = true;
                 break;
@@ -359,22 +320,16 @@ public class UserManagementSystem implements InputChecks
         }
 
         //if user exists, rewrite file using updated arrayList without the removed user.
-        if(userFound)
-        {
-            try(BufferedWriter writer = new BufferedWriter(new FileWriter(USER_FILE)))
-            {
-                for(String row: usersArray)
-                {
+        if (userFound) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(USER_FILE))) {
+                for (String row : usersArray) {
                     writer.write(row);
                     writer.newLine();
                 }
-            }catch(IOException exp)
-            {
+            } catch (IOException exp) {
                 System.out.println(exp.getMessage());
             }
-        }
-        else
-        {
+        } else {
             System.out.println("User Doesn't Exist!");
         }
 

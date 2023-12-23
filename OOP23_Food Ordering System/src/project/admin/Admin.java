@@ -10,16 +10,13 @@ import project.user.UserManagementSystem;
 
 import java.util.Scanner;
 
-public class Admin extends User implements AdminPermissions, InputChecks, RestaurantPermissions
-{
+public class Admin extends User implements AdminPermissions, InputChecks, RestaurantPermissions {
 
-    public Admin()
-    {
-        super("System Administrator", "admin", "admin123", "HQ","123456789");
+    public Admin() {
+        super("System Administrator", "admin", "admin123", "HQ", "123456789");
     }
 
-    public void runDashboard()
-    {
+    public void runDashboard() {
 
         Scanner scanner = new Scanner(System.in);
         String exitCheck;
@@ -48,7 +45,7 @@ public class Admin extends User implements AdminPermissions, InputChecks, Restau
                             " To exit type 0.");
                     choice = -1; // Set choice to an invalid value to trigger the loop again
                 }
-            }while((choice < 0 || choice > 7));
+            } while ((choice < 0 || choice > 7));
 
 
             switch (choice) {
@@ -76,25 +73,23 @@ public class Admin extends User implements AdminPermissions, InputChecks, Restau
                 case 7:
                     System.out.print("Enter Restaurant Name: ");
                     String restaurantName = scanner.nextLine();
-                    if(InputChecks.checkExit(restaurantName))
-                    {
+                    if (InputChecks.checkExit(restaurantName)) {
                         break;
                     }
 
-                Restaurant restaurantReport = new Restaurant(restaurantName);
+                    Restaurant restaurantReport = new Restaurant(restaurantName);
                     generateBusinessReport(restaurantReport);
             }
             System.out.println("Would you like to exit program? (Y/N)");
             exitCheck = scanner.nextLine();
-        }while(exitCheck.equalsIgnoreCase("n") || exitCheck.equalsIgnoreCase("no"));
+        } while (exitCheck.equalsIgnoreCase("n") || exitCheck.equalsIgnoreCase("no"));
     }
 
     void addUserPage() {
         UserManagementSystem.registerUser(2);
     }
 
-    void addUserNoRestrictionsPage()
-    {
+    void addUserNoRestrictionsPage() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("\t\t##### Admin Add User Page (NO RESTRICTIONS) #####\n");
         System.out.println("NOTE: ADDING A USER THIS WAY COULD RESULT IN DUPLICATE USERS" +
@@ -104,66 +99,57 @@ public class Admin extends User implements AdminPermissions, InputChecks, Restau
 
         System.out.print("Enter User Name: ");
         String name = scanner.nextLine();
-        if(InputChecks.checkExit(name))
-        {
+        if (InputChecks.checkExit(name)) {
             return;
         }
 
 
         System.out.print("Enter User Email: ");
         String email = scanner.nextLine();
-        if(InputChecks.checkExit(email))
-        {
+        if (InputChecks.checkExit(email)) {
             return;
         }
 
 
         System.out.print("Enter User Password: ");
         String password = scanner.nextLine();
-        if(InputChecks.checkExit(password))
-        {
+        if (InputChecks.checkExit(password)) {
             return;
         }
 
 
         System.out.print("Enter User Address: ");
         String address = scanner.nextLine();
-        if(InputChecks.checkExit(address))
-        {
+        if (InputChecks.checkExit(address)) {
             return;
         }
 
         System.out.print("Enter User Phone: ");
         String phone = scanner.nextLine();
-        if(InputChecks.checkExit(phone))
-        {
+        if (InputChecks.checkExit(phone)) {
             return;
         }
 
         System.out.println("\nUser Added Successfully!");
-        addUser(name,email,password,address,phone);
+        addUser(name, email, password, address, phone);
     }
 
-    void removeUserPage()
-    {
+    void removeUserPage() {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("\n\t\t#### ADMIN REMOVE USER PAGE ###\nAt Any Point Type exit to return.\n");
         System.out.print("Enter User's Email To Be Removed: ");
         String emailToRemove = scanner.nextLine();
-        if(InputChecks.checkExit(emailToRemove))
-        {
+        if (InputChecks.checkExit(emailToRemove)) {
             return;
         }
 
-        if (removeUser(emailToRemove))
-        {
+        if (removeUser(emailToRemove)) {
             System.out.println("USER REMOVED SUCCESSFULLY!");
         }
     }
 
-    void addRestaurantPage()
-    {
+    void addRestaurantPage() {
 
 
         Scanner scanner = new Scanner(System.in);
@@ -171,41 +157,36 @@ public class Admin extends User implements AdminPermissions, InputChecks, Restau
 
         System.out.print("Enter Restaurant Name: ");
         String name = scanner.nextLine();
-        if(InputChecks.checkExit(name))
-        {
+        if (InputChecks.checkExit(name)) {
             return;
         }
 
 
         System.out.print("Enter Restaurant Address: ");
         String address = scanner.nextLine();
-        if(InputChecks.checkExit(address))
-        {
+        if (InputChecks.checkExit(address)) {
             return;
         }
 
         System.out.print("Enter Restaurant Contact: ");
         String contact = scanner.nextLine();
-        if(InputChecks.checkExit(contact))
-        {
+        if (InputChecks.checkExit(contact)) {
             return;
         }
 
         System.out.print("Enter Restaurant Email: ");
         String email = scanner.nextLine();
-        if(InputChecks.checkExit(email))
-        {
+        if (InputChecks.checkExit(email)) {
             return;
         }
 
         System.out.print("Enter Restaurant Password: ");
         String password = scanner.nextLine();
-        if(InputChecks.checkExit(password))
-        {
+        if (InputChecks.checkExit(password)) {
             return;
         }
 
-        Restaurant restaurant = new Restaurant(name,address,contact,email,password);
+        Restaurant restaurant = new Restaurant(name, address, contact, email, password);
         restaurant.loadRestaurantsFromFile();
         addRestaurant(restaurant);
         restaurant.RestaurantSaveToFiles(restaurant.getRestaurants());
@@ -213,35 +194,31 @@ public class Admin extends User implements AdminPermissions, InputChecks, Restau
 
     }
 
-    void addDishToMenuPage()
-    {
+    void addDishToMenuPage() {
         Menu menu = new Menu();
         Scanner scanner = new Scanner(System.in);
         System.out.println("\t\t### Admin Add Dish To Menu Page ###\nAt Any Point Type exit to return.\n");
 
         System.out.print("Enter Restaurant Name: ");
         String restaurantName = scanner.nextLine();
-        if(InputChecks.checkExit(restaurantName))
-        {
+        if (InputChecks.checkExit(restaurantName)) {
             return;
         }
         menu.readMenuDataFile(restaurantName);
 
         System.out.print("Enter Dish Name: ");
         String dishName = scanner.nextLine();
-        if(InputChecks.checkExit(dishName))
-        {
+        if (InputChecks.checkExit(dishName)) {
             return;
         }
 
         System.out.print("Enter Dish Price (0 to abort): ");
         Double dishPrice = Double.parseDouble(scanner.nextLine());
-        if(dishPrice == 0)
-        {
+        if (dishPrice == 0) {
             return;
         }
 
-        menu.addNewDish(restaurantName,dishName,dishPrice);
+        menu.addNewDish(restaurantName, dishName, dishPrice);
         menu.writeMenuDataFile();
     }
 
