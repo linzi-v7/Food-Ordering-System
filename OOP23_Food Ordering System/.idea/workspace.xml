@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="d01ccfb9-7a84-48ab-a02f-25d9b8755d94" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/restaurants.txt" beforeDir="false" afterPath="$PROJECT_DIR$/restaurants.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/restaurant/Restaurant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/restaurant/Restaurant.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,5 +54,16 @@
       <updated>1702985281469</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/project/admin/Admin.java</url>
+          <line>208</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

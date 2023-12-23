@@ -1,4 +1,4 @@
-McLonalds,Abbaseya Cairo,01234,mac@gmail.com,mac123
+McLonalds,01234,Abbaseya Cairo,mac@gmail.com,mac123
 Kurger Bing,56789,Korbah Cairo,bk@gmail.com,bk123
-Kazooba,5th Settlement New Cairo,01123,bazooka@gmail.com,bazooka123
+Kazooba,01123,5th Settlement New Cairo,bazooka@gmail.com,bazooka123
 FCIS ASU Bistro & Grill,01100,FCIS ASU,fcis@gmail.com,fcis123
