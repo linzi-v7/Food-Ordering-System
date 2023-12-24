@@ -107,7 +107,13 @@ public class restaurantRegistration {
         }
 
         restaurant.addRestaurantDetails(restaurant.restaurantName, restaurant.restaurantContact, restaurant.restaurantAddress, restaurant.restaurantEmail, restaurant.restaurantPassword);
-
+        restaurant.RestaurantSaveToFiles(restaurant.getRestaurants());
+    }
+    static boolean validateEmail(String email)
+    {
+        // Basic email validation using a regular expression
+        String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        return email.matches(regex);
     }
     static boolean validateEmail(String email)
     {

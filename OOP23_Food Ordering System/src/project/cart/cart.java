@@ -22,13 +22,14 @@ public class cart {
 
     public static void addToCart(Scanner scanner, Menu menu, cart orderCart) {
         int choice2;
+        System.out.print("Enter the item number to add to the cart (0 to finish): ");
         while ((choice2 = scanner.nextInt()) != 0) {
             if (choice2 > 0 && choice2 <= menu.getMenuSize()) {
                 orderCart.addItem(menu.getMenuItem(choice2 - 1));
             } else {
                 System.out.println("Invalid choice. Try again.");
             }
-            System.out.println("Enter the item number to add to the cart (0 to finish):");
+            System.out.print("Enter the item number to add to the cart (0 to finish): ");
         }
     }
 
@@ -55,13 +56,17 @@ public class cart {
 
     public void removeItem(Scanner scanner, cart orderCart) {
         int x;
+        orderCart.displayCart();
+        System.out.print("\nEnter the item number to remove from the cart (0 to finish): ");
         while ((x = scanner.nextInt()) != 0) {
+            System.out.print("\n------------------------------------------------------\n");
             if (x > 0 && x <= orderCart.getCartSize()) {
                 cart.remove(x - 1);
             } else {
                 System.out.println("Invalid choice. Try again.");
             }
-            System.out.println("Enter the item number to remove from the cart (0 to finish):");
+            orderCart.displayCart();
+            System.out.print("\nEnter the item number to remove from the cart (0 to finish): ");
         }
     }
 }
