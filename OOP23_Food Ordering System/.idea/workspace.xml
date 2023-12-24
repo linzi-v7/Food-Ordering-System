@@ -4,9 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d01ccfb9-7a84-48ab-a02f-25d9b8755d94" name="Changes" comment="">
+    <list default="true" id="d01ccfb9-7a84-48ab-a02f-25d9b8755d94" name="Changes" comment="changed some visual stuff and fixed runtime">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/reviews.txt" beforeDir="false" afterPath="$PROJECT_DIR$/reviews.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/cart/cart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/cart/cart.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/project/main/MainClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/main/MainClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/menu/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/menu/Menu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/order/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/order/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/restaurant/Restaurant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/restaurant/Restaurant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/project/restaurant/RestaurantPermissions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/restaurant/RestaurantPermissions.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/users.txt" beforeDir="false" afterPath="$PROJECT_DIR$/users.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,10 +40,12 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.MainClass.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "last_opened_file_path": "C:/Users/faris/Desktop",
+    "node.js.selected.package.tslint": "(autodetect)",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
@@ -52,7 +61,20 @@
       <option name="presentableId" value="Default" />
       <updated>1702985281469</updated>
     </task>
+    <task id="LOCAL-00001" summary="changed some visual stuff and fixed runtime">
+      <option name="closed" value="true" />
+      <created>1703405467446</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1703405467446</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="changed some visual stuff and fixed runtime" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed some visual stuff and fixed runtime" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -61,11 +83,6 @@
           <url>file://$PROJECT_DIR$/src/project/admin/Admin.java</url>
           <line>208</line>
           <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/project/main/MainClass.java</url>
-          <line>223</line>
-          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

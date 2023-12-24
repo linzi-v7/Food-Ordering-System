@@ -1,71 +1,55 @@
 package project.order;
 
-import java.util.List;
-import java.util.ArrayList;
+import project.cart.cart;
+import project.user.User;
+
 import java.util.Scanner;
 import java.io.*;
 
-public class Order implements OrderManagement {
-    private String username;
-    private List<String> items;
-    private String status;
-
-    public Order(String username) {
-        this.username = username;
-        this.items = new ArrayList<>();
-        this.status = "Pending";
-    }
-
-    public void addItem(String item) {
-        items.add(item);
-    }
-
-    public void viewOrder() {
-        System.out.println("Order Details for " + username);
-        System.out.println("Status: " + status);
-        System.out.println("Items:");
-
-        for (String item : items) {
-            System.out.println(item);
-        }
-    }
-
-
-
-    public String getUsername() {
-        return username;
-    }
-
-    public List<String> getItems() {
-        return items;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-}
- interface OrderManagement {
-    default void placeOrder(String username, List<String> items) {
-        Order order = new Order(username);
-
-        for (String item : items) {
-            order.addItem(item);
-        }
-
-
-        saveOrder(order);
-
-        System.out.println("Order placed successfully!");
-    }
-
-    default void saveOrder(Order order) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter("orders.txt", true))) {
-            writer.println("Username: " + order.getUsername());
-            writer.println("Status: " + order.getStatus());
-            writer.println("Items:");
-            for (String item : order.getItems()) {
-                writer.println(item);
+public class Order {
+    Scanner scanner = new Scanner(System.in);
+        public void orderManagement(cart orderCart, User loggedInUser) {
+            System.out.println("\n------------------------------------------------------\n");
+            System.out.println("Please enter delivery time:- ");
+            int time = scanner.nextInt();
+            System.out.println("To confirm the order press Y");
+            System.out.println("To cancel the order press C");
+            char con = 'x';
+            while (true) {
+                con = scanner.next().charAt(0);
+                if (con == 'Y' || con == 'y' || con == 'c' || con == 'C')
+                    break;
+                System.out.println("Invalid");
+                System.out.println("To confirm the order press Y");
+                System.out.println("To cancel the order press C");
             }
+            if (con == 'Y' || con == 'y') {
+                System.out.println("would you like to change your address?(y/n)");
+                char ans = scanner.next().charAt(0);
+                if (ans == 'y'){
+                    System.out.print("enter your new address: ");
+                    String newAddress = scanner.next();
+                    System.out.println("Your Order : ");
+                    orderCart.displayCart();
+                    System.out.printf("Total Price: %.2f", orderCart.calculateTotal());
+                    System.out.println("\nYour Address : " + newAddress + ".");
+                }else {
+                    System.out.println("Your Order : ");
+                    orderCart.displayCart();
+                    System.out.printf("Total Price: %.2f", orderCart.calculateTotal());
+                    System.out.println("Your Address : " + loggedInUser.getAddress() + ".");
+                }
+            }
+            if (con == 'c' || con == 'C'){
+                System.out.println("order canceled");
+                System.exit(-1);
+            }
+        }
+
+    void saveOrder(cart cart, User user) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter("orders.txt", true))) {
+            writer.println("total w/o tax and delivery" + cart.calculateTotal());
+            writer.println("Name: " + user.getName());
             writer.println("----------");
         } catch (IOException e) {
             e.printStackTrace();
@@ -73,7 +57,7 @@ public class Order implements OrderManagement {
         }
     }
 
-    default void viewOrders() {
+    public void viewOrders() {
         try (Scanner scanner = new Scanner(new File("orders.txt"))) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();

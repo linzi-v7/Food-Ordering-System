@@ -3,6 +3,7 @@ package project.main;
 import project.cart.cart;
 import project.payment.Payment;
 import project.restaurant.Restaurant;
+import project.order.Order;
 
 import project.restaurant.restaurantRegistration;
 import project.admin.Admin;
@@ -228,34 +229,12 @@ public class MainClass {
             orderCart.displayCart();
             System.out.printf("Total Price: %.2f", orderCart.calculateTotal());
 
-            if (orderCart.getCartSize() > 0) {
-                System.out.println("\n------------------------------------------------------\n");
-
-                System.out.println("Please enter delivery time:- ");
-                int time = scanner.nextInt();
-                System.out.println("To confirm the order press Y");
-                System.out.println("To cancel the order press C");
-                char con = 'x';
-                while (true) {
-                    con = scanner.next().charAt(0);
-                    if (con == 'Y' || con == 'y' || con == 'c' || con == 'C')
-                        break;
-                    System.out.println("Invalid");
-                    System.out.println("To confirm the order press Y");
-                    System.out.println("To cancel the order press C");
-                }
-                if (con == 'Y' || con == 'y') {
-                    System.out.println("Your Order : ");
-
-                    orderCart.displayCart();
-                    System.out.println("Total: $" + orderCart.calculateTotal());
-                    System.out.println("Your Address : " + loggedInUser.getAddress() + ".");
-                    System.out.println("Your order will be prepared. It will reach on " + time + ".");
-
+                    Order order = new Order();
+                    order.orderManagement(orderCart,loggedInUser);
                     PaymentTest();
                     mainreview();
-                }
-            }
+
+
         } else {
 
             System.out.println("USER DOESN'T EXIST!");
@@ -307,8 +286,8 @@ public class MainClass {
 
     //function that handles program flow after a system administrator logs in
     public static void adminLaunchProgram() {
-        Admin sysAdmin = new Admin();
-
+        User admin = new Admin();
+        Admin sysAdmin = (Admin) admin;
         sysAdmin.runDashboard();
     }
 
