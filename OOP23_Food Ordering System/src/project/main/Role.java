@@ -1,7 +1,6 @@
 package project.main;
 
-public class Role
-{
+public class Role {
     /*
         ROLES:
         NONE        |   0

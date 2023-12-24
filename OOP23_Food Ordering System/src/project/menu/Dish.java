@@ -1,7 +1,6 @@
 package project.menu;
 
-public class Dish
-{
+public class Dish {
     private String restaurantName;
     private String dishName;
     private double price;

@@ -1,4 +1,5 @@
 package project.menu;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -9,30 +10,29 @@ import java.util.Objects;
 
 public class Menu {
 
-    private ArrayList<Dish> restaurantMenu;
     public ArrayList<Dish> newDishes;
+    private ArrayList<Dish> restaurantMenu;
     private ArrayList<Dish> allMenus;
+
     public Menu() {
         this.restaurantMenu = new ArrayList<>();
         this.newDishes = new ArrayList<>();
         this.allMenus = new ArrayList<>();
         readMenuDataFile();
     }
+
     public void addItem(String restaurantName, String dishName, Double price) {
         Dish dishToAdd = new Dish(restaurantName, dishName, price);
         boolean found = false;
 
-        for (Dish dish:restaurantMenu)
-        {
-            if (dishToAdd.equals(dish))
-            {
+        for (Dish dish : restaurantMenu) {
+            if (dishToAdd.equals(dish)) {
                 found = true;
                 break;
             }
         }
 
-        if(!found)
-        {
+        if (!found) {
             restaurantMenu.add(dishToAdd);
         }
 
@@ -41,28 +41,22 @@ public class Menu {
     public void addNewDish(String restaurantName, String dishName, Double price) {
         Dish dishToAdd = new Dish(restaurantName, dishName, price);
         boolean found = false;
-        for (Dish dish:allMenus)
-        {
+        for (Dish dish : allMenus) {
             if (dishToAdd.equals(dish)) {
                 found = true;
                 break;
             }
         }
 
-        if(!found)
-        {
+        if (!found) {
             newDishes.add(dishToAdd);
-        }
-        else
-        {
+        } else {
             System.out.println("DISH ALREADY EXISTS!");
         }
     }
 
-    public  void readMenuDataFile(String rName)
-    {
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader("menus.txt")))
-        {
+    public void readMenuDataFile(String rName) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("menus.txt"))) {
             String line;
             while ((line = bufferedReader.readLine()) != null) //reads each line until there is none
             {
@@ -74,39 +68,32 @@ public class Menu {
                     addItem(restaurantName, dishName, price);
                 }
             }
-        }
-        catch(IOException exp)
-        {
+        } catch (IOException exp) {
             System.out.println(exp.getMessage());
         }
     }
 
-    public  void readMenuDataFile()
-    {
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader("menus.txt")))
-        {
+    public void readMenuDataFile() {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("menus.txt"))) {
             String line;
             while ((line = bufferedReader.readLine()) != null) //reads each line until there is none
             {
                 String[] itemData = line.split(",");
-                    String restaurantName = itemData[0];
-                    String dishName = itemData[1];
-                    double price = Double.parseDouble(itemData[2]);
+                String restaurantName = itemData[0];
+                String dishName = itemData[1];
+                double price = Double.parseDouble(itemData[2]);
                 Dish dish = new Dish(restaurantName, dishName, price);
                 allMenus.add(dish);
 
             }
-        }
-        catch(IOException exp)
-        {
+        } catch (IOException exp) {
             System.out.println(exp.getMessage());
         }
     }
 
-    public void writeMenuDataFile()
-    {
-        try (PrintWriter writer = new PrintWriter((new FileWriter("menus.txt",true)))) {
-            if(!newDishes.isEmpty()) {
+    public void writeMenuDataFile() {
+        try (PrintWriter writer = new PrintWriter((new FileWriter("menus.txt", true)))) {
+            if (!newDishes.isEmpty()) {
                 for (Dish dish : newDishes) {
                     writer.write(dish.getRestaurantName() + "," + dish.getDishName() + "," + dish.getPrice() + "\n");
                 }
@@ -116,12 +103,10 @@ public class Menu {
         }
     }
 
-    public void displayMenu(String restaurantName)
-    {
-        for (Dish dish : restaurantMenu)
-        {
+    public void displayMenu(String restaurantName) {
+        for (Dish dish : restaurantMenu) {
             if (dish.getRestaurantName().equals(restaurantName)) {
-                System.out.println(dish.getDishName() + ": $" + dish.getPrice());
+                System.out.println(restaurantMenu.indexOf(dish)+1 + ". " + dish.getDishName() + ": $" + dish.getPrice());
             }
         }
     }

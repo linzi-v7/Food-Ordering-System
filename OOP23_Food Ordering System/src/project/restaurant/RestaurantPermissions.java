@@ -1,21 +1,12 @@
 package project.restaurant;
-
-
-import project.menu.Dish;
 import project.menu.Menu;
 import project.order.Order;
-
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.random.*;
 
-public interface RestaurantPermissions
-{
-    default void addDishToMenuPage(Restaurant restaurant)
-    {
+
+public interface RestaurantPermissions {
+    default void addDishToMenuPage(Restaurant restaurant) {
         Menu menu = new Menu();
         Scanner scanner = new Scanner(System.in);
         System.out.println("\t\t### Restaurant Add Dish To Menu Page ###\n");
@@ -28,21 +19,19 @@ public interface RestaurantPermissions
         System.out.print("Enter Dish Price: ");
         Double dishPrice = Double.parseDouble(scanner.nextLine());
 
-        menu.addNewDish(restaurant.getRestaurantName(),dishName,dishPrice);
+        menu.addNewDish(restaurant.getRestaurantName(), dishName, dishPrice);
         menu.writeMenuDataFile();
     }
 
 
-    default void viewOrders()
-    {
+    default void viewOrders() {
         Order order = new Order("name");
         order.viewOrders();
     }
 
 
     //view profit,etc...
-    default void generateBusinessReport(Restaurant restaurant)
-    {
+    default void generateBusinessReport(Restaurant restaurant) {
         Random rand = new Random();
         System.out.println("\t\t#### BUSINESS REPORT ####");
         System.out.println("Business Report For " + restaurant.getRestaurantName());

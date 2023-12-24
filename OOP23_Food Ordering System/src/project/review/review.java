@@ -92,7 +92,7 @@ public class review {
     public void setNum_phone() {
         System.out.println("Enter your telephone number : ");
         String inputnum_phone = scanner.next();//01029494405
-        while (inputnum_phone.length()!=11) {
+        while (inputnum_phone.length() != 11) {
             System.out.println("Incorrect Input\nRenter your telephone number : ");
             inputnum_phone = scanner.next();
         }
@@ -152,12 +152,13 @@ public class review {
     public void setComments() {
         System.out.println("Are there any additional comments true or false? ");
         String inputcomments = scanner.next();
-        if (inputcomments.equals("t") == true || inputcomments.equals("T") == true  || inputcomments.equals("true") == true || inputcomments.equals("True") == true || inputcomments.equals("TRUE") == true) {
+        if (inputcomments.equals("t") == true || inputcomments.equals("T") == true || inputcomments.equals("true") == true || inputcomments.equals("True") == true || inputcomments.equals("TRUE") == true) {
             inputcomments = scanner.next();
             this.comments = inputcomments;
         }
         System.out.println("\nThank you for your vote and we look forward to seeing you soon :)");
     }
+
     //getter
     public String getName() {
         return Name;

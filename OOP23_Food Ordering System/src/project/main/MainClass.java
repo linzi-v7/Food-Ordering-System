@@ -57,9 +57,7 @@ public class MainClass {
                         decision = Integer.parseInt(scanner.nextLine());
 
                         switch (decision) {
-
                             case 2:
-
                                 restaurantRegistration.registerRestaurant(restaurant);
                                 repeat = false;
                                 break;
@@ -67,15 +65,12 @@ public class MainClass {
                                 UserManagementSystem.registerUser(1);
                                 repeat = false;
                                 break;
-
                             default:
                                 System.out.println("please enter a correct number");
-
                         }
                     } else {
                         System.out.println("Invalid input. Please enter a number from the choices");
                         scanner.nextLine();
-
                     }
                 }
             } else if (isUserCheck.equalsIgnoreCase("exit")) {
@@ -95,20 +90,17 @@ public class MainClass {
                 break;
             case Role.USER_IDENTIFIER:
                 userLaunchProgram(userEmail, restaurant);
-
         }
-
-
     }
 
     //function to handle program flow after user logs in, should display restaurants, menus,etc..
     public static void userLaunchProgram(String userEmail, Restaurant restaurant) {
         User loggedInUser = UserManagementSystem.getUserByEmail(userEmail);
-        ArrayList restaurantValues = new ArrayList<>();
+
         //if somehow the user doesn't exist (after multiple checks), we should terminate the program
         if (loggedInUser != null) {
             Scanner scanner = new Scanner(System.in);
-            int ChosenRestaurant = 0;
+            int ChosenRestaurant;
             System.out.println("\n\t\tWelcome " + loggedInUser.getName() + "!");
 
             //Display and search restaurant
@@ -118,53 +110,37 @@ public class MainClass {
             System.out.println("to search for a specific restaurant enter: 2");
             boolean repeat = true;
             while (repeat) {
-                int decision = 0;
                 if (scanner.hasNextInt()) {
-                    try {
-
-
-                        decision = scanner.nextInt();
-                    } catch (InputMismatchException exp) {
-                        System.out.println("please enter a correct number");
-                    }
+                    int decision = scanner.nextInt();
                     switch (decision) {
                         case 1:
                             int counter = 0;
                             for (ArrayList<String> restaurants : restaurant.getRestaurants()) {
                                 counter++;
                                 System.out.println(counter + "." + restaurants.get(0));
-                                restaurantValues.add(counter);
                             }
                             repeat = false;
-
                             break;
-
                         case 2:
-                            restaurantValues = restaurant.restaurantSearching(restaurant);
+                            restaurant.restaurantSearching(restaurant);
                             repeat = false;
                             break;
-
                         default:
                             System.out.println("choose a value that exists within the choices");
-
                     }
-
                 } else {
                     System.out.println("Invalid input. Please enter a number from the choices");
                     scanner.next();
-
                 }
             }
 
-
-            String RestaurantName = "";
-            boolean validation = false;
-            while (!validation) {
+            String RestaurantName;
+            while (true) {
                 try {
                     System.out.println("enter the number of the restaurant that you want");
                     ChosenRestaurant = scanner.nextInt();
-
-
+                    RestaurantName = restaurant.getRestaurants().get(ChosenRestaurant - 1).get(0);
+                    break;
                 } catch (IndexOutOfBoundsException exp) {
                     System.out.println("Invalid Input! Try Again!");
 
@@ -172,19 +148,6 @@ public class MainClass {
                     System.out.println("please enter a valid number");
                     scanner.next();
                 }
-                for (Object values : restaurantValues) {
-                    if (values.equals(ChosenRestaurant)) {
-                        RestaurantName = restaurant.getRestaurants().get(ChosenRestaurant - 1).get(0);
-                        validation = true;
-                        break;
-
-
-                    }
-                }
-                if (!validation) {
-                    System.out.println("please enter a value from the restaurants in front of you");
-                }
-
             }
             //display the menu of selected restaurant
             Menu menu = new Menu();
@@ -195,9 +158,8 @@ public class MainClass {
             menu.displayMenu(RestaurantName);
 
             // User interaction
-            System.out.print("Enter the item number to add to the cart (0 to finish): ");
+            System.out.println("Enter the item number to add to the cart (0 to finish):");
             cart.addToCart(scanner, menu, orderCart);
-
 
             // Display the order
             orderCart.displayCart();
@@ -249,7 +211,9 @@ public class MainClass {
 
             orderCart.displayCart();
             System.out.println("Total Price: " + Math.round(orderCart.calculateTotal()));
+
             if (orderCart.getCartSize() > 0) {
+                System.out.println("\n------------------------------------------------------\n");
 
                 System.out.println("Please enter delivery time:- ");
                 int time = scanner.nextInt();
@@ -275,15 +239,14 @@ public class MainClass {
                     PaymentTest();
                     mainreview();
                 }
-            }
 //}
-        } else {
-            System.out.println("USER DOESN'T EXIST!");
-            System.exit(-1);
+            } else {
+                System.out.println("USER DOESN'T EXIST!");
+                System.exit(-1);
+            }
         }
 
     }
-
     public static void PaymentTest() {
         // Creating a Payment object with initial details
         Payment payment = new Payment(123456, "Pending", "");
@@ -314,7 +277,7 @@ public class MainClass {
         userReview.setComments();
 
         // Specify the file path where you want to save the data
-        String filePath = "reviews.txt";
+        String filePath = "D:\\MY_Projects\\Food-Ordering-System\\reviews.txt";
 
         // Save the data to the file
         userReview.saveToFile(filePath);
@@ -391,8 +354,5 @@ public class MainClass {
             System.out.println("Would you like to exit program? (Y/N)");
             exitCheck = scanner.nextLine();
         } while (exitCheck.equalsIgnoreCase("n") || exitCheck.equalsIgnoreCase("no"));
-
     }
-
-
 }
