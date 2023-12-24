@@ -206,7 +206,7 @@ public class MainClass {
                     break;
                 } else System.out.println("invalid input try again:");
 
-            }while (changeOrder.equalsIgnoreCase("yes") || changeOrder.equalsIgnoreCase("y") ||
+            } while (changeOrder.equalsIgnoreCase("yes") || changeOrder.equalsIgnoreCase("y") ||
                     changeOrder.equalsIgnoreCase("no") || changeOrder.equalsIgnoreCase("n"));
 
             orderCart.displayCart();
@@ -214,19 +214,39 @@ public class MainClass {
 
             if (orderCart.getCartSize() > 0) {
                 System.out.println("\n------------------------------------------------------\n");
-                //orderProcessing();
-                PaymentTest();
-                //orderTracking();
-                //reviewProcessing();
-            }
+
+                System.out.println("Please enter delivery time:- ");
+                int time = scanner.nextInt();
+                System.out.println("To confirm the order press Y");
+                System.out.println("To cancel the order press C");
+                char con = 'x';
+                while (true) {
+                    con = scanner.next().charAt(0);
+                    if (con == 'Y' || con == 'y' || con == 'c' || con == 'C')
+                        break;
+                    System.out.println("Invalid");
+                    System.out.println("To confirm the order press Y");
+                    System.out.println("To cancel the order press C");
+                }
+                if (con == 'Y' || con == 'y') {
+                    System.out.println("Your Order : ");
+
+                    orderCart.displayCart();
+                    System.out.println("Total: $" + orderCart.calculateTotal());
+                    System.out.println("Your Address : " + loggedInUser.getAddress() + ".");
+                    System.out.println("Your order will be prepared. It will reach on " + time + ".");
+
+                    PaymentTest();
+                    mainreview();
+                }
 //}
-        } else {
-            System.out.println("USER DOESN'T EXIST!");
-            System.exit(-1);
+            } else {
+                System.out.println("USER DOESN'T EXIST!");
+                System.exit(-1);
+            }
         }
+
     }
-
-
     public static void PaymentTest() {
         // Creating a Payment object with initial details
         Payment payment = new Payment(123456, "Pending", "");
@@ -240,7 +260,7 @@ public class MainClass {
         System.out.println("Payment Method: " + payment.getPaymentMethod());
     }
 
-    public static void mainreview(String[] args) {
+    public static void mainreview() {
 
 
         System.out.println("Welcome to the Review System!");
