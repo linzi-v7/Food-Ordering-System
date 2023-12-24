@@ -213,15 +213,8 @@ public class MainClass
 
             // User interaction
             System.out.print("Enter the item number to add to the cart (0 to finish): ");
-            int choice;
-            while ((choice = scanner.nextInt()) != 0) {
-                if (choice > 0 && choice <= menu.getMenuSize()) {
-                    orderCart.addItem(menu.getMenuItem(choice - 1));
-                } else {
-                    System.out.println("Invalid choice. Try again.");
-                }
-                System.out.print("Enter the item number to add to the cart (0 to finish): ");
-            }
+            cart.addToCart(scanner, menu, orderCart);
+
 
             // Display the order
             orderCart.displayCart();
