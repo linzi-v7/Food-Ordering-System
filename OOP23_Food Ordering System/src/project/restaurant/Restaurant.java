@@ -60,6 +60,9 @@ public class Restaurant implements RestaurantPermissions{
         return restaurantPassword;
     }
 
+    /**
+     * function used to load the restaurants from the file
+     */
     public void loadRestaurantsFromFile() {
         try {
             Scanner fileScanner = new Scanner(new File("restaurants.txt"));
@@ -85,6 +88,10 @@ public class Restaurant implements RestaurantPermissions{
 
     }
 
+    /** function used to save restaurants to the files
+     *
+     * @param restaurants the restaurants and all the details
+     */
     public void RestaurantSaveToFiles(ArrayList<ArrayList<String>> restaurants) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("restaurants.txt"))) {
             for (ArrayList<String> row : restaurants) {
@@ -101,6 +108,15 @@ public class Restaurant implements RestaurantPermissions{
         }
     }
 
+    /** function gets the details of the restaurant and add it to the restaurant arraylist
+     * it has no returns
+     *
+     * @param restaurantName the name of the restaurant
+     * @param restaurantContact the phone number of the restaurant
+     * @param restaurantAddress the address of the restaurant
+     * @param restaurantEmail the mail of the restaurant
+     * @param restaurantPassword the password of the restaurant
+     */
     public void addRestaurantDetails(String restaurantName, String restaurantContact, String restaurantAddress, String restaurantEmail, String restaurantPassword) {
         ArrayList<String> restaurantDetails = new ArrayList<>();
         restaurantDetails.add(restaurantName);
@@ -112,6 +128,14 @@ public class Restaurant implements RestaurantPermissions{
 
     }
 
+    /** function gets mail and password and calls 3 functions to confirm that
+     *  mail and password exists and from the same account then returns the mail if true else returns null
+     *
+     * @param restaurant the restaurant object used to access the restaurant arraylist
+     * @param mail the mail entered by the restaurant
+     * @param password the password of the restaurant
+     * @return the mail of the restaurant if true else returns null
+     */
 
     public String login(Restaurant restaurant, String mail, String password) {
 
@@ -127,6 +151,13 @@ public class Restaurant implements RestaurantPermissions{
         return "null";
     }
 
+    /**when called this function gets the email entered and compare the email
+     * to the elements inside the 3rd row in the arraylist and if a match is found then it
+     * returns true if a match is found and false if no match is found
+     *
+     * @param email the email the user entered being compared to
+     * @return true if the restaurant email is unique and false if not
+     */
     boolean compareEmail(String email) {
         boolean uniqueEmail = false;
         for (ArrayList<String> row : restaurants) {
@@ -141,6 +172,13 @@ public class Restaurant implements RestaurantPermissions{
         return uniqueEmail;
     }
 
+    /** when called this function gets the password entered and compare the password
+     * to the elements inside the 4'th row in the arraylist and if a match is found then it
+     * returns true if a match is found and false if no match is found
+     *
+     * @param password the password the user entered being compared to
+     * @return true if the restaurant password is unique and false if not
+     */
     boolean comparePassword(String password) {
         boolean uniquePassword = false;
         for (ArrayList<String> row : restaurants) {
@@ -155,6 +193,13 @@ public class Restaurant implements RestaurantPermissions{
         return uniquePassword;
     }
 
+    /** this function is used to search for a specific restaurant
+     * when the function is called it asks the user to enter the name of the restaurant it's searching for and
+     * compare the input with the name elements inside the arraylist and when a match is found
+     * it displays the name found
+     *
+     * @param restaurant the restaurant object that was made
+     */
     public ArrayList restaurantSearching(Restaurant restaurant) {
 
         int counter=0;
@@ -173,6 +218,13 @@ public class Restaurant implements RestaurantPermissions{
         return countedValues;
     }
 
+    /**
+     * this function gets the mail and the password entered by the user and checks that they're from same account
+     * by making sure the row is the same and then returns the result
+     * @param mail mail entered from the user
+     * @param password password entered from the user
+     * @return if they're the same return true else return false
+     */
     private boolean verifyAccount(String mail, String password) {
         int index = 0;
         for (ArrayList<String> restaurants2 : restaurants) {
@@ -187,6 +239,16 @@ public class Restaurant implements RestaurantPermissions{
         return false;
     }
 
+
+    /**
+     * this function return the details of the restaurant after getting the mail
+     * of the logged in restaurant,it does that after accessing the arraylist
+     * restaurant and comparing the current mail
+     * with all the mails and when a match is found it return's all the details
+     * @param mail mail of the restaurant
+     *
+     * @return  restaurants2 that contains restaurant's: name,phone,mail,address,password
+     */
     public ArrayList<String> getRestaurantEmail(String mail)
     {
         ArrayList<String> restaurant = new ArrayList<>();
