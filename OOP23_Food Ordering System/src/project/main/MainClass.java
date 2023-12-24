@@ -242,15 +242,17 @@ public class MainClass
                     System.out.println("To confirm the order press Y");
                     System.out.println("To cancel the order press C");
                 }
-                System.out.println("Your Order : ");
+                if(con == 'Y' || con == 'y') {
+                    System.out.println("Your Order : ");
 
-                orderCart.displayCart();
-                System.out.println("Total: $" + orderCart.calculateTotal());
-                System.out.println("Your Address : " + loggedInUser.getAddress() + ".");
-                System.out.println("Your order will be prepared. It will reach on " + time + ".");
+                    orderCart.displayCart();
+                    System.out.println("Total: $" + orderCart.calculateTotal());
+                    System.out.println("Your Address : " + loggedInUser.getAddress() + ".");
+                    System.out.println("Your order will be prepared. It will reach on " + time + ".");
 
-                PaymentTest();
-                mainreview();
+                    PaymentTest();
+                    mainreview();
+                }
             }
 //}
         }
