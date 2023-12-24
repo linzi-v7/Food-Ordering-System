@@ -209,7 +209,7 @@ public class Restaurant implements RestaurantPermissions{
         String search = scanner.nextLine();
         for (ArrayList<String> restaurant1 : restaurant.restaurants) {
             counter++;
-            if (restaurant1.get(0).startsWith(search)) {
+            if (restaurant1.get(0).toLowerCase().startsWith(search.toLowerCase())) {
 
                 System.out.println(counter + "." + restaurant1.get(0));
                 countedValues.add(counter);

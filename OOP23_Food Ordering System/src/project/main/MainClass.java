@@ -307,7 +307,8 @@ public class MainClass {
 
     //function that handles program flow after a system administrator logs in
     public static void adminLaunchProgram() {
-        Admin sysAdmin = new Admin();
+        User admin = new Admin();
+        Admin sysAdmin = (Admin) admin;
 
         sysAdmin.runDashboard();
     }
