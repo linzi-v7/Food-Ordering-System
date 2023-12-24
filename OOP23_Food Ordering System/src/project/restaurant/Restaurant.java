@@ -155,19 +155,22 @@ public class Restaurant implements RestaurantPermissions{
         return uniquePassword;
     }
 
-    public void restaurantSearching(Restaurant restaurant) {
+    public ArrayList restaurantSearching(Restaurant restaurant) {
 
-        int counter = 0;
+        int counter=0;
+        ArrayList<Integer> countedValues= new ArrayList<>();
         System.out.println("enter the name of the restaurant you're searching for:");
         Scanner scanner = new Scanner(System.in);
         String search = scanner.nextLine();
         for (ArrayList<String> restaurant1 : restaurant.restaurants) {
+            counter++;
             if (restaurant1.get(0).startsWith(search)) {
-                counter++;
+
                 System.out.println(counter + "." + restaurant1.get(0));
+                countedValues.add(counter);
             }
         }
-
+        return countedValues;
     }
 
     private boolean verifyAccount(String mail, String password) {
