@@ -48,19 +48,17 @@ public class MainClass {
 
             } else if (isUserCheck.equalsIgnoreCase("no")
                     || isUserCheck.equalsIgnoreCase("n")) {
-                int decision=0;
+                int decision = 0;
                 boolean repeat = true;
-                while (repeat){
+                while (repeat) {
                     System.out.println("to register as  new user enter: 1\n" +
                             "to register as a new restaurant enter 2 ");
-                    if (scanner.hasNextLine())
-                    {
+                    if (scanner.hasNextLine()) {
                         try {
 
 
                             decision = Integer.parseInt(scanner.nextLine());
-                        }
-                        catch (NumberFormatException num){
+                        } catch (NumberFormatException num) {
 
                         }
                         switch (decision) {
@@ -71,7 +69,7 @@ public class MainClass {
                                 repeat = false;
                                 break;
                             case 1:
-                                   UserManagementSystem.registerUser(1);
+                                UserManagementSystem.registerUser(1);
                                 repeat = false;
                                 break;
 
@@ -259,6 +257,7 @@ public class MainClass {
         }
 
     }
+
     public static void PaymentTest() {
         // Creating a Payment object with initial details
         Payment payment = new Payment(123456, "Pending", "");
@@ -289,7 +288,7 @@ public class MainClass {
         userReview.setComments();
 
         // Specify the file path where you want to save the data
-        String filePath = "D:\\MY_Projects\\Food-Ordering-System\\reviews.txt";
+        String filePath = "reviews.txt";
 
         // Save the data to the file
         userReview.saveToFile(filePath);
