@@ -1,4 +1,4 @@
-Name: test
+Name: faris
 Phone Number: 12345678912
 Restaurant Rating: 1.0
 Staff Rating: 1.0

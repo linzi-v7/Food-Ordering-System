@@ -14,7 +14,7 @@ public class Order {
             int time = scanner.nextInt();
             System.out.println("To confirm the order press Y");
             System.out.println("To cancel the order press C");
-            char con = 'x';
+            char con;
             while (true) {
                 con = scanner.next().charAt(0);
                 if (con == 'Y' || con == 'y' || con == 'c' || con == 'C')

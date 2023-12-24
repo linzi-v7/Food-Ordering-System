@@ -1,0 +1,1804 @@
+Index: users.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>System Administrator;admin;admin123;HQ;0123456789;\r\nFaris Osama;farisroro8@gmail.com;faris123;my address;01123111713;\r\nTester;test;test123;Testing Address;Testing Number;\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/users.txt b/users.txt
+--- a/users.txt	(revision 7af7b1857f528814a43e698180667446f3794cb7)
++++ b/users.txt	(date 1703361091501)
+@@ -1,3 +1,4 @@
+ System Administrator;admin;admin123;HQ;0123456789;
+ Faris Osama;farisroro8@gmail.com;faris123;my address;01123111713;
+ Tester;test;test123;Testing Address;Testing Number;
++Nader;nzcghug@gmail.com;password;abc st;1234562213;
+Index: src/project/main/MainClass.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.main;\r\nimport project.cart.cart;\r\nimport project.payment.Payment;\r\nimport project.restaurant.Restaurant;\r\n\r\nimport project.restaurant.restaurantRegistration;\r\nimport project.admin.Admin;\r\nimport project.review.review;\r\nimport project.user.User;\r\nimport project.user.UserManagementSystem;\r\nimport project.menu.*;\r\nimport java.util.ArrayList;\r\nimport java.util.InputMismatchException;\r\nimport java.util.Scanner;\r\n\r\n\r\npublic class MainClass\r\n{\r\n    public static void main(String[] args)\r\n    {\r\n        UserManagementSystem.readUserDataFile();\r\n        Scanner scanner = new Scanner(System.in);\r\n        String userEmail = null;\r\n        Restaurant restaurant = new Restaurant();\r\n        restaurant.loadRestaurantsFromFile();\r\n\r\n        String isUserCheck;\r\n\r\n        do\r\n        {\r\n            System.out.println(\"\\t####### Food Ordering System #######\\n\");\r\n            System.out.println(\"\\t\\t\\t\\t Welcome!\\n\");\r\n            System.out.println(\"Do you already have an account? Enter Yes or No\\n\" +\r\n                    \"Type exit to close program.\");\r\n            isUserCheck = scanner.nextLine();\r\n\r\n            if (isUserCheck.equalsIgnoreCase(\"yes\")\r\n                    || isUserCheck.equalsIgnoreCase(\"y\"))\r\n            {\r\n                String retry;\r\n                do\r\n                {\r\n                    retry = \"n\";\r\n                    if ( (userEmail=UserManagementSystem.loginUser(restaurant)).equals(\"null\"))\r\n                    {\r\n                        System.out.println(\"Would you like to retry?(Y/N)\");\r\n                        retry = scanner.nextLine();\r\n                    }\r\n                    //prompts user to retry if they entered wrong credentials\r\n                } while (retry.equalsIgnoreCase(\"y\")\r\n                        || retry.equalsIgnoreCase(\"yes\"));\r\n\r\n            } else if (isUserCheck.equalsIgnoreCase(\"no\")\r\n                    || isUserCheck.equalsIgnoreCase(\"n\")) {\r\n                int decision;\r\n                boolean repeat = true;\r\n                while (repeat){\r\n                    System.out.println(\"to register as  new user enter: 1\\n\" +\r\n                            \"to register as a new restaurant enter 2 \");\r\n                    if (scanner.hasNextLine())\r\n                    {\r\n                decision = Integer.parseInt(scanner.nextLine());\r\n\r\n                switch (decision) {\r\n\r\n                    case 2:\r\n\r\n                        restaurantRegistration.registerRestaurant(restaurant);\r\n                        repeat = false;\r\n                        break;\r\n                    case 1:\r\n                          UserManagementSystem.registerUser(1);\r\n                        repeat = false;\r\n                        break;\r\n\r\n                    default:\r\n                        System.out.println(\"please enter a correct number\");\r\n\r\n                }\r\n                    } else {\r\n                        System.out.println(\"Invalid input. Please enter a number from the choices\");\r\n                        scanner.nextLine();\r\n\r\n                    }\r\n            }\r\n            }\r\n            else if(isUserCheck.equalsIgnoreCase(\"exit\"))\r\n            {\r\n                System.exit(0);\r\n            }else\r\n            {\r\n                System.out.println(\"Invalid Input\");\r\n            }\r\n        }while(Role.getRoleIdentifier() == 0);\r\n\r\n\r\n        switch (Role.getRoleIdentifier())\r\n        {\r\n            case Role.ADMIN_IDENTIFIER:\r\n                adminLaunchProgram();\r\n                break;\r\n            case Role.RESTAURANT_IDENTIFIER:\r\n                restaurantLaunchProgram(userEmail,restaurant);\r\n                break;\r\n            case Role.USER_IDENTIFIER:\r\n                userLaunchProgram(userEmail,restaurant);\r\n\r\n        }\r\n\r\n\r\n    }\r\n\r\n    //function to handle program flow after user logs in, should display restaurants, menus,etc..\r\n    public static void userLaunchProgram(String userEmail,Restaurant restaurant)\r\n    {\r\n        User loggedInUser = UserManagementSystem.getUserByEmail(userEmail);\r\n\r\n        //if somehow the user doesn't exist (after multiple checks), we should terminate the program\r\n        if (loggedInUser != null)\r\n        {\r\n            Scanner scanner = new Scanner(System.in);\r\n            int ChosenRestaurant;\r\n            System.out.println(\"\\n\\t\\tWelcome \" + loggedInUser.getName() + \"!\");\r\n\r\n            //Display and search restaurant\r\n\r\n            System.out.println(\"select what you want to do and enter the number of the operation that you want.\");\r\n            System.out.println(\"to display all restaurants enter: 1\");\r\n            System.out.println(\"to search for a specific restaurant enter: 2\");\r\n            boolean repeat = true;\r\n            while (repeat) {\r\n                if (scanner.hasNextInt()) {\r\n                    int decision = scanner.nextInt();\r\n\r\n                    switch (decision) {\r\n                        case 1:\r\n                            int counter = 0;\r\n                            for (ArrayList<String> restaurants : restaurant.getRestaurants()) {\r\n                                counter++;\r\n                                System.out.println(counter + \".\" + restaurants.get(0));\r\n\r\n                            }\r\n                            repeat=false;\r\n\r\n                            break;\r\n\r\n                        case 2:\r\n                            restaurant.restaurantSearching(restaurant);\r\n                            repeat=false;\r\n                            break;\r\n\r\n                        default:\r\n                            System.out.println(\"choose a value that exists within the choices\");\r\n\r\n                    }\r\n\r\n                } else {\r\n                    System.out.println(\"Invalid input. Please enter a number from the choices\");\r\n                    scanner.next();\r\n\r\n                }\r\n            }\r\n\r\n\r\n            String RestaurantName;\r\n            while(true)\r\n            {\r\n            try {\r\n                System.out.println(\"enter the number of the restaurant that you want\");\r\n                ChosenRestaurant = scanner.nextInt();\r\n                RestaurantName = restaurant.getRestaurants().get(ChosenRestaurant - 1).get(0);\r\n                break;\r\n            }\r\n            catch(IndexOutOfBoundsException exp)\r\n                {\r\n                    System.out.println(\"Invalid Input! Try Again!\");\r\n\r\n                }\r\n            catch (InputMismatchException exception)\r\n            {\r\n                System.out.println(\"please enter a valid number\");\r\n                scanner.next();\r\n            }\r\n            }\r\n            //display the menu of selected restaurant\r\n            Menu menu = new Menu();\r\n            menu.readMenuDataFile(RestaurantName);\r\n\r\n            cart orderCart = new cart();\r\n            System.out.println(\"#### \" + RestaurantName +\"'s Menu ###\");\r\n            menu.displayMenu(RestaurantName);\r\n\r\n            // User interaction\r\n            System.out.print(\"Enter the item number to add to the cart (0 to finish): \");\r\n            int choice;\r\n            while ((choice = scanner.nextInt()) != 0) {\r\n                if (choice > 0 && choice <= menu.getMenuSize()) {\r\n                    orderCart.addItem(menu.getMenuItem(choice - 1));\r\n                } else {\r\n                    System.out.println(\"Invalid choice. Try again.\");\r\n                }\r\n                System.out.print(\"Enter the item number to add to the cart (0 to finish): \");\r\n            }\r\n\r\n            // Display the order\r\n            orderCart.displayCart();\r\n            System.out.println(\"Total: $\" + orderCart.calculateTotal());\r\n\r\n            if(orderCart.getCartSize()>0) {\r\n\r\n\r\n                //orderProcessing();\r\n                PaymentTest();\r\n                //orderTracking();\r\n                //reviewProcessing();\r\n            }\r\n//}\r\n        }\r\n        else\r\n        {\r\n            System.out.println(\"USER DOESN'T EXIST!\");\r\n            System.exit(-1);\r\n        }\r\n\r\n    }\r\n\r\n    public static void PaymentTest() {\r\n        // Creating a Payment object with initial details\r\n        Payment payment = new Payment(123456, \"Pending\", \"\");\r\n\r\n        // Testing payment processing\r\n        payment.paymentProcess();\r\n\r\n        // Displaying the updated payment details\r\n        System.out.println(\"Transaction ID: \" + payment.getTransactionId());\r\n        System.out.println(\"Payment Status: \" + payment.getPaymentStatus());\r\n        System.out.println(\"Payment Method: \" + payment.getPaymentMethod());\r\n    }\r\n    public static void mainreview(String[] args)\r\n    {\r\n\r\n\r\n        System.out.println(\"Welcome to the Review System!\");\r\n\r\n        // Collect user information\r\n        review userReview = new review();\r\n        userReview.setName();\r\n        userReview.setNum_phone();\r\n        userReview.setRev_rest();\r\n        userReview.setRev_staf();\r\n        userReview.setRev_clean();\r\n        userReview.setRev_food();\r\n        userReview.setRev_design();\r\n        userReview.setComments();\r\n\r\n        // Specify the file path where you want to save the data\r\n        String filePath = \"D:\\\\MY_Projects\\\\Food-Ordering-System\\\\reviews.txt\";\r\n\r\n        // Save the data to the file\r\n        userReview.saveToFile(filePath);\r\n\r\n        System.out.println(\"Review saved successfully. Thank you for your feedback!\");\r\n\r\n    }\r\n\r\n\r\n    //function that handles program flow after a system administrator logs in\r\n    public static void adminLaunchProgram()\r\n    {\r\n        Admin sysAdmin = new Admin();\r\n\r\n        sysAdmin.runDashboard();\r\n    }\r\n\r\n    public static  void restaurantLaunchProgram(String restaurantEmail,Restaurant restaurant)\r\n    {\r\n        ArrayList<String> restaurantData = restaurant.getRestaurantEmail(restaurantEmail);\r\n        String name= restaurantData.get(0);\r\n        String phone=restaurantData.get(1);\r\n        String address= restaurantData.get(2);\r\n        String email= restaurantData.get(3);\r\n        String password= restaurantData.get(4);\r\n\r\n        Restaurant loggedInRestaurant = new Restaurant(name,address,phone,email,password);\r\n        Menu  restaurantMenu = new Menu();\r\n\r\n        Scanner scanner = new Scanner(System.in);\r\n        String exitCheck;\r\n        do {\r\n\r\n            System.out.println(\"\\n\\t\\t####### Restaurant Dashboard ########\\n\");\r\n            System.out.println(\"\\t\\t\\t Welcome \" + loggedInRestaurant.getRestaurantName() + \"!\");\r\n\r\n            System.out.println(\"\\n##### \" +loggedInRestaurant.getRestaurantName() + \"'s Menu #####\");\r\n            restaurantMenu.readMenuDataFile(loggedInRestaurant.getRestaurantName());\r\n            restaurantMenu.displayMenu(loggedInRestaurant.getRestaurantName());\r\n\r\n            System.out.println(\"\\nOptions:\\n0.Exit\\n\" +\r\n                    \"1.Add Dish To Menu\" +\r\n                    \"\\n2.View Pending Orders\" +\r\n                    \"\\n3.Generate Business Report For Restaurant\");\r\n\r\n\r\n            int choice;\r\n            do {\r\n\r\n                try {\r\n                    choice = Integer.parseInt(scanner.nextLine());\r\n                    if (choice < 0 || choice > 3) {\r\n                        System.out.println(\"Invalid choice. Please enter a number between 0 and 3.\");\r\n                    }\r\n                } catch (NumberFormatException exp) {\r\n                    System.out.println(\"Invalid input. Please enter a valid number.\" +\r\n                            \" To exit type 0.\");\r\n                    choice = -1; // Set choice to an invalid value to trigger the loop again\r\n                }\r\n            }while((choice < 0 || choice > 3));\r\n\r\n\r\n            switch (choice) {\r\n                case 0:\r\n                    System.exit(0);\r\n                    break;\r\n                case 1:\r\n                    restaurant.addDishToMenuPage(loggedInRestaurant);\r\n                    break;\r\n                case 2:\r\n                    restaurant.viewOrders();\r\n                    break;\r\n                case 3:\r\n                    restaurant.generateBusinessReport(loggedInRestaurant);\r\n            }\r\n            System.out.println(\"Would you like to exit program? (Y/N)\");\r\n            exitCheck = scanner.nextLine();\r\n        }while(exitCheck.equalsIgnoreCase(\"n\") || exitCheck.equalsIgnoreCase(\"no\"));\r\n\r\n    }\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/project/main/MainClass.java b/src/project/main/MainClass.java
+--- a/src/project/main/MainClass.java	(revision 7af7b1857f528814a43e698180667446f3794cb7)
++++ b/src/project/main/MainClass.java	(date 1703360426160)
+@@ -1,4 +1,5 @@
+ package project.main;
++
+ import project.cart.cart;
+ import project.payment.Payment;
+ import project.restaurant.Restaurant;
+@@ -9,15 +10,14 @@
+ import project.user.User;
+ import project.user.UserManagementSystem;
+ import project.menu.*;
++
+ import java.util.ArrayList;
+ import java.util.InputMismatchException;
+ import java.util.Scanner;
+ 
+ 
+-public class MainClass
+-{
+-    public static void main(String[] args)
+-    {
++public class MainClass {
++    public static void main(String[] args) {
+         UserManagementSystem.readUserDataFile();
+         Scanner scanner = new Scanner(System.in);
+         String userEmail = null;
+@@ -26,8 +26,7 @@
+ 
+         String isUserCheck;
+ 
+-        do
+-        {
++        do {
+             System.out.println("\t####### Food Ordering System #######\n");
+             System.out.println("\t\t\t\t Welcome!\n");
+             System.out.println("Do you already have an account? Enter Yes or No\n" +
+@@ -35,14 +34,11 @@
+             isUserCheck = scanner.nextLine();
+ 
+             if (isUserCheck.equalsIgnoreCase("yes")
+-                    || isUserCheck.equalsIgnoreCase("y"))
+-            {
++                    || isUserCheck.equalsIgnoreCase("y")) {
+                 String retry;
+-                do
+-                {
++                do {
+                     retry = "n";
+-                    if ( (userEmail=UserManagementSystem.loginUser(restaurant)).equals("null"))
+-                    {
++                    if ((userEmail = UserManagementSystem.loginUser(restaurant)).equals("null")) {
+                         System.out.println("Would you like to retry?(Y/N)");
+                         retry = scanner.nextLine();
+                     }
+@@ -54,70 +50,57 @@
+                     || isUserCheck.equalsIgnoreCase("n")) {
+                 int decision;
+                 boolean repeat = true;
+-                while (repeat){
++                while (repeat) {
+                     System.out.println("to register as  new user enter: 1\n" +
+                             "to register as a new restaurant enter 2 ");
+-                    if (scanner.hasNextLine())
+-                    {
+-                decision = Integer.parseInt(scanner.nextLine());
++                    if (scanner.hasNextLine()) {
++                        decision = Integer.parseInt(scanner.nextLine());
+ 
+-                switch (decision) {
++                        switch (decision) {
+ 
+-                    case 2:
+-
+-                        restaurantRegistration.registerRestaurant(restaurant);
+-                        repeat = false;
+-                        break;
+-                    case 1:
+-                          UserManagementSystem.registerUser(1);
+-                        repeat = false;
+-                        break;
+-
+-                    default:
+-                        System.out.println("please enter a correct number");
+-
+-                }
++                            case 2:
++                                restaurantRegistration.registerRestaurant(restaurant);
++                                repeat = false;
++                                break;
++                            case 1:
++                                UserManagementSystem.registerUser(1);
++                                repeat = false;
++                                break;
++                            default:
++                                System.out.println("please enter a correct number");
++                        }
+                     } else {
+                         System.out.println("Invalid input. Please enter a number from the choices");
+                         scanner.nextLine();
+ 
+                     }
+-            }
+-            }
+-            else if(isUserCheck.equalsIgnoreCase("exit"))
+-            {
++                }
++            } else if (isUserCheck.equalsIgnoreCase("exit")) {
+                 System.exit(0);
+-            }else
+-            {
++            } else {
+                 System.out.println("Invalid Input");
+             }
+-        }while(Role.getRoleIdentifier() == 0);
++        } while (Role.getRoleIdentifier() == 0);
+ 
+ 
+-        switch (Role.getRoleIdentifier())
+-        {
++        switch (Role.getRoleIdentifier()) {
+             case Role.ADMIN_IDENTIFIER:
+                 adminLaunchProgram();
+                 break;
+             case Role.RESTAURANT_IDENTIFIER:
+-                restaurantLaunchProgram(userEmail,restaurant);
++                restaurantLaunchProgram(userEmail, restaurant);
+                 break;
+             case Role.USER_IDENTIFIER:
+-                userLaunchProgram(userEmail,restaurant);
+-
++                userLaunchProgram(userEmail, restaurant);
+         }
+-
+-
+     }
+ 
+     //function to handle program flow after user logs in, should display restaurants, menus,etc..
+-    public static void userLaunchProgram(String userEmail,Restaurant restaurant)
+-    {
++    public static void userLaunchProgram(String userEmail, Restaurant restaurant) {
+         User loggedInUser = UserManagementSystem.getUserByEmail(userEmail);
+ 
+         //if somehow the user doesn't exist (after multiple checks), we should terminate the program
+-        if (loggedInUser != null)
+-        {
++        if (loggedInUser != null) {
+             Scanner scanner = new Scanner(System.in);
+             int ChosenRestaurant;
+             System.out.println("\n\t\tWelcome " + loggedInUser.getName() + "!");
+@@ -138,56 +121,44 @@
+                             for (ArrayList<String> restaurants : restaurant.getRestaurants()) {
+                                 counter++;
+                                 System.out.println(counter + "." + restaurants.get(0));
+-
+                             }
+-                            repeat=false;
+-
++                            repeat = false;
+                             break;
+-
+                         case 2:
+                             restaurant.restaurantSearching(restaurant);
+-                            repeat=false;
++                            repeat = false;
+                             break;
+-
+                         default:
+                             System.out.println("choose a value that exists within the choices");
+-
+                     }
+-
+                 } else {
+                     System.out.println("Invalid input. Please enter a number from the choices");
+                     scanner.next();
+-
+                 }
+             }
+ 
+ 
+             String RestaurantName;
+-            while(true)
+-            {
+-            try {
+-                System.out.println("enter the number of the restaurant that you want");
+-                ChosenRestaurant = scanner.nextInt();
+-                RestaurantName = restaurant.getRestaurants().get(ChosenRestaurant - 1).get(0);
+-                break;
+-            }
+-            catch(IndexOutOfBoundsException exp)
+-                {
++            while (true) {
++                try {
++                    System.out.println("enter the number of the restaurant that you want");
++                    ChosenRestaurant = scanner.nextInt();
++                    RestaurantName = restaurant.getRestaurants().get(ChosenRestaurant - 1).get(0);
++                    break;
++                } catch (IndexOutOfBoundsException exp) {
+                     System.out.println("Invalid Input! Try Again!");
+ 
+-                }
+-            catch (InputMismatchException exception)
+-            {
+-                System.out.println("please enter a valid number");
+-                scanner.next();
+-            }
++                } catch (InputMismatchException exception) {
++                    System.out.println("please enter a valid number");
++                    scanner.next();
++                }
+             }
+             //display the menu of selected restaurant
+             Menu menu = new Menu();
+             menu.readMenuDataFile(RestaurantName);
+ 
+             cart orderCart = new cart();
+-            System.out.println("#### " + RestaurantName +"'s Menu ###");
++            System.out.println("#### " + RestaurantName + "'s Menu ###");
+             menu.displayMenu(RestaurantName);
+ 
+             // User interaction
+@@ -206,7 +177,7 @@
+             orderCart.displayCart();
+             System.out.println("Total: $" + orderCart.calculateTotal());
+ 
+-            if(orderCart.getCartSize()>0) {
++            if (orderCart.getCartSize() > 0) {
+ 
+ 
+                 //orderProcessing();
+@@ -215,9 +186,7 @@
+                 //reviewProcessing();
+             }
+ //}
+-        }
+-        else
+-        {
++        } else {
+             System.out.println("USER DOESN'T EXIST!");
+             System.exit(-1);
+         }
+@@ -236,8 +205,8 @@
+         System.out.println("Payment Status: " + payment.getPaymentStatus());
+         System.out.println("Payment Method: " + payment.getPaymentMethod());
+     }
+-    public static void mainreview(String[] args)
+-    {
++
++    public static void mainreview(String[] args) {
+ 
+ 
+         System.out.println("Welcome to the Review System!");
+@@ -265,24 +234,22 @@
+ 
+ 
+     //function that handles program flow after a system administrator logs in
+-    public static void adminLaunchProgram()
+-    {
++    public static void adminLaunchProgram() {
+         Admin sysAdmin = new Admin();
+ 
+         sysAdmin.runDashboard();
+     }
+ 
+-    public static  void restaurantLaunchProgram(String restaurantEmail,Restaurant restaurant)
+-    {
++    public static void restaurantLaunchProgram(String restaurantEmail, Restaurant restaurant) {
+         ArrayList<String> restaurantData = restaurant.getRestaurantEmail(restaurantEmail);
+-        String name= restaurantData.get(0);
+-        String phone=restaurantData.get(1);
+-        String address= restaurantData.get(2);
+-        String email= restaurantData.get(3);
+-        String password= restaurantData.get(4);
++        String name = restaurantData.get(0);
++        String phone = restaurantData.get(1);
++        String address = restaurantData.get(2);
++        String email = restaurantData.get(3);
++        String password = restaurantData.get(4);
+ 
+-        Restaurant loggedInRestaurant = new Restaurant(name,address,phone,email,password);
+-        Menu  restaurantMenu = new Menu();
++        Restaurant loggedInRestaurant = new Restaurant(name, address, phone, email, password);
++        Menu restaurantMenu = new Menu();
+ 
+         Scanner scanner = new Scanner(System.in);
+         String exitCheck;
+@@ -291,7 +258,7 @@
+             System.out.println("\n\t\t####### Restaurant Dashboard ########\n");
+             System.out.println("\t\t\t Welcome " + loggedInRestaurant.getRestaurantName() + "!");
+ 
+-            System.out.println("\n##### " +loggedInRestaurant.getRestaurantName() + "'s Menu #####");
++            System.out.println("\n##### " + loggedInRestaurant.getRestaurantName() + "'s Menu #####");
+             restaurantMenu.readMenuDataFile(loggedInRestaurant.getRestaurantName());
+             restaurantMenu.displayMenu(loggedInRestaurant.getRestaurantName());
+ 
+@@ -314,7 +281,7 @@
+                             " To exit type 0.");
+                     choice = -1; // Set choice to an invalid value to trigger the loop again
+                 }
+-            }while((choice < 0 || choice > 3));
++            } while ((choice < 0 || choice > 3));
+ 
+ 
+             switch (choice) {
+@@ -332,9 +299,6 @@
+             }
+             System.out.println("Would you like to exit program? (Y/N)");
+             exitCheck = scanner.nextLine();
+-        }while(exitCheck.equalsIgnoreCase("n") || exitCheck.equalsIgnoreCase("no"));
+-
++        } while (exitCheck.equalsIgnoreCase("n") || exitCheck.equalsIgnoreCase("no"));
+     }
+-
+-
+-}
++}
+\ No newline at end of file
+Index: src/project/cart/cart.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.cart;\r\nimport project.menu.Dish;\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\npublic class cart {\r\n    private List<Dish> cart;\r\n\r\n    // Constructor\r\n    public cart() {\r\n        this.cart = new ArrayList<>();\r\n    }\r\n\r\n    // Add item to the cart\r\n    public void addItem(Dish item) {\r\n        cart.add(item);\r\n    }\r\n\r\n    // Calculate total cost\r\n    public double calculateTotal() {\r\n        double total = 0.0;\r\n        for (Dish item : cart) {\r\n            total += item.getPrice();\r\n        }\r\n        return total;\r\n    }\r\n\r\n    // Display items in the cart\r\n    public void displayCart()\r\n    {\r\n        System.out.println(\"Items in the cart:\");\r\n        for (Dish item : cart) {\r\n            System.out.println(item.getDishName() + \" - $\" + item.getPrice());\r\n        }\r\n\r\n    }\r\n\r\n    public int getCartSize() {\r\n        return cart.size();\r\n    }\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/project/cart/cart.java b/src/project/cart/cart.java
+--- a/src/project/cart/cart.java	(revision 7af7b1857f528814a43e698180667446f3794cb7)
++++ b/src/project/cart/cart.java	(date 1703352772156)
+@@ -1,5 +1,7 @@
+ package project.cart;
++
+ import project.menu.Dish;
++
+ import java.util.ArrayList;
+ import java.util.List;
+ 
+@@ -26,8 +28,7 @@
+     }
+ 
+     // Display items in the cart
+-    public void displayCart()
+-    {
++    public void displayCart() {
+         System.out.println("Items in the cart:");
+         for (Dish item : cart) {
+             System.out.println(item.getDishName() + " - $" + item.getPrice());
+Index: src/project/user/User.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.user;\r\n\r\n/**\r\n * User class. Each user contains name, password, email and an address.\r\n * has only one parameterized constructor to initialize these values.\r\n */\r\npublic class User implements Comparable\r\n{\r\n    private String name;\r\n    private String password;\r\n    private String email;\r\n    private String address;\r\n    private String phoneNumber;\r\n\r\n\r\n    public User(String name, String email, String password, String address,String phoneNumber)\r\n    {\r\n        this.name = name;\r\n        this.password = password;\r\n        this.email = email;\r\n        this.address = address;\r\n        this.phoneNumber = phoneNumber;\r\n    }\r\n\r\n    public String getName()\r\n    {\r\n        return name;\r\n    }\r\n\r\n    public String getPassword()\r\n    {\r\n        return password;\r\n    }\r\n\r\n    public String getEmail()\r\n    {\r\n        return email;\r\n    }\r\n\r\n    public String getPhoneNumber() {\r\n        return phoneNumber;\r\n    }\r\n\r\n    public String getAddress()\r\n    {\r\n        return address;\r\n    }\r\n\r\n    public void setName(String name) {\r\n        this.name = name;\r\n    }\r\n\r\n    public void setPassword(String password) {\r\n        this.password = password;\r\n    }\r\n\r\n    public void setEmail(String email) {\r\n        this.email = email;\r\n    }\r\n\r\n    public void setAddress(String address) {\r\n        this.address = address;\r\n    }\r\n\r\n    public void setPhoneNumber(String phoneNumber) {\r\n        this.phoneNumber = phoneNumber;\r\n    }\r\n\r\n\r\n    @Override\r\n    public int compareTo(Object o) {\r\n        User otherUser = (User) o;\r\n        if(this.name.compareTo(otherUser.name) > 0)\r\n        {\r\n            return 1;\r\n        }else if(this.name.compareTo(otherUser.name) < 0)\r\n        {\r\n            return -1;\r\n        }\r\n        else {\r\n            return 0;\r\n        }\r\n\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/project/user/User.java b/src/project/user/User.java
+--- a/src/project/user/User.java	(revision 7af7b1857f528814a43e698180667446f3794cb7)
++++ b/src/project/user/User.java	(date 1703352772119)
+@@ -4,8 +4,7 @@
+  * User class. Each user contains name, password, email and an address.
+  * has only one parameterized constructor to initialize these values.
+  */
+-public class User implements Comparable
+-{
++public class User implements Comparable {
+     private String name;
+     private String password;
+     private String email;
+@@ -13,8 +12,7 @@
+     private String phoneNumber;
+ 
+ 
+-    public User(String name, String email, String password, String address,String phoneNumber)
+-    {
++    public User(String name, String email, String password, String address, String phoneNumber) {
+         this.name = name;
+         this.password = password;
+         this.email = email;
+@@ -22,62 +20,54 @@
+         this.phoneNumber = phoneNumber;
+     }
+ 
+-    public String getName()
+-    {
++    public String getName() {
+         return name;
+     }
+ 
+-    public String getPassword()
+-    {
+-        return password;
+-    }
+-
+-    public String getEmail()
+-    {
+-        return email;
+-    }
+-
+-    public String getPhoneNumber() {
+-        return phoneNumber;
+-    }
+-
+-    public String getAddress()
+-    {
+-        return address;
+-    }
+-
+     public void setName(String name) {
+         this.name = name;
+     }
+ 
++    public String getPassword() {
++        return password;
++    }
++
+     public void setPassword(String password) {
+         this.password = password;
+     }
+ 
++    public String getEmail() {
++        return email;
++    }
++
+     public void setEmail(String email) {
+         this.email = email;
+     }
+ 
++    public String getPhoneNumber() {
++        return phoneNumber;
++    }
++
++    public void setPhoneNumber(String phoneNumber) {
++        this.phoneNumber = phoneNumber;
++    }
++
++    public String getAddress() {
++        return address;
++    }
++
+     public void setAddress(String address) {
+         this.address = address;
+     }
+ 
+-    public void setPhoneNumber(String phoneNumber) {
+-        this.phoneNumber = phoneNumber;
+-    }
+-
+-
+     @Override
+     public int compareTo(Object o) {
+         User otherUser = (User) o;
+-        if(this.name.compareTo(otherUser.name) > 0)
+-        {
++        if (this.name.compareTo(otherUser.name) > 0) {
+             return 1;
+-        }else if(this.name.compareTo(otherUser.name) < 0)
+-        {
++        } else if (this.name.compareTo(otherUser.name) < 0) {
+             return -1;
+-        }
+-        else {
++        } else {
+             return 0;
+         }
+ 
+Index: src/project/order/Order.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.order;\r\n\r\nimport java.util.List;\r\nimport java.util.ArrayList;\r\nimport java.util.Scanner;\r\nimport java.io.*;\r\n\r\npublic class Order implements OrderManagement {\r\n    private String username;\r\n    private List<String> items;\r\n    private String status;\r\n\r\n    public Order(String username) {\r\n        this.username = username;\r\n        this.items = new ArrayList<>();\r\n        this.status = \"Pending\";\r\n    }\r\n\r\n    public void addItem(String item) {\r\n        items.add(item);\r\n    }\r\n\r\n    public void viewOrder() {\r\n        System.out.println(\"Order Details for \" + username);\r\n        System.out.println(\"Status: \" + status);\r\n        System.out.println(\"Items:\");\r\n\r\n        for (String item : items) {\r\n            System.out.println(item);\r\n        }\r\n    }\r\n\r\n\r\n\r\n    public String getUsername() {\r\n        return username;\r\n    }\r\n\r\n    public List<String> getItems() {\r\n        return items;\r\n    }\r\n\r\n    public String getStatus() {\r\n        return status;\r\n    }\r\n}\r\n interface OrderManagement {\r\n    default void placeOrder(String username, List<String> items) {\r\n        Order order = new Order(username);\r\n\r\n        for (String item : items) {\r\n            order.addItem(item);\r\n        }\r\n\r\n\r\n        saveOrder(order);\r\n\r\n        System.out.println(\"Order placed successfully!\");\r\n    }\r\n\r\n    default void saveOrder(Order order) {\r\n        try (PrintWriter writer = new PrintWriter(new FileWriter(\"orders.txt\", true))) {\r\n            writer.println(\"Username: \" + order.getUsername());\r\n            writer.println(\"Status: \" + order.getStatus());\r\n            writer.println(\"Items:\");\r\n            for (String item : order.getItems()) {\r\n                writer.println(item);\r\n            }\r\n            writer.println(\"----------\");\r\n        } catch (IOException e) {\r\n            e.printStackTrace();\r\n            System.out.println(\"Error saving order.\");\r\n        }\r\n    }\r\n\r\n    default void viewOrders() {\r\n        try (Scanner scanner = new Scanner(new File(\"orders.txt\"))) {\r\n            while (scanner.hasNextLine()) {\r\n                String line = scanner.nextLine();\r\n                if (line.equals(\"----------\")) {\r\n                    System.out.println();\r\n                } else {\r\n                    System.out.println(line);\r\n                }\r\n            }\r\n        } catch (FileNotFoundException e) {\r\n            e.printStackTrace();\r\n            System.out.println(\"Error viewing orders.\");\r\n        }\r\n    }\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/project/order/Order.java b/src/project/order/Order.java
+--- a/src/project/order/Order.java	(revision 7af7b1857f528814a43e698180667446f3794cb7)
++++ b/src/project/order/Order.java	(date 1703352772142)
+@@ -5,46 +5,7 @@
+ import java.util.Scanner;
+ import java.io.*;
+ 
+-public class Order implements OrderManagement {
+-    private String username;
+-    private List<String> items;
+-    private String status;
+-
+-    public Order(String username) {
+-        this.username = username;
+-        this.items = new ArrayList<>();
+-        this.status = "Pending";
+-    }
+-
+-    public void addItem(String item) {
+-        items.add(item);
+-    }
+-
+-    public void viewOrder() {
+-        System.out.println("Order Details for " + username);
+-        System.out.println("Status: " + status);
+-        System.out.println("Items:");
+-
+-        for (String item : items) {
+-            System.out.println(item);
+-        }
+-    }
+-
+-
+-
+-    public String getUsername() {
+-        return username;
+-    }
+-
+-    public List<String> getItems() {
+-        return items;
+-    }
+-
+-    public String getStatus() {
+-        return status;
+-    }
+-}
+- interface OrderManagement {
++interface OrderManagement {
+     default void placeOrder(String username, List<String> items) {
+         Order order = new Order(username);
+ 
+@@ -90,3 +51,42 @@
+     }
+ }
+ 
++public class Order implements OrderManagement {
++    private String username;
++    private List<String> items;
++    private String status;
++
++    public Order(String username) {
++        this.username = username;
++        this.items = new ArrayList<>();
++        this.status = "Pending";
++    }
++
++    public void addItem(String item) {
++        items.add(item);
++    }
++
++    public void viewOrder() {
++        System.out.println("Order Details for " + username);
++        System.out.println("Status: " + status);
++        System.out.println("Items:");
++
++        for (String item : items) {
++            System.out.println(item);
++        }
++    }
++
++
++    public String getUsername() {
++        return username;
++    }
++
++    public List<String> getItems() {
++        return items;
++    }
++
++    public String getStatus() {
++        return status;
++    }
++}
++
+Index: src/project/user/UserManagementSystem.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.user;\r\n\r\nimport project.admin.Admin;\r\nimport project.main.Role;\r\nimport project.restaurant.Restaurant;\r\n\r\nimport java.io.*;\r\nimport java.util.ArrayList;\r\nimport java.util.Scanner;\r\n\r\n/**\r\n * Class to handle user login and registration functions. All functions are static.\r\n */\r\npublic class UserManagementSystem implements InputChecks\r\n{\r\n    //IMPORTANT NOTES FOR USERS FILE.\r\n    //- FILE MUST NOT END WITH DOUBLE \\N TO AVOID ARRAY OUT OF BOUND EXCEPTION\r\n    //if file ended with \\n on a separate line, the userdata array thinks it's a row that contains user\r\n    //data which throws an arrayOutOfBounds exception.\r\n    //- DO NOT REMOVE THE SYSTEM ADMINISTRATOR'S ACCOUNT SAVED IN THE FIRST LINE!\r\n    //- IF YOU EDIT MANUALLY ON THE USERS FILE, MAKE SURE TO SEPARATE THEM WITH DELIMITER (;)\r\n    private static final String USER_FILE = \"users.txt\";\r\n\r\n    //data index in users.txt file\r\n    public static final int USER_NAME_INDEX = 0;\r\n    public static final int USER_EMAIL_INDEX = 1;\r\n    public static final int USER_PASSWORD_INDEX = 2;\r\n    public static final int USER_ADDRESS_INDEX = 3;\r\n    public static final int USER_PHONE_INDEX = 4;\r\n\r\n    private static ArrayList<String> usersArray = new ArrayList<>();\r\n\r\n\r\n    /**\r\n     * reads users.txt file and stores them in an array\r\n     * to use throughout the program. this function should be called at the beginning of the program.\r\n     */\r\n    public static void readUserDataFile()\r\n    {\r\n        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(USER_FILE)))\r\n        {\r\n            String row;\r\n            while ((row = bufferedReader.readLine()) != null) //reads each line until there is none\r\n            {\r\n                usersArray.add(row);\r\n            }\r\n        }catch(IOException exp)\r\n        {\r\n            System.out.println(exp.getMessage());\r\n        }\r\n    }\r\n\r\n\r\n    /**\r\n     * Registers new user, if email input already exists, the users keep getting prompted\r\n     * to enter a new email. After all credentials are input, a new user is created and\r\n     * stored in the users file (users.txt)\r\n     */\r\n    public static void registerUser(int mode) {\r\n        //get input\r\n        Scanner scanner = new Scanner(System.in);\r\n\r\n        if(mode == 1) //USER\r\n        {\r\n            System.out.println(\"\\t\\t ######## Registration Page ########\" +\r\n                    \"\\nAt any point type exit to return to welcome page.\");\r\n        } else if (mode == 2) //ADMIN\r\n        {\r\n            System.out.println(\"\\t\\t ######## ADMIN ADD USER PAGE ########\" +\r\n                    \"\\nAt any point type exit to return to welcome page.\");\r\n        }\r\n\r\n        String name;\r\n        do\r\n        {\r\n            System.out.print(\"Enter Name: \");\r\n            name = scanner.nextLine();\r\n            if (InputChecks.checkExit(name)) {\r\n                return;\r\n            }\r\n\r\n            if(InputChecks.checkDelimiter(name))\r\n            {\r\n                System.out.println(\"Invalid Name! Please Try Again!\");\r\n            }\r\n            else\r\n            {\r\n                break;\r\n            }\r\n\r\n        }while(true);\r\n\r\n\r\n        String email;\r\n        do {\r\n            System.out.print(\"Enter E-mail: \");\r\n            email = scanner.nextLine();\r\n\r\n            //check if user wants to exit\r\n            if (InputChecks.checkExit(email)) {\r\n                return;\r\n            }\r\n\r\n            //check if email input is in the correct form\r\n            if (!InputChecks.validateEmail(email) || InputChecks.checkDelimiter(email)) {\r\n                System.out.println(\"Invalid Email!\");\r\n                continue;\r\n            }\r\n\r\n            if (checkDuplicateUser(email, USER_EMAIL_INDEX)\r\n                    || email.equalsIgnoreCase(\"admin@gmail.com\")) {\r\n                System.out.println(\"Account Already Exists!\");\r\n            } else {\r\n                break;\r\n            }\r\n\r\n        } while (true);     //check if an account doesn't already exist or if input is admin\r\n\r\n\r\n        String password;\r\n        do\r\n        {\r\n            System.out.print(\"Enter Password: \");\r\n            password = scanner.nextLine();\r\n            if (InputChecks.checkExit(password)) {\r\n                return;\r\n            }\r\n\r\n            if(InputChecks.checkDelimiter(password))\r\n            {\r\n                System.out.println(\"Invalid Password! Please Try Again!\");\r\n            }\r\n            else\r\n            {\r\n                break;\r\n            }\r\n        }while(true);\r\n\r\n        String address;\r\n        do\r\n        {\r\n            System.out.print(\"Enter Address: \");\r\n            address = scanner.nextLine();\r\n            if (InputChecks.checkExit(address)) {\r\n                return;\r\n            }\r\n\r\n            if(InputChecks.checkDelimiter(address))\r\n            {\r\n                System.out.println(\"Invalid Address! Please Try Again!\");\r\n            }\r\n            else\r\n            {\r\n                break;\r\n            }\r\n        }while(true);\r\n\r\n        String phoneNumber;\r\n        do\r\n        {\r\n            System.out.print(\"Enter Phone Number: \");\r\n            phoneNumber = scanner.nextLine();\r\n            if (InputChecks.checkExit(address))\r\n            {\r\n                return;\r\n            }\r\n\r\n            if (!InputChecks.validatePhoneNumber(phoneNumber)\r\n                || InputChecks.checkDelimiter(phoneNumber))\r\n            {\r\n                System.out.println(\"Invalid Phone Number! Try Again!\");\r\n            } else\r\n            {\r\n                break;\r\n            }\r\n        } while (true);\r\n        //if an account doesn't exist, create a new user and store their data\r\n        User user = new User(name, email, password, address, phoneNumber);\r\n        storeUserData(user);\r\n        System.out.println(\"Registration Successful!\");\r\n\r\n    }\r\n\r\n    /**\r\n     * stores user data after registering, stores in local arrayList then in file.\r\n     * @param user user to be stored\r\n     */\r\n    public static void storeUserData(User user)\r\n    {\r\n\r\n        usersArray.add(user.getName() + \";\"\r\n                + user.getEmail() + \";\"\r\n                + user.getPassword() + \";\"\r\n                + user.getAddress() + \";\"\r\n                + user.getPhoneNumber() + \";\\n\");\r\n\r\n        try (PrintWriter writer = new PrintWriter((new FileWriter(USER_FILE, true)))) {\r\n            //opens file in appending mode and stores data with semicolon to separate them\r\n\r\n            writer.write(user.getName() + \";\"\r\n                    + user.getEmail() + \";\"\r\n                    + user.getPassword() + \";\"\r\n                    + user.getAddress() + \";\"\r\n                    + user.getPhoneNumber() + \";\\n\");\r\n\r\n        } catch (IOException exp) {\r\n            System.out.println(exp.getMessage());\r\n        }\r\n    }\r\n\r\n\r\n    /**\r\n     * takes a parameter and its index in the users.txt file and checks if value already exists.\r\n     *\r\n     * @param valueToCheck the value to be compared to\r\n     * @param valueIndex index of the value in users.txt (name = 0, email = 1, password = 2, address = 3)\r\n     * @return true if duplicate found, false if no matching value was found\r\n     */\r\n    private static boolean checkDuplicateUser(String valueToCheck, int valueIndex)\r\n    {\r\n        for (String s : usersArray)\r\n        {\r\n            String[] userData = s.split(\";\");\r\n            String value = userData[valueIndex];\r\n            if (value.equals(valueToCheck))\r\n            {\r\n                return true; // found duplicate value\r\n            }\r\n        }\r\n\r\n           return false;\r\n    }\r\n\r\n    /**\r\n     * function to check email and password found in user data file\r\n     * @param emailInput  email input by user\r\n     * @param passwordInput password input by user\r\n     * @return true if email and password on the same row are equal to input given, false if not found.\r\n     */\r\n    private static boolean checkDuplicateUser(String emailInput, String passwordInput)\r\n    {\r\n        for (String s : usersArray)\r\n        {\r\n            String[] userData = s.split(\";\");\r\n            String email = userData[USER_EMAIL_INDEX];\r\n            String password = userData[USER_PASSWORD_INDEX];\r\n            if (email.equals(emailInput) && password.equals(passwordInput))\r\n            {\r\n                return true; // found account credentials\r\n            }\r\n        }\r\n\r\n        return false;\r\n    }\r\n\r\n    /**\r\n     * prompts users to enter email and password and checks if values exist on the same row after each\r\n     * other in users.txt file.\r\n     * @return String of logged-in user if available, if not available returns the String \"null\"\r\n     */\r\n    public static String loginUser(Restaurant restaurant)\r\n    {\r\n        System.out.println(\"\\t\\t ######## Login Page ########\");\r\n        Scanner scanner = new Scanner(System.in);\r\n\r\n        System.out.print(\"Enter E-mail: \");\r\n        String email = scanner.nextLine();\r\n\r\n        System.out.print(\"Enter Password: \");\r\n        String password = scanner.nextLine();\r\n\r\n        String restaurantValidation= restaurant.login(restaurant,email,password);\r\n        if(isAdmin(email,password))\r\n        {\r\n            System.out.println(\"Login Successful!\");\r\n            Role.setRoleIdentifier(Role.ADMIN_IDENTIFIER);\r\n            return \"admin\";\r\n        }\r\n        else if(checkDuplicateUser(email,password))\r\n        {\r\n            System.out.println(\"Login Successful!\");\r\n            Role.setRoleIdentifier(Role.USER_IDENTIFIER);\r\n            return email; //login successful, returns email to use later to get user data\r\n        }\r\n        else if ((!restaurantValidation.equals(\"null\")))\r\n        {\r\n            System.out.println(\"Login Successful!\");\r\n            Role.setRoleIdentifier(Role.RESTAURANT_IDENTIFIER);\r\n            return email; //login successful, returns email to use later to get restaurant data\r\n        }\r\n        else\r\n        {\r\n            System.out.println(\"Credentials wrong\");\r\n            return \"null\"; //login has some kind of error so it returns false\r\n        }\r\n    }\r\n\r\n\r\n    /**\r\n     * Function to get user data using the email field.\r\n     *\r\n     * @param userEmail email of the user to be logged in, email is already checked multiple times before\r\n     *                  during other functions, so logically it can't be null.\r\n     * @return a new User object containing the data of the currently logged-in user\r\n     */\r\n    public static User getUserByEmail(String userEmail)\r\n    {\r\n\r\n        for (String s : usersArray)\r\n        {\r\n            String[] userData = s.split(\";\");\r\n            String storedEmail = userData[USER_EMAIL_INDEX];\r\n            if (storedEmail.equals(userEmail)) {\r\n                String name = userData[USER_NAME_INDEX];\r\n                String email = userData[USER_EMAIL_INDEX];\r\n                String password = userData[USER_PASSWORD_INDEX];\r\n                String address = userData[USER_ADDRESS_INDEX];\r\n                String phoneNumber = userData[USER_PHONE_INDEX];\r\n                return new User(name, email, password, address,phoneNumber);\r\n            }\r\n        }\r\n\r\n\r\n\r\n        return null;\r\n    }\r\n\r\n    /**\r\n     * checks if user login input matches administrator credentials.\r\n     * @param email email input by user\r\n     * @param password password input by user\r\n     * @return true if email and password equal to admin credentials, false otherwise.\r\n     */\r\n    private static boolean isAdmin(String email, String password)\r\n    {\r\n        Admin admin = new Admin();\r\n        return email.equals(admin.getEmail())\r\n                && password.equals(admin.getPassword());\r\n    }\r\n\r\n    /**\r\n     * removes user, typically used by System Administrator\r\n     * @param userEmailToRemove email of user to be removed\r\n     */\r\n    public static boolean removeUser(String userEmailToRemove)\r\n    {\r\n        //check if user exists and remove from arrayList\r\n        boolean userFound = false;\r\n        for (int i =0; i < usersArray.size(); i++)\r\n        {\r\n            String[] userData = usersArray.get(i).split(\";\");\r\n            String userEmail = userData[1];\r\n            if(userEmail.equals(userEmailToRemove))\r\n            {\r\n                usersArray.remove(i);\r\n                userFound = true;\r\n                break;\r\n            }\r\n        }\r\n\r\n        //if user exists, rewrite file using updated arrayList without the removed user.\r\n        if(userFound)\r\n        {\r\n            try(BufferedWriter writer = new BufferedWriter(new FileWriter(USER_FILE)))\r\n            {\r\n                for(String row: usersArray)\r\n                {\r\n                    writer.write(row);\r\n                    writer.newLine();\r\n                }\r\n            }catch(IOException exp)\r\n            {\r\n                System.out.println(exp.getMessage());\r\n            }\r\n        }\r\n        else\r\n        {\r\n            System.out.println(\"User Doesn't Exist!\");\r\n        }\r\n\r\n        return userFound;\r\n    }\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/project/user/UserManagementSystem.java b/src/project/user/UserManagementSystem.java
+--- a/src/project/user/UserManagementSystem.java	(revision 7af7b1857f528814a43e698180667446f3794cb7)
++++ b/src/project/user/UserManagementSystem.java	(date 1703352772151)
+@@ -11,8 +11,13 @@
+ /**
+  * Class to handle user login and registration functions. All functions are static.
+  */
+-public class UserManagementSystem implements InputChecks
+-{
++public class UserManagementSystem implements InputChecks {
++    //data index in users.txt file
++    public static final int USER_NAME_INDEX = 0;
++    public static final int USER_EMAIL_INDEX = 1;
++    public static final int USER_PASSWORD_INDEX = 2;
++    public static final int USER_ADDRESS_INDEX = 3;
++    public static final int USER_PHONE_INDEX = 4;
+     //IMPORTANT NOTES FOR USERS FILE.
+     //- FILE MUST NOT END WITH DOUBLE \N TO AVOID ARRAY OUT OF BOUND EXCEPTION
+     //if file ended with \n on a separate line, the userdata array thinks it's a row that contains user
+@@ -20,14 +25,6 @@
+     //- DO NOT REMOVE THE SYSTEM ADMINISTRATOR'S ACCOUNT SAVED IN THE FIRST LINE!
+     //- IF YOU EDIT MANUALLY ON THE USERS FILE, MAKE SURE TO SEPARATE THEM WITH DELIMITER (;)
+     private static final String USER_FILE = "users.txt";
+-
+-    //data index in users.txt file
+-    public static final int USER_NAME_INDEX = 0;
+-    public static final int USER_EMAIL_INDEX = 1;
+-    public static final int USER_PASSWORD_INDEX = 2;
+-    public static final int USER_ADDRESS_INDEX = 3;
+-    public static final int USER_PHONE_INDEX = 4;
+-
+     private static ArrayList<String> usersArray = new ArrayList<>();
+ 
+ 
+@@ -35,17 +32,14 @@
+      * reads users.txt file and stores them in an array
+      * to use throughout the program. this function should be called at the beginning of the program.
+      */
+-    public static void readUserDataFile()
+-    {
+-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(USER_FILE)))
+-        {
++    public static void readUserDataFile() {
++        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(USER_FILE))) {
+             String row;
+             while ((row = bufferedReader.readLine()) != null) //reads each line until there is none
+             {
+                 usersArray.add(row);
+             }
+-        }catch(IOException exp)
+-        {
++        } catch (IOException exp) {
+             System.out.println(exp.getMessage());
+         }
+     }
+@@ -60,7 +54,7 @@
+         //get input
+         Scanner scanner = new Scanner(System.in);
+ 
+-        if(mode == 1) //USER
++        if (mode == 1) //USER
+         {
+             System.out.println("\t\t ######## Registration Page ########" +
+                     "\nAt any point type exit to return to welcome page.");
+@@ -71,24 +65,20 @@
+         }
+ 
+         String name;
+-        do
+-        {
++        do {
+             System.out.print("Enter Name: ");
+             name = scanner.nextLine();
+             if (InputChecks.checkExit(name)) {
+                 return;
+             }
+ 
+-            if(InputChecks.checkDelimiter(name))
+-            {
++            if (InputChecks.checkDelimiter(name)) {
+                 System.out.println("Invalid Name! Please Try Again!");
+-            }
+-            else
+-            {
++            } else {
+                 break;
+             }
+ 
+-        }while(true);
++        } while (true);
+ 
+ 
+         String email;
+@@ -118,59 +108,47 @@
+ 
+ 
+         String password;
+-        do
+-        {
++        do {
+             System.out.print("Enter Password: ");
+             password = scanner.nextLine();
+             if (InputChecks.checkExit(password)) {
+                 return;
+             }
+ 
+-            if(InputChecks.checkDelimiter(password))
+-            {
++            if (InputChecks.checkDelimiter(password)) {
+                 System.out.println("Invalid Password! Please Try Again!");
+-            }
+-            else
+-            {
++            } else {
+                 break;
+             }
+-        }while(true);
++        } while (true);
+ 
+         String address;
+-        do
+-        {
++        do {
+             System.out.print("Enter Address: ");
+             address = scanner.nextLine();
+             if (InputChecks.checkExit(address)) {
+                 return;
+             }
+ 
+-            if(InputChecks.checkDelimiter(address))
+-            {
++            if (InputChecks.checkDelimiter(address)) {
+                 System.out.println("Invalid Address! Please Try Again!");
+-            }
+-            else
+-            {
++            } else {
+                 break;
+             }
+-        }while(true);
++        } while (true);
+ 
+         String phoneNumber;
+-        do
+-        {
++        do {
+             System.out.print("Enter Phone Number: ");
+             phoneNumber = scanner.nextLine();
+-            if (InputChecks.checkExit(address))
+-            {
++            if (InputChecks.checkExit(address)) {
+                 return;
+             }
+ 
+             if (!InputChecks.validatePhoneNumber(phoneNumber)
+-                || InputChecks.checkDelimiter(phoneNumber))
+-            {
++                    || InputChecks.checkDelimiter(phoneNumber)) {
+                 System.out.println("Invalid Phone Number! Try Again!");
+-            } else
+-            {
++            } else {
+                 break;
+             }
+         } while (true);
+@@ -183,10 +161,10 @@
+ 
+     /**
+      * stores user data after registering, stores in local arrayList then in file.
++     *
+      * @param user user to be stored
+      */
+-    public static void storeUserData(User user)
+-    {
++    public static void storeUserData(User user) {
+ 
+         usersArray.add(user.getName() + ";"
+                 + user.getEmail() + ";"
+@@ -213,39 +191,34 @@
+      * takes a parameter and its index in the users.txt file and checks if value already exists.
+      *
+      * @param valueToCheck the value to be compared to
+-     * @param valueIndex index of the value in users.txt (name = 0, email = 1, password = 2, address = 3)
++     * @param valueIndex   index of the value in users.txt (name = 0, email = 1, password = 2, address = 3)
+      * @return true if duplicate found, false if no matching value was found
+      */
+-    private static boolean checkDuplicateUser(String valueToCheck, int valueIndex)
+-    {
+-        for (String s : usersArray)
+-        {
++    private static boolean checkDuplicateUser(String valueToCheck, int valueIndex) {
++        for (String s : usersArray) {
+             String[] userData = s.split(";");
+             String value = userData[valueIndex];
+-            if (value.equals(valueToCheck))
+-            {
++            if (value.equals(valueToCheck)) {
+                 return true; // found duplicate value
+             }
+         }
+ 
+-           return false;
++        return false;
+     }
+ 
+     /**
+      * function to check email and password found in user data file
+-     * @param emailInput  email input by user
++     *
++     * @param emailInput    email input by user
+      * @param passwordInput password input by user
+      * @return true if email and password on the same row are equal to input given, false if not found.
+      */
+-    private static boolean checkDuplicateUser(String emailInput, String passwordInput)
+-    {
+-        for (String s : usersArray)
+-        {
++    private static boolean checkDuplicateUser(String emailInput, String passwordInput) {
++        for (String s : usersArray) {
+             String[] userData = s.split(";");
+             String email = userData[USER_EMAIL_INDEX];
+             String password = userData[USER_PASSWORD_INDEX];
+-            if (email.equals(emailInput) && password.equals(passwordInput))
+-            {
++            if (email.equals(emailInput) && password.equals(passwordInput)) {
+                 return true; // found account credentials
+             }
+         }
+@@ -256,10 +229,10 @@
+     /**
+      * prompts users to enter email and password and checks if values exist on the same row after each
+      * other in users.txt file.
++     *
+      * @return String of logged-in user if available, if not available returns the String "null"
+      */
+-    public static String loginUser(Restaurant restaurant)
+-    {
++    public static String loginUser(Restaurant restaurant) {
+         System.out.println("\t\t ######## Login Page ########");
+         Scanner scanner = new Scanner(System.in);
+ 
+@@ -269,27 +242,20 @@
+         System.out.print("Enter Password: ");
+         String password = scanner.nextLine();
+ 
+-        String restaurantValidation= restaurant.login(restaurant,email,password);
+-        if(isAdmin(email,password))
+-        {
++        String restaurantValidation = restaurant.login(restaurant, email, password);
++        if (isAdmin(email, password)) {
+             System.out.println("Login Successful!");
+             Role.setRoleIdentifier(Role.ADMIN_IDENTIFIER);
+             return "admin";
+-        }
+-        else if(checkDuplicateUser(email,password))
+-        {
++        } else if (checkDuplicateUser(email, password)) {
+             System.out.println("Login Successful!");
+             Role.setRoleIdentifier(Role.USER_IDENTIFIER);
+             return email; //login successful, returns email to use later to get user data
+-        }
+-        else if ((!restaurantValidation.equals("null")))
+-        {
++        } else if ((!restaurantValidation.equals("null"))) {
+             System.out.println("Login Successful!");
+             Role.setRoleIdentifier(Role.RESTAURANT_IDENTIFIER);
+             return email; //login successful, returns email to use later to get restaurant data
+-        }
+-        else
+-        {
++        } else {
+             System.out.println("Credentials wrong");
+             return "null"; //login has some kind of error so it returns false
+         }
+@@ -303,11 +269,9 @@
+      *                  during other functions, so logically it can't be null.
+      * @return a new User object containing the data of the currently logged-in user
+      */
+-    public static User getUserByEmail(String userEmail)
+-    {
++    public static User getUserByEmail(String userEmail) {
+ 
+-        for (String s : usersArray)
+-        {
++        for (String s : usersArray) {
+             String[] userData = s.split(";");
+             String storedEmail = userData[USER_EMAIL_INDEX];
+             if (storedEmail.equals(userEmail)) {
+@@ -316,23 +280,22 @@
+                 String password = userData[USER_PASSWORD_INDEX];
+                 String address = userData[USER_ADDRESS_INDEX];
+                 String phoneNumber = userData[USER_PHONE_INDEX];
+-                return new User(name, email, password, address,phoneNumber);
++                return new User(name, email, password, address, phoneNumber);
+             }
+         }
+ 
+ 
+-
+         return null;
+     }
+ 
+     /**
+      * checks if user login input matches administrator credentials.
+-     * @param email email input by user
++     *
++     * @param email    email input by user
+      * @param password password input by user
+      * @return true if email and password equal to admin credentials, false otherwise.
+      */
+-    private static boolean isAdmin(String email, String password)
+-    {
++    private static boolean isAdmin(String email, String password) {
+         Admin admin = new Admin();
+         return email.equals(admin.getEmail())
+                 && password.equals(admin.getPassword());
+@@ -340,18 +303,16 @@
+ 
+     /**
+      * removes user, typically used by System Administrator
++     *
+      * @param userEmailToRemove email of user to be removed
+      */
+-    public static boolean removeUser(String userEmailToRemove)
+-    {
++    public static boolean removeUser(String userEmailToRemove) {
+         //check if user exists and remove from arrayList
+         boolean userFound = false;
+-        for (int i =0; i < usersArray.size(); i++)
+-        {
++        for (int i = 0; i < usersArray.size(); i++) {
+             String[] userData = usersArray.get(i).split(";");
+             String userEmail = userData[1];
+-            if(userEmail.equals(userEmailToRemove))
+-            {
++            if (userEmail.equals(userEmailToRemove)) {
+                 usersArray.remove(i);
+                 userFound = true;
+                 break;
+@@ -359,22 +320,16 @@
+         }
+ 
+         //if user exists, rewrite file using updated arrayList without the removed user.
+-        if(userFound)
+-        {
+-            try(BufferedWriter writer = new BufferedWriter(new FileWriter(USER_FILE)))
+-            {
+-                for(String row: usersArray)
+-                {
++        if (userFound) {
++            try (BufferedWriter writer = new BufferedWriter(new FileWriter(USER_FILE))) {
++                for (String row : usersArray) {
+                     writer.write(row);
+                     writer.newLine();
+                 }
+-            }catch(IOException exp)
+-            {
++            } catch (IOException exp) {
+                 System.out.println(exp.getMessage());
+             }
+-        }
+-        else
+-        {
++        } else {
+             System.out.println("User Doesn't Exist!");
+         }
+ 
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"d01ccfb9-7a84-48ab-a02f-25d9b8755d94\" name=\"Changes\" comment=\"\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/menus.txt\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/menus.txt\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/restaurants.txt\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/restaurants.txt\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$/..\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 8\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2Zl8PAvZwpVQamVJpRVL10hRqNf\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;git-widget-placeholder&quot;: &quot;main&quot;\r\n  }\r\n}</component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"d01ccfb9-7a84-48ab-a02f-25d9b8755d94\" name=\"Changes\" comment=\"\" />\r\n      <created>1702985281469</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1702985281469</updated>\r\n    </task>\r\n    <servers />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 7af7b1857f528814a43e698180667446f3794cb7)
++++ b/.idea/workspace.xml	(date 1703361154582)
+@@ -6,8 +6,23 @@
+   <component name="ChangeListManager">
+     <list default="true" id="d01ccfb9-7a84-48ab-a02f-25d9b8755d94" name="Changes" comment="">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/menus.txt" beforeDir="false" afterPath="$PROJECT_DIR$/menus.txt" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/restaurants.txt" beforeDir="false" afterPath="$PROJECT_DIR$/restaurants.txt" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/project/admin/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/admin/Admin.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/project/admin/AdminPermissions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/admin/AdminPermissions.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/project/cart/cart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/cart/cart.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/project/main/MainClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/main/MainClass.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/project/main/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/main/Role.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/project/menu/Dish.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/menu/Dish.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/project/menu/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/menu/Menu.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/project/order/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/order/Order.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/project/payment/Payment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/payment/Payment.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/project/restaurant/Restaurant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/restaurant/Restaurant.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/project/restaurant/RestaurantPermissions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/restaurant/RestaurantPermissions.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/project/restaurant/restaurantRegistration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/restaurant/restaurantRegistration.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/project/review/review.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/review/review.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/project/user/InputChecks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/user/InputChecks.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/project/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/user/User.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/project/user/UserManagementSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/project/user/UserManagementSystem.java" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/users.txt" beforeDir="false" afterPath="$PROJECT_DIR$/users.txt" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -32,13 +47,31 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent">{
+-  &quot;keyToString&quot;: {
+-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+-    &quot;git-widget-placeholder&quot;: &quot;main&quot;
++  <component name="PropertiesComponent"><![CDATA[{
++  "keyToString": {
++    "Application.MainClass.executor": "Run",
++    "RunOnceActivity.OpenProjectViewOnStart": "true",
++    "RunOnceActivity.ShowReadmeOnStart": "true",
++    "git-widget-placeholder": "main",
++    "ignore.virus.scanning.warn.message": "true",
++    "kotlin-language-version-configured": "true",
++    "last_opened_file_path": "C:/Users/Nader/Documents/GitHub/Food-Ordering-System/OOP23_Food Ordering System",
++    "node.js.detected.package.eslint": "true",
++    "node.js.detected.package.tslint": "true",
++    "node.js.selected.package.eslint": "(autodetect)",
++    "node.js.selected.package.tslint": "(autodetect)",
++    "nodejs_package_manager_path": "npm",
++    "settings.editor.selected.configurable": "reference.settings.ide.settings.uml",
++    "vue.rearranger.settings.migration": "true"
+   }
+-}</component>
++}]]></component>
++  <component name="SharedIndexes">
++    <attachedChunks>
++      <set>
++        <option value="jdk-21.0.1-openjdk-21.0.1-3183f394aec4-7d648f2c" />
++      </set>
++    </attachedChunks>
++  </component>
+   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+   <component name="TaskManager">
+     <task active="true" id="Default" summary="Default task">
+@@ -47,7 +80,28 @@
+       <option name="number" value="Default" />
+       <option name="presentableId" value="Default" />
+       <updated>1702985281469</updated>
++      <workItem from="1703352233318" duration="106000" />
++      <workItem from="1703352400539" duration="1774000" />
++      <workItem from="1703354752215" duration="5953000" />
+     </task>
+     <servers />
+   </component>
++  <component name="TypeScriptGeneratedFilesManager">
++    <option name="version" value="3" />
++  </component>
++  <component name="Vcs.Log.Tabs.Properties">
++    <option name="TAB_STATES">
++      <map>
++        <entry key="MAIN">
++          <value>
++            <State />
++          </value>
++        </entry>
++      </map>
++    </option>
++  </component>
++  <component name="XSLT-Support.FileAssociations.UIState">
++    <expand />
++    <select />
++  </component>
+ </project>
+\ No newline at end of file
+Index: src/project/menu/Menu.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.menu;\r\nimport java.io.BufferedReader;\r\nimport java.io.FileReader;\r\nimport java.io.IOException;\r\nimport java.util.ArrayList;\r\nimport java.io.*;\r\nimport java.util.Objects;\r\n\r\n\r\npublic class Menu {\r\n\r\n    private ArrayList<Dish> restaurantMenu;\r\n    public ArrayList<Dish> newDishes;\r\n    private ArrayList<Dish> allMenus;\r\n    public Menu() {\r\n        this.restaurantMenu = new ArrayList<>();\r\n        this.newDishes = new ArrayList<>();\r\n        this.allMenus = new ArrayList<>();\r\n        readMenuDataFile();\r\n    }\r\n    public void addItem(String restaurantName, String dishName, Double price) {\r\n        Dish dishToAdd = new Dish(restaurantName, dishName, price);\r\n        boolean found = false;\r\n\r\n        for (Dish dish:restaurantMenu)\r\n        {\r\n            if (dishToAdd.equals(dish))\r\n            {\r\n                found = true;\r\n                break;\r\n            }\r\n        }\r\n\r\n        if(!found)\r\n        {\r\n            restaurantMenu.add(dishToAdd);\r\n        }\r\n\r\n    }\r\n\r\n    public void addNewDish(String restaurantName, String dishName, Double price) {\r\n        Dish dishToAdd = new Dish(restaurantName, dishName, price);\r\n        boolean found = false;\r\n        for (Dish dish:allMenus)\r\n        {\r\n            if (dishToAdd.equals(dish)) {\r\n                found = true;\r\n                break;\r\n            }\r\n        }\r\n\r\n        if(!found)\r\n        {\r\n            newDishes.add(dishToAdd);\r\n        }\r\n        else\r\n        {\r\n            System.out.println(\"DISH ALREADY EXISTS!\");\r\n        }\r\n    }\r\n\r\n    public  void readMenuDataFile(String rName)\r\n    {\r\n        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(\"menus.txt\")))\r\n        {\r\n            String line;\r\n            while ((line = bufferedReader.readLine()) != null) //reads each line until there is none\r\n            {\r\n                String[] itemData = line.split(\",\");\r\n                if (Objects.equals(rName, itemData[0])) {\r\n                    String restaurantName = itemData[0];\r\n                    String dishName = itemData[1];\r\n                    double price = Double.parseDouble(itemData[2]);\r\n                    addItem(restaurantName, dishName, price);\r\n                }\r\n            }\r\n        }\r\n        catch(IOException exp)\r\n        {\r\n            System.out.println(exp.getMessage());\r\n        }\r\n    }\r\n\r\n    public  void readMenuDataFile()\r\n    {\r\n        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(\"menus.txt\")))\r\n        {\r\n            String line;\r\n            while ((line = bufferedReader.readLine()) != null) //reads each line until there is none\r\n            {\r\n                String[] itemData = line.split(\",\");\r\n                    String restaurantName = itemData[0];\r\n                    String dishName = itemData[1];\r\n                    double price = Double.parseDouble(itemData[2]);\r\n                Dish dish = new Dish(restaurantName, dishName, price);\r\n                allMenus.add(dish);\r\n\r\n            }\r\n        }\r\n        catch(IOException exp)\r\n        {\r\n            System.out.println(exp.getMessage());\r\n        }\r\n    }\r\n\r\n    public void writeMenuDataFile()\r\n    {\r\n        try (PrintWriter writer = new PrintWriter((new FileWriter(\"menus.txt\",true)))) {\r\n            if(!newDishes.isEmpty()) {\r\n                for (Dish dish : newDishes) {\r\n                    writer.write(dish.getRestaurantName() + \",\" + dish.getDishName() + \",\" + dish.getPrice() + \"\\n\");\r\n                }\r\n            }\r\n        } catch (IOException exp) {\r\n            System.out.println(exp.getMessage());\r\n        }\r\n    }\r\n\r\n    public void displayMenu(String restaurantName)\r\n    {\r\n        for (Dish dish : restaurantMenu)\r\n        {\r\n            if (dish.getRestaurantName().equals(restaurantName)) {\r\n                System.out.println(dish.getDishName() + \": $\" + dish.getPrice());\r\n            }\r\n        }\r\n    }\r\n\r\n\r\n    // Get a specific menu item\r\n    public Dish getMenuItem(int index) {\r\n        return restaurantMenu.get(index);\r\n    }\r\n\r\n    // Get the number of menu items\r\n    public int getMenuSize() {\r\n        return restaurantMenu.size();\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/project/menu/Menu.java b/src/project/menu/Menu.java
+--- a/src/project/menu/Menu.java	(revision 7af7b1857f528814a43e698180667446f3794cb7)
++++ b/src/project/menu/Menu.java	(date 1703352772138)
+@@ -1,4 +1,5 @@
+ package project.menu;
++
+ import java.io.BufferedReader;
+ import java.io.FileReader;
+ import java.io.IOException;
+@@ -9,30 +10,29 @@
+ 
+ public class Menu {
+ 
+-    private ArrayList<Dish> restaurantMenu;
+     public ArrayList<Dish> newDishes;
++    private ArrayList<Dish> restaurantMenu;
+     private ArrayList<Dish> allMenus;
++
+     public Menu() {
+         this.restaurantMenu = new ArrayList<>();
+         this.newDishes = new ArrayList<>();
+         this.allMenus = new ArrayList<>();
+         readMenuDataFile();
+     }
++
+     public void addItem(String restaurantName, String dishName, Double price) {
+         Dish dishToAdd = new Dish(restaurantName, dishName, price);
+         boolean found = false;
+ 
+-        for (Dish dish:restaurantMenu)
+-        {
+-            if (dishToAdd.equals(dish))
+-            {
++        for (Dish dish : restaurantMenu) {
++            if (dishToAdd.equals(dish)) {
+                 found = true;
+                 break;
+             }
+         }
+ 
+-        if(!found)
+-        {
++        if (!found) {
+             restaurantMenu.add(dishToAdd);
+         }
+ 
+@@ -41,28 +41,22 @@
+     public void addNewDish(String restaurantName, String dishName, Double price) {
+         Dish dishToAdd = new Dish(restaurantName, dishName, price);
+         boolean found = false;
+-        for (Dish dish:allMenus)
+-        {
++        for (Dish dish : allMenus) {
+             if (dishToAdd.equals(dish)) {
+                 found = true;
+                 break;
+             }
+         }
+ 
+-        if(!found)
+-        {
++        if (!found) {
+             newDishes.add(dishToAdd);
+-        }
+-        else
+-        {
++        } else {
+             System.out.println("DISH ALREADY EXISTS!");
+         }
+     }
+ 
+-    public  void readMenuDataFile(String rName)
+-    {
+-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader("menus.txt")))
+-        {
++    public void readMenuDataFile(String rName) {
++        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("menus.txt"))) {
+             String line;
+             while ((line = bufferedReader.readLine()) != null) //reads each line until there is none
+             {
+@@ -74,39 +68,32 @@
+                     addItem(restaurantName, dishName, price);
+                 }
+             }
+-        }
+-        catch(IOException exp)
+-        {
++        } catch (IOException exp) {
+             System.out.println(exp.getMessage());
+         }
+     }
+ 
+-    public  void readMenuDataFile()
+-    {
+-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader("menus.txt")))
+-        {
++    public void readMenuDataFile() {
++        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("menus.txt"))) {
+             String line;
+             while ((line = bufferedReader.readLine()) != null) //reads each line until there is none
+             {
+                 String[] itemData = line.split(",");
+-                    String restaurantName = itemData[0];
+-                    String dishName = itemData[1];
+-                    double price = Double.parseDouble(itemData[2]);
++                String restaurantName = itemData[0];
++                String dishName = itemData[1];
++                double price = Double.parseDouble(itemData[2]);
+                 Dish dish = new Dish(restaurantName, dishName, price);
+                 allMenus.add(dish);
+ 
+             }
+-        }
+-        catch(IOException exp)
+-        {
++        } catch (IOException exp) {
+             System.out.println(exp.getMessage());
+         }
+     }
+ 
+-    public void writeMenuDataFile()
+-    {
+-        try (PrintWriter writer = new PrintWriter((new FileWriter("menus.txt",true)))) {
+-            if(!newDishes.isEmpty()) {
++    public void writeMenuDataFile() {
++        try (PrintWriter writer = new PrintWriter((new FileWriter("menus.txt", true)))) {
++            if (!newDishes.isEmpty()) {
+                 for (Dish dish : newDishes) {
+                     writer.write(dish.getRestaurantName() + "," + dish.getDishName() + "," + dish.getPrice() + "\n");
+                 }
+@@ -116,10 +103,8 @@
+         }
+     }
+ 
+-    public void displayMenu(String restaurantName)
+-    {
+-        for (Dish dish : restaurantMenu)
+-        {
++    public void displayMenu(String restaurantName) {
++        for (Dish dish : restaurantMenu) {
+             if (dish.getRestaurantName().equals(restaurantName)) {
+                 System.out.println(dish.getDishName() + ": $" + dish.getPrice());
+             }
+Index: src/project/user/InputChecks.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.user;\r\n\r\npublic interface InputChecks\r\n{\r\n\r\n    /**\r\n     * checks if input equals to exit value to exit from function\r\n     * @param input any input (e.g: email,name,password,etc..)\r\n     * @return true if value equal to exit, the caller should handle what happens next\r\n     */\r\n    static boolean checkExit(String input)\r\n    {\r\n        return input.equalsIgnoreCase(\"exit\"); //returns true if == exit\r\n    }\r\n\r\n    static boolean checkDelimiter(String input)\r\n    {\r\n        return input.contains(\";\");\r\n    }\r\n\r\n    static boolean validateEmail(String email)\r\n    {\r\n        // Basic email validation using a regular expression\r\n        String emailRegex = \"^[a-zA-Z0-9_+&*-]+(?:\\\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\\\.)+[a-zA-Z]{2,7}$\";\r\n        return email.matches(emailRegex);\r\n    }\r\n\r\n     static boolean validatePhoneNumber(String phoneNumber) {\r\n        // Check if the phone number contains only numbers\r\n        if (!phoneNumber.matches(\"\\\\d+\")) {\r\n            return false;\r\n        }\r\n\r\n        // Check if the length is reasonable\r\n        int minLength = 7;\r\n        int maxLength = 15;\r\n        int phoneNumberLength = phoneNumber.length();\r\n\r\n        return phoneNumberLength >= minLength && phoneNumberLength <= maxLength;\r\n    }\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/project/user/InputChecks.java b/src/project/user/InputChecks.java
+--- a/src/project/user/InputChecks.java	(revision 7af7b1857f528814a43e698180667446f3794cb7)
++++ b/src/project/user/InputChecks.java	(date 1703352772160)
+@@ -1,31 +1,28 @@
+ package project.user;
+ 
+-public interface InputChecks
+-{
++public interface InputChecks {
+ 
+     /**
+      * checks if input equals to exit value to exit from function
++     *
+      * @param input any input (e.g: email,name,password,etc..)
+      * @return true if value equal to exit, the caller should handle what happens next
+      */
+-    static boolean checkExit(String input)
+-    {
++    static boolean checkExit(String input) {
+         return input.equalsIgnoreCase("exit"); //returns true if == exit
+     }
+ 
+-    static boolean checkDelimiter(String input)
+-    {
++    static boolean checkDelimiter(String input) {
+         return input.contains(";");
+     }
+ 
+-    static boolean validateEmail(String email)
+-    {
++    static boolean validateEmail(String email) {
+         // Basic email validation using a regular expression
+         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+         return email.matches(emailRegex);
+     }
+ 
+-     static boolean validatePhoneNumber(String phoneNumber) {
++    static boolean validatePhoneNumber(String phoneNumber) {
+         // Check if the phone number contains only numbers
+         if (!phoneNumber.matches("\\d+")) {
+             return false;
+Index: src/project/review/review.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.review;\r\n\r\nimport java.util.Scanner;\r\nimport java.io.FileWriter;\r\nimport java.io.IOException;\r\nimport java.io.PrintWriter;\r\nimport java.io.BufferedWriter;\r\n\r\npublic class review {\r\n    private String Name = \"null\";\r\n    private String num_phone = \"null\";\r\n    private float rev_rest = 0;\r\n    private float rev_staf = 0;\r\n    private float rev_clean = 0;\r\n    private float rev_food = 0;\r\n    private float rev_design = 0;\r\n    private String comments;\r\n    private Scanner scanner = new Scanner(System.in);\r\n\r\n    //constructors\r\n    public review() {\r\n    }\r\n\r\n    public review(String name, String num_phone) {\r\n        this.Name = name;\r\n        this.num_phone = num_phone;\r\n    }\r\n\r\n    public review(String name, String num_phone, float rev_rest) {\r\n        this.Name = name;\r\n        this.num_phone = num_phone;\r\n        this.rev_rest = rev_rest;\r\n    }\r\n\r\n    public review(String name, String num_phone, float rev_rest, float rev_staf) {\r\n        this.Name = name;\r\n        this.num_phone = num_phone;\r\n        this.rev_rest = rev_rest;\r\n        this.rev_staf = rev_staf;\r\n    }\r\n\r\n    public review(String name, String num_phone, float rev_rest, float rev_staf, float rev_clean) {\r\n        this.Name = name;\r\n        this.num_phone = num_phone;\r\n        this.rev_rest = rev_rest;\r\n        this.rev_staf = rev_staf;\r\n        this.rev_clean = rev_clean;\r\n    }\r\n\r\n    public review(String name, String num_phone, float rev_rest, float rev_staf, float rev_clean, float rev_food) {\r\n        this.Name = name;\r\n        this.num_phone = num_phone;\r\n        this.rev_rest = rev_rest;\r\n        this.rev_staf = rev_staf;\r\n        this.rev_clean = rev_clean;\r\n        this.rev_food = rev_food;\r\n    }\r\n\r\n    public review(String name, String num_phone, float rev_rest, float rev_staf, float rev_clean, float rev_food, float rev_design) {\r\n        this.Name = name;\r\n        this.num_phone = num_phone;\r\n        this.rev_rest = rev_rest;\r\n        this.rev_staf = rev_staf;\r\n        this.rev_clean = rev_clean;\r\n        this.rev_food = rev_food;\r\n        this.rev_design = rev_design;\r\n    }\r\n\r\n    public review(String name, String num_phone, float rev_rest, float rev_staf, float rev_clean, float rev_food, float rev_design, String comments) {\r\n        this.Name = name;\r\n        this.num_phone = num_phone;\r\n        this.rev_rest = rev_rest;\r\n        this.rev_staf = rev_staf;\r\n        this.rev_clean = rev_clean;\r\n        this.rev_food = rev_food;\r\n        this.rev_design = rev_design;\r\n        this.comments = comments;\r\n    }\r\n\r\n    //setter and function\r\n    public int setName() {\r\n        System.out.println(\"Enter your name : \");\r\n        String inputName = scanner.nextLine();//mohamed ayman\r\n        while (inputName == null) {\r\n            System.out.println(\"Incorrect Input\\nRenter your name :  \");\r\n            inputName = scanner.nextLine();\r\n        }\r\n        this.Name = inputName;\r\n        return 0;\r\n    }\r\n\r\n    public void setNum_phone() {\r\n        System.out.println(\"Enter your telephone number : \");\r\n        String inputnum_phone = scanner.next();//01029494405\r\n        while (inputnum_phone.length()!=11) {\r\n            System.out.println(\"Incorrect Input\\nRenter your telephone number : \");\r\n            inputnum_phone = scanner.next();\r\n        }\r\n        this.num_phone = inputnum_phone;\r\n    }\r\n\r\n    public void setRev_rest() {\r\n        System.out.println(\"How would you rate the restaurant out of 10? \");\r\n        float inputrev_rest = scanner.nextFloat();//10\r\n        while (inputrev_rest < 0 || inputrev_rest > 10) {\r\n            System.out.println(\"Incorrect Input\\nHow would you rate the restaurant out of 10? \");\r\n            inputrev_rest = scanner.nextFloat();\r\n        }\r\n        this.rev_rest = inputrev_rest;\r\n    }\r\n\r\n    public void setRev_staf() {\r\n        System.out.println(\"How much do you rate the staff out of 10? \");\r\n        float inputrev_staff = scanner.nextFloat();//9.5\r\n        while (inputrev_staff < 0 || inputrev_staff > 10) {\r\n            System.out.println(\"Incorrect Input\\nHow much do you rate the staff out of 10?\");\r\n            inputrev_staff = scanner.nextFloat();\r\n        }\r\n        this.rev_staf = inputrev_staff;\r\n    }\r\n\r\n    public void setRev_clean() {\r\n        System.out.println(\"How would you rate the cleanliness of the restaurant out of 10?\");\r\n        float inputrev_clean = scanner.nextFloat();//5.5\r\n        while (inputrev_clean < 0 || inputrev_clean > 10) {\r\n            System.out.println(\"Incorrect Input\\nHow would you rate the cleanliness of the restaurant out of 10? \");\r\n            inputrev_clean = scanner.nextFloat();\r\n        }\r\n        this.rev_clean = inputrev_clean;\r\n    }\r\n\r\n    public void setRev_food() {\r\n        System.out.println(\"How would you rate the food out of 10? \");\r\n        float inputrev_food = scanner.nextFloat();//6.3\r\n        while (inputrev_food < 0 || inputrev_food > 10) {\r\n            System.out.println(\"Incorrect Input\\nHow would you rate the food out of 10? \");\r\n            inputrev_food = scanner.nextFloat();\r\n        }\r\n        this.rev_food = inputrev_food;\r\n    }\r\n\r\n    public void setRev_design() {\r\n        System.out.println(\"How would you rate the restaurant design out of 10? \");\r\n        float inputrev_design = scanner.nextFloat();//2.2\r\n        while (inputrev_design < 0 || inputrev_design > 10) {\r\n            System.out.println(\"Incorrect Input\\nHow would you rate the restaurant design out of 10? \");\r\n            inputrev_design = scanner.nextFloat();\r\n        }\r\n        this.rev_design = inputrev_design;\r\n    }\r\n\r\n    public void setComments() {\r\n        System.out.println(\"Are there any additional comments true or false? \");\r\n        String inputcomments = scanner.next();\r\n        if (inputcomments.equals(\"t\") == true || inputcomments.equals(\"T\") == true  || inputcomments.equals(\"true\") == true || inputcomments.equals(\"True\") == true || inputcomments.equals(\"TRUE\") == true) {\r\n            inputcomments = scanner.next();\r\n            this.comments = inputcomments;\r\n        }\r\n        System.out.println(\"\\nThank you for your vote and we look forward to seeing you soon :)\");\r\n    }\r\n    //getter\r\n    public String getName() {\r\n        return Name;\r\n    }\r\n\r\n    public String getNum_phone() {\r\n        return num_phone;\r\n    }\r\n\r\n    public float getRev_rest() {\r\n        return rev_rest;\r\n    }\r\n\r\n    public float getRev_staf() {\r\n        return rev_staf;\r\n    }\r\n\r\n    public float getRev_clean() {\r\n        return rev_clean;\r\n    }\r\n\r\n    public float getRev_food() {\r\n        return rev_food;\r\n    }\r\n\r\n    public float getRev_design() {\r\n        return rev_design;\r\n    }\r\n\r\n    public String getComments() {\r\n        return comments;\r\n    }\r\n\r\n    ////////////////////////////////////////\r\n\r\n    public void saveToFile(String filePath) {\r\n        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {\r\n            writer.write(String.format(\"Name: %s%n\", Name));\r\n            writer.write(String.format(\"Phone Number: %s%n\", num_phone));\r\n            writer.write(String.format(\"Restaurant Rating: %.1f%n\", rev_rest));\r\n            writer.write(String.format(\"Staff Rating: %.1f%n\", rev_staf));\r\n            writer.write(String.format(\"Cleanliness Rating: %.1f%n\", rev_clean));\r\n            writer.write(String.format(\"Food Rating: %.1f%n\", rev_food));\r\n            writer.write(String.format(\"Design Rating: %.1f%n\", rev_design));\r\n            writer.write(String.format(\"Comments: %s%n\", (comments != null ? comments : \"N/A\")));\r\n            writer.write(\"-------------------------\");\r\n            writer.newLine();\r\n        } catch (IOException e) {\r\n            System.out.println(\"An error occurred: \" + e.getMessage());\r\n        }\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/project/review/review.java b/src/project/review/review.java
+--- a/src/project/review/review.java	(revision 7af7b1857f528814a43e698180667446f3794cb7)
++++ b/src/project/review/review.java	(date 1703352772133)
+@@ -92,7 +92,7 @@
+     public void setNum_phone() {
+         System.out.println("Enter your telephone number : ");
+         String inputnum_phone = scanner.next();//01029494405
+-        while (inputnum_phone.length()!=11) {
++        while (inputnum_phone.length() != 11) {
+             System.out.println("Incorrect Input\nRenter your telephone number : ");
+             inputnum_phone = scanner.next();
+         }
+@@ -152,12 +152,13 @@
+     public void setComments() {
+         System.out.println("Are there any additional comments true or false? ");
+         String inputcomments = scanner.next();
+-        if (inputcomments.equals("t") == true || inputcomments.equals("T") == true  || inputcomments.equals("true") == true || inputcomments.equals("True") == true || inputcomments.equals("TRUE") == true) {
++        if (inputcomments.equals("t") == true || inputcomments.equals("T") == true || inputcomments.equals("true") == true || inputcomments.equals("True") == true || inputcomments.equals("TRUE") == true) {
+             inputcomments = scanner.next();
+             this.comments = inputcomments;
+         }
+         System.out.println("\nThank you for your vote and we look forward to seeing you soon :)");
+     }
++
+     //getter
+     public String getName() {
+         return Name;
+Index: src/project/restaurant/restaurantRegistration.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.restaurant;\r\n\r\nimport java.util.Scanner;\r\n\r\n\r\npublic class restaurantRegistration {\r\n\r\n\r\n    public static void registerRestaurant(Restaurant restaurant) {\r\n\r\n\r\n        Scanner scanner = new Scanner(System.in);\r\n\r\n        while (true) {\r\n            System.out.print(\"Enter restaurant name: \");\r\n            restaurant.restaurantName = scanner.nextLine();\r\n            System.out.print(\"do you want to change the restaurant name? if not enter any key\");\r\n            String decision = scanner.nextLine().toLowerCase();\r\n\r\n            if (!decision.equals(\"yes\")) break;\r\n        }\r\n//\r\n////enters the name of the restaurant and checks if he wants to enter the name again\r\n        while (true) {\r\n\r\n\r\n            boolean repeat = true;\r\n            while (repeat) {\r\n                System.out.println(\"enter phone number:\");\r\n                while (!scanner.hasNextInt()) {\r\n                    scanner.next();\r\n                    // Clear the buffer\r\n\r\n\r\n                    System.out.println(\"Error: Please enter a valid phone number.\");\r\n\r\n                }\r\n                //checks that the phone number is nothing else but numbers\r\n                restaurant.restaurantContact = scanner.nextLine();\r\n\r\n                int compareNumber = restaurant.restaurantContact.length();\r\n                if ((compareNumber == 11)||(compareNumber==5)) {\r\n                    repeat = false;\r\n                } else\r\n                    System.out.println(\"please enter the full number\");\r\n\r\n\r\n            }\r\n            //checks length of the number\r\n            System.out.print(\"do you want to change the phone number? if not enter any key\");\r\n            String decision = scanner.nextLine().toLowerCase();\r\n\r\n            if (!decision.equals(\"yes\")) break;\r\n        }\r\n\r\n//enters the number of the restaurant and checks if he wants to enter it again\r\n//         checks the length of the phone number\r\n//            checks if input is a number\r\n\r\n        while (true) {\r\n\r\n            System.out.println(\"Enter restaurant address: \");\r\n            restaurant.restaurantAddress = scanner.nextLine();\r\n            System.out.print(\"do you want to change the restaurant address? if not enter any key\");\r\n            String decision = scanner.nextLine().toLowerCase();\r\n            if (!decision.equals(\"yes\")) break;\r\n        }\r\n\r\n//enters the address of the restaurant and checks if he wants to enter it again\r\n        while (true) {\r\n            boolean notUniqueEmail;\r\n            System.out.println(\"Enter restaurant Email \");\r\n            restaurant.restaurantEmail = scanner.nextLine();\r\n            System.out.println(\"do you want to change the Email? if not enter any key\");\r\n            String decision = scanner.nextLine().toLowerCase();\r\nnotUniqueEmail = restaurant.compareEmail(restaurant.restaurantEmail);\r\nif(notUniqueEmail) {\r\n   System.out.println(\"this Email is already being used please enter an email that was never used here before\");\r\n} else if (!decision.equals(\"yes\")) break;\r\n\r\n        }\r\n        //enters the email of the restaurant and checks if he wants to enter it again\r\n        while (true) {\r\n\r\n            System.out.print(\"Enter restaurant password \");\r\n            restaurant.restaurantPassword = scanner.next();\r\n            System.out.print(\"do you want to change the password? if not enter any key \");\r\n            String decision = scanner.next().toLowerCase();\r\n\r\n            if (!decision.equals(\"yes\")) break;\r\n\r\n        }\r\n\r\n        restaurant.addRestaurantDetails(restaurant.restaurantName, restaurant.restaurantContact, restaurant.restaurantAddress, restaurant.restaurantEmail, restaurant.restaurantPassword);\r\n        restaurant.RestaurantSaveToFiles(restaurant.getRestaurants());\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/project/restaurant/restaurantRegistration.java b/src/project/restaurant/restaurantRegistration.java
+--- a/src/project/restaurant/restaurantRegistration.java	(revision 7af7b1857f528814a43e698180667446f3794cb7)
++++ b/src/project/restaurant/restaurantRegistration.java	(date 1703352772164)
+@@ -39,7 +39,7 @@
+                 restaurant.restaurantContact = scanner.nextLine();
+ 
+                 int compareNumber = restaurant.restaurantContact.length();
+-                if ((compareNumber == 11)||(compareNumber==5)) {
++                if ((compareNumber == 11) || (compareNumber == 5)) {
+                     repeat = false;
+                 } else
+                     System.out.println("please enter the full number");
+@@ -73,10 +73,10 @@
+             restaurant.restaurantEmail = scanner.nextLine();
+             System.out.println("do you want to change the Email? if not enter any key");
+             String decision = scanner.nextLine().toLowerCase();
+-notUniqueEmail = restaurant.compareEmail(restaurant.restaurantEmail);
+-if(notUniqueEmail) {
+-   System.out.println("this Email is already being used please enter an email that was never used here before");
+-} else if (!decision.equals("yes")) break;
++            notUniqueEmail = restaurant.compareEmail(restaurant.restaurantEmail);
++            if (notUniqueEmail) {
++                System.out.println("this Email is already being used please enter an email that was never used here before");
++            } else if (!decision.equals("yes")) break;
+ 
+         }
+         //enters the email of the restaurant and checks if he wants to enter it again
+Index: src/project/main/Role.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.main;\r\n\r\npublic class Role\r\n{\r\n    /*\r\n        ROLES:\r\n        NONE        |   0\r\n        ADMIN       |   1\r\n        RESTAURANT  |   2\r\n        USER        |   3\r\n     */\r\n\r\n    public static final int ADMIN_IDENTIFIER = 1;\r\n    public static final int RESTAURANT_IDENTIFIER = 2;\r\n    public static final int USER_IDENTIFIER = 3;\r\n    private static int roleIdentifier = 0;\r\n\r\n    public static int getRoleIdentifier() {\r\n        return roleIdentifier;\r\n    }\r\n\r\n    public static void setRoleIdentifier(int roleIdentifier) {\r\n        Role.roleIdentifier = roleIdentifier;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/project/main/Role.java b/src/project/main/Role.java
+--- a/src/project/main/Role.java	(revision 7af7b1857f528814a43e698180667446f3794cb7)
++++ b/src/project/main/Role.java	(date 1703352772103)
+@@ -1,7 +1,6 @@
+ package project.main;
+ 
+-public class Role
+-{
++public class Role {
+     /*
+         ROLES:
+         NONE        |   0
+Index: src/project/restaurant/RestaurantPermissions.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.restaurant;\r\n\r\n\r\nimport project.menu.Dish;\r\nimport project.menu.Menu;\r\nimport project.order.Order;\r\n\r\nimport java.io.FileWriter;\r\nimport java.io.IOException;\r\nimport java.io.PrintWriter;\r\nimport java.util.Random;\r\nimport java.util.Scanner;\r\nimport java.util.random.*;\r\n\r\npublic interface RestaurantPermissions\r\n{\r\n    default void addDishToMenuPage(Restaurant restaurant)\r\n    {\r\n        Menu menu = new Menu();\r\n        Scanner scanner = new Scanner(System.in);\r\n        System.out.println(\"\\t\\t### Restaurant Add Dish To Menu Page ###\\n\");\r\n\r\n        menu.readMenuDataFile(restaurant.getRestaurantName());\r\n\r\n        System.out.print(\"Enter Dish Name: \");\r\n        String dishName = scanner.nextLine();\r\n\r\n        System.out.print(\"Enter Dish Price: \");\r\n        Double dishPrice = Double.parseDouble(scanner.nextLine());\r\n\r\n        menu.addNewDish(restaurant.getRestaurantName(),dishName,dishPrice);\r\n        menu.writeMenuDataFile();\r\n    }\r\n\r\n\r\n    default void viewOrders()\r\n    {\r\n        Order order = new Order(\"name\");\r\n        order.viewOrders();\r\n    }\r\n\r\n\r\n    //view profit,etc...\r\n    default void generateBusinessReport(Restaurant restaurant)\r\n    {\r\n        Random rand = new Random();\r\n        System.out.println(\"\\t\\t#### BUSINESS REPORT ####\");\r\n        System.out.println(\"Business Report For \" + restaurant.getRestaurantName());\r\n        System.out.println(\"Users served: \" + rand.nextInt(5000));\r\n        System.out.println(\"Revenue for the day: \" + rand.nextInt(10000) + \"$\");\r\n        System.out.println(\"Restaurant Performance: GREAT\");\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/project/restaurant/RestaurantPermissions.java b/src/project/restaurant/RestaurantPermissions.java
+--- a/src/project/restaurant/RestaurantPermissions.java	(revision 7af7b1857f528814a43e698180667446f3794cb7)
++++ b/src/project/restaurant/RestaurantPermissions.java	(date 1703360426149)
+@@ -1,21 +1,12 @@
+ package project.restaurant;
+-
+-
+-import project.menu.Dish;
+ import project.menu.Menu;
+ import project.order.Order;
+-
+-import java.io.FileWriter;
+-import java.io.IOException;
+-import java.io.PrintWriter;
+ import java.util.Random;
+ import java.util.Scanner;
+-import java.util.random.*;
+ 
+-public interface RestaurantPermissions
+-{
+-    default void addDishToMenuPage(Restaurant restaurant)
+-    {
++
++public interface RestaurantPermissions {
++    default void addDishToMenuPage(Restaurant restaurant) {
+         Menu menu = new Menu();
+         Scanner scanner = new Scanner(System.in);
+         System.out.println("\t\t### Restaurant Add Dish To Menu Page ###\n");
+@@ -28,21 +19,19 @@
+         System.out.print("Enter Dish Price: ");
+         Double dishPrice = Double.parseDouble(scanner.nextLine());
+ 
+-        menu.addNewDish(restaurant.getRestaurantName(),dishName,dishPrice);
++        menu.addNewDish(restaurant.getRestaurantName(), dishName, dishPrice);
+         menu.writeMenuDataFile();
+     }
+ 
+ 
+-    default void viewOrders()
+-    {
++    default void viewOrders() {
+         Order order = new Order("name");
+         order.viewOrders();
+     }
+ 
+ 
+     //view profit,etc...
+-    default void generateBusinessReport(Restaurant restaurant)
+-    {
++    default void generateBusinessReport(Restaurant restaurant) {
+         Random rand = new Random();
+         System.out.println("\t\t#### BUSINESS REPORT ####");
+         System.out.println("Business Report For " + restaurant.getRestaurantName());
+Index: src/project/restaurant/Restaurant.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.restaurant;\r\n\r\nimport java.io.File;\r\nimport java.io.FileNotFoundException;\r\nimport java.util.ArrayList;\r\nimport java.util.Scanner;\r\nimport java.io.BufferedWriter;\r\nimport java.io.FileWriter;\r\nimport java.io.IOException;\r\npublic class Restaurant implements RestaurantPermissions{\r\n    protected String restaurantName;\r\n    protected String restaurantAddress;\r\n    protected String restaurantContact;\r\n    protected String restaurantEmail;\r\n    protected String restaurantPassword;\r\n\r\n    ArrayList<ArrayList<String>> restaurants;\r\n\r\n    public Restaurant() {\r\n        this.restaurants = new ArrayList<>();\r\n\r\n    }\r\n\r\n    public Restaurant(String restaurantName)\r\n    {\r\n        this.restaurants = new ArrayList<>();\r\n        this.restaurantName = restaurantName;\r\n    }\r\n\r\n    public Restaurant(String restaurantName, String restaurantAddress, String restaurantContact, String restaurantEmail, String restaurantPassword) {\r\n        this.restaurantName = restaurantName;\r\n        this.restaurantAddress = restaurantAddress;\r\n        this.restaurantContact = restaurantContact;\r\n        this.restaurantEmail = restaurantEmail;\r\n        this.restaurantPassword = restaurantPassword;\r\n        this.restaurants = new ArrayList<>();\r\n    }\r\n\r\n    public ArrayList<ArrayList<String>> getRestaurants() {\r\n        return restaurants;\r\n    }\r\n\r\n    public String getRestaurantName() {\r\n        return restaurantName;\r\n    }\r\n\r\n    public String getRestaurantAddress() {\r\n        return restaurantAddress;\r\n    }\r\n\r\n    public String getRestaurantContact() {\r\n        return restaurantContact;\r\n    }\r\n\r\n    public String getRestaurantEmail() {\r\n        return restaurantEmail;\r\n    }\r\n\r\n    public String getRestaurantPassword() {\r\n        return restaurantPassword;\r\n    }\r\n\r\n    public void loadRestaurantsFromFile() {\r\n        try {\r\n            Scanner fileScanner = new Scanner(new File(\"restaurants.txt\"));\r\n\r\n            while (fileScanner.hasNextLine()) {\r\n                String line = fileScanner.nextLine();\r\n                String[] parts = line.split(\",\");\r\n                if (parts.length == 5) {\r\n                    String restaurantName = parts[0].trim();\r\n                    String restaurantAddress = parts[1].trim();\r\n                    String restaurantContact = parts[2].trim();\r\n                    String restaurantEmail = parts[3].trim();\r\n                    String restaurantPassword = parts[4].trim();\r\n                    addRestaurantDetails(restaurantName, restaurantContact, restaurantAddress, restaurantEmail, restaurantPassword);\r\n                }\r\n            }\r\n            fileScanner.close();\r\n        } catch (FileNotFoundException e) {\r\n            System.out.println(\"File not found: \" + e.getMessage());\r\n        } catch (NumberFormatException e) {\r\n            System.out.println(\"Error parsing price: \" + e.getMessage());\r\n        }\r\n\r\n    }\r\n\r\n    public void RestaurantSaveToFiles(ArrayList<ArrayList<String>> restaurants) {\r\n        try (BufferedWriter writer = new BufferedWriter(new FileWriter(\"restaurants.txt\"))) {\r\n            for (ArrayList<String> row : restaurants) {\r\n                // Join elements of the row into a single string, separated by commas\r\n                String line = String.join(\",\", row);\r\n                // Write the line to the file\r\n                writer.write(line);\r\n                // Write a newline character to separate rows\r\n                writer.newLine();\r\n            }\r\n\r\n        } catch (IOException e) {\r\n            throw new RuntimeException(e);\r\n        }\r\n    }\r\n\r\n    public void addRestaurantDetails(String restaurantName, String restaurantContact, String restaurantAddress, String restaurantEmail, String restaurantPassword) {\r\n        ArrayList<String> restaurantDetails = new ArrayList<>();\r\n        restaurantDetails.add(restaurantName);\r\n        restaurantDetails.add(restaurantContact);\r\n        restaurantDetails.add(restaurantAddress);\r\n        restaurantDetails.add(restaurantEmail);\r\n        restaurantDetails.add(restaurantPassword);\r\n        restaurants.add(restaurantDetails);\r\n\r\n    }\r\n\r\n\r\n    public String login(Restaurant restaurant, String mail, String password) {\r\n\r\n        boolean mailValidation, passwordValidation;\r\n        mailValidation = restaurant.compareEmail(mail);\r\n        passwordValidation = restaurant.comparePassword(password);\r\n        boolean sameAccount = verifyAccount(mail, password);\r\n        if ((mailValidation) && (passwordValidation) && (sameAccount)) {\r\n            return mail;\r\n\r\n        }\r\n\r\n        return \"null\";\r\n    }\r\n\r\n    boolean compareEmail(String email) {\r\n        boolean uniqueEmail = false;\r\n        for (ArrayList<String> row : restaurants) {\r\n\r\n            if (row.size() >= 3 && row.get(3).equals(email)) {\r\n\r\n                return true; // Found a match\r\n\r\n            }\r\n\r\n        }\r\n        return uniqueEmail;\r\n    }\r\n\r\n    boolean comparePassword(String password) {\r\n        boolean uniquePassword = false;\r\n        for (ArrayList<String> row : restaurants) {\r\n\r\n            if (row.size() >= 4 && row.get(4).equals(password)) {\r\n                return true; // Found a match\r\n\r\n            }\r\n\r\n        }\r\n\r\n        return uniquePassword;\r\n    }\r\n\r\n    public void restaurantSearching(Restaurant restaurant) {\r\n\r\n        int counter = 0;\r\n        System.out.println(\"enter the name of the restaurant you're searching for:\");\r\n        Scanner scanner = new Scanner(System.in);\r\n        String search = scanner.nextLine();\r\n        for (ArrayList<String> restaurant1 : restaurant.restaurants) {\r\n            if (restaurant1.get(0).startsWith(search)) {\r\n                counter++;\r\n                System.out.println(counter + \".\" + restaurant1.get(0));\r\n            }\r\n        }\r\n\r\n    }\r\n\r\n    private boolean verifyAccount(String mail, String password) {\r\n        int index = 0;\r\n        for (ArrayList<String> restaurants2 : restaurants) {\r\n            if (restaurants2.size() >= 3 && restaurants2.get(3).equals(mail))\r\n                index = restaurants2.indexOf(4);\r\n        }\r\n        for (ArrayList<String> restaurant3 : restaurants) {\r\n            if (restaurant3.size() >= 4 && restaurant3.get(4).equals(password))\r\n                if (index == restaurant3.indexOf(4))\r\n                    return true;\r\n        }\r\n        return false;\r\n    }\r\n\r\n    public ArrayList<String> getRestaurantEmail(String mail)\r\n    {\r\n        ArrayList<String> restaurant = new ArrayList<>();\r\n\r\n\r\n\r\n        for (ArrayList<String> restaurants2 : restaurants) {\r\n            if (restaurants2.size() >= 3 && restaurants2.get(3).equals(mail))\r\n            {\r\n\r\n\r\n\r\n                String name = restaurants2.get(0);\r\n                String phoneNumber = restaurants2.get(1);\r\n                String address = restaurants2.get(2);\r\n                String email = restaurants2.get(3);\r\n                String password = restaurants2.get(4);\r\n                return restaurants2;\r\n            }\r\n        }\r\n        return null;\r\n\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/project/restaurant/Restaurant.java b/src/project/restaurant/Restaurant.java
+--- a/src/project/restaurant/Restaurant.java	(revision 7af7b1857f528814a43e698180667446f3794cb7)
++++ b/src/project/restaurant/Restaurant.java	(date 1703360426155)
+@@ -7,7 +7,8 @@
+ import java.io.BufferedWriter;
+ import java.io.FileWriter;
+ import java.io.IOException;
+-public class Restaurant implements RestaurantPermissions{
++
++public class Restaurant implements RestaurantPermissions {
+     protected String restaurantName;
+     protected String restaurantAddress;
+     protected String restaurantContact;
+@@ -18,11 +19,9 @@
+ 
+     public Restaurant() {
+         this.restaurants = new ArrayList<>();
+-
+     }
+ 
+-    public Restaurant(String restaurantName)
+-    {
++    public Restaurant(String restaurantName) {
+         this.restaurants = new ArrayList<>();
+         this.restaurantName = restaurantName;
+     }
+@@ -184,16 +183,12 @@
+         return false;
+     }
+ 
+-    public ArrayList<String> getRestaurantEmail(String mail)
+-    {
++    public ArrayList<String> getRestaurantEmail(String mail) {
+         ArrayList<String> restaurant = new ArrayList<>();
+ 
+ 
+-
+         for (ArrayList<String> restaurants2 : restaurants) {
+-            if (restaurants2.size() >= 3 && restaurants2.get(3).equals(mail))
+-            {
+-
++            if (restaurants2.size() >= 3 && restaurants2.get(3).equals(mail)) {
+ 
+ 
+                 String name = restaurants2.get(0);
+Index: src/project/admin/AdminPermissions.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.admin;\r\n\r\nimport project.restaurant.Restaurant;\r\nimport project.restaurant.RestaurantPermissions;\r\nimport project.user.UserManagementSystem;\r\nimport project.user.User;\r\n\r\n\r\n\r\npublic interface AdminPermissions extends RestaurantPermissions\r\n{\r\n    default void addUser(String name, String email, String password, String address,String phoneNumber)\r\n    {\r\n        User user = new User(name,email,password,address,phoneNumber);\r\n        UserManagementSystem.storeUserData(user);\r\n    }\r\n\r\n    default boolean removeUser(String userEmailToRemove)\r\n    {\r\n     return UserManagementSystem.removeUser(userEmailToRemove);\r\n    }\r\n\r\n    default void addRestaurant(Restaurant restaurant)\r\n    {\r\n        restaurant.addRestaurantDetails(restaurant.getRestaurantName(),\r\n                restaurant.getRestaurantContact(), restaurant.getRestaurantAddress(),\r\n                restaurant.getRestaurantEmail(), restaurant.getRestaurantPassword());\r\n\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/project/admin/AdminPermissions.java b/src/project/admin/AdminPermissions.java
+--- a/src/project/admin/AdminPermissions.java	(revision 7af7b1857f528814a43e698180667446f3794cb7)
++++ b/src/project/admin/AdminPermissions.java	(date 1703352772114)
+@@ -6,22 +6,17 @@
+ import project.user.User;
+ 
+ 
+-
+-public interface AdminPermissions extends RestaurantPermissions
+-{
+-    default void addUser(String name, String email, String password, String address,String phoneNumber)
+-    {
+-        User user = new User(name,email,password,address,phoneNumber);
++public interface AdminPermissions extends RestaurantPermissions {
++    default void addUser(String name, String email, String password, String address, String phoneNumber) {
++        User user = new User(name, email, password, address, phoneNumber);
+         UserManagementSystem.storeUserData(user);
+     }
+ 
+-    default boolean removeUser(String userEmailToRemove)
+-    {
+-     return UserManagementSystem.removeUser(userEmailToRemove);
++    default boolean removeUser(String userEmailToRemove) {
++        return UserManagementSystem.removeUser(userEmailToRemove);
+     }
+ 
+-    default void addRestaurant(Restaurant restaurant)
+-    {
++    default void addRestaurant(Restaurant restaurant) {
+         restaurant.addRestaurantDetails(restaurant.getRestaurantName(),
+                 restaurant.getRestaurantContact(), restaurant.getRestaurantAddress(),
+                 restaurant.getRestaurantEmail(), restaurant.getRestaurantPassword());
+Index: src/project/admin/Admin.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.admin;\r\n\r\n\r\nimport project.menu.Menu;\r\nimport project.restaurant.Restaurant;\r\nimport project.restaurant.RestaurantPermissions;\r\nimport project.user.InputChecks;\r\nimport project.user.User;\r\nimport project.user.UserManagementSystem;\r\n\r\nimport java.util.Scanner;\r\n\r\npublic class Admin extends User implements AdminPermissions, InputChecks, RestaurantPermissions\r\n{\r\n\r\n    public Admin()\r\n    {\r\n        super(\"System Administrator\", \"admin\", \"admin123\", \"HQ\",\"123456789\");\r\n    }\r\n\r\n    public void runDashboard()\r\n    {\r\n\r\n        Scanner scanner = new Scanner(System.in);\r\n        String exitCheck;\r\n        do {\r\n\r\n            System.out.println(\"\\t\\t####### Admin Dashboard ########\\n\");\r\n            System.out.println(\"\\t\\tWelcome System Administrator!\\n\");\r\n            System.out.println(\"\\t\\tSYSTEM HEALTH: GREAT\\n\"); //for realism only\r\n\r\n            System.out.println(\"Options:\\n0.Exit\\n1.Add User\\n2.Add User With No Restrictions.\\n3.Remove User\\n\" +\r\n                    \"4.Add Restaurant\\n5.Add Dish To Menu\" +\r\n                    \"\\n6.View Pending Orders\" +\r\n                    \"\\n7.Generate Business Report For Restaurant\");\r\n\r\n\r\n            int choice;\r\n            do {\r\n\r\n                try {\r\n                    choice = Integer.parseInt(scanner.nextLine());\r\n                    if (choice < 0 || choice > 7) {\r\n                        System.out.println(\"Invalid choice. Please enter a number between 0 and 7.\");\r\n                    }\r\n                } catch (NumberFormatException exp) {\r\n                    System.out.println(\"Invalid input. Please enter a valid number.\" +\r\n                            \" To exit type 0.\");\r\n                    choice = -1; // Set choice to an invalid value to trigger the loop again\r\n                }\r\n            }while((choice < 0 || choice > 7));\r\n\r\n\r\n            switch (choice) {\r\n                case 0:\r\n                    System.exit(0);\r\n                    break;\r\n                case 1:\r\n                    addUserPage();\r\n                    break;\r\n                case 2:\r\n                    addUserNoRestrictionsPage();\r\n                    break;\r\n                case 3:\r\n                    removeUserPage();\r\n                    break;\r\n                case 4:\r\n                    addRestaurantPage();\r\n                    break;\r\n                case 5:\r\n                    addDishToMenuPage();\r\n                    break;\r\n                case 6:\r\n                    viewOrders();\r\n                    break;\r\n                case 7:\r\n                    System.out.print(\"Enter Restaurant Name: \");\r\n                    String restaurantName = scanner.nextLine();\r\n                    if(InputChecks.checkExit(restaurantName))\r\n                    {\r\n                        break;\r\n                    }\r\n\r\n                Restaurant restaurantReport = new Restaurant(restaurantName);\r\n                    generateBusinessReport(restaurantReport);\r\n            }\r\n            System.out.println(\"Would you like to exit program? (Y/N)\");\r\n            exitCheck = scanner.nextLine();\r\n        }while(exitCheck.equalsIgnoreCase(\"n\") || exitCheck.equalsIgnoreCase(\"no\"));\r\n    }\r\n\r\n    void addUserPage() {\r\n        UserManagementSystem.registerUser(2);\r\n    }\r\n\r\n    void addUserNoRestrictionsPage()\r\n    {\r\n        Scanner scanner = new Scanner(System.in);\r\n        System.out.println(\"\\t\\t##### Admin Add User Page (NO RESTRICTIONS) #####\\n\");\r\n        System.out.println(\"NOTE: ADDING A USER THIS WAY COULD RESULT IN DUPLICATE USERS\" +\r\n                \" AND IS MORE LIKELY TO CAUSE AN ERROR.\\n\\t\\t\\t\\t\\t\\tUSE WITH CAUTION!\\n\");\r\n\r\n        System.out.println(\"At Any Point Type exit to return.\\n\");\r\n\r\n        System.out.print(\"Enter User Name: \");\r\n        String name = scanner.nextLine();\r\n        if(InputChecks.checkExit(name))\r\n        {\r\n            return;\r\n        }\r\n\r\n\r\n        System.out.print(\"Enter User Email: \");\r\n        String email = scanner.nextLine();\r\n        if(InputChecks.checkExit(email))\r\n        {\r\n            return;\r\n        }\r\n\r\n\r\n        System.out.print(\"Enter User Password: \");\r\n        String password = scanner.nextLine();\r\n        if(InputChecks.checkExit(password))\r\n        {\r\n            return;\r\n        }\r\n\r\n\r\n        System.out.print(\"Enter User Address: \");\r\n        String address = scanner.nextLine();\r\n        if(InputChecks.checkExit(address))\r\n        {\r\n            return;\r\n        }\r\n\r\n        System.out.print(\"Enter User Phone: \");\r\n        String phone = scanner.nextLine();\r\n        if(InputChecks.checkExit(phone))\r\n        {\r\n            return;\r\n        }\r\n\r\n        System.out.println(\"\\nUser Added Successfully!\");\r\n        addUser(name,email,password,address,phone);\r\n    }\r\n\r\n    void removeUserPage()\r\n    {\r\n        Scanner scanner = new Scanner(System.in);\r\n\r\n        System.out.println(\"\\n\\t\\t#### ADMIN REMOVE USER PAGE ###\\nAt Any Point Type exit to return.\\n\");\r\n        System.out.print(\"Enter User's Email To Be Removed: \");\r\n        String emailToRemove = scanner.nextLine();\r\n        if(InputChecks.checkExit(emailToRemove))\r\n        {\r\n            return;\r\n        }\r\n\r\n        if (removeUser(emailToRemove))\r\n        {\r\n            System.out.println(\"USER REMOVED SUCCESSFULLY!\");\r\n        }\r\n    }\r\n\r\n    void addRestaurantPage()\r\n    {\r\n\r\n\r\n        Scanner scanner = new Scanner(System.in);\r\n        System.out.println(\"\\t\\t### Admin Restaurant Registration Page ###\\nAt Any Point Type exit to return.\\n\");\r\n\r\n        System.out.print(\"Enter Restaurant Name: \");\r\n        String name = scanner.nextLine();\r\n        if(InputChecks.checkExit(name))\r\n        {\r\n            return;\r\n        }\r\n\r\n\r\n        System.out.print(\"Enter Restaurant Address: \");\r\n        String address = scanner.nextLine();\r\n        if(InputChecks.checkExit(address))\r\n        {\r\n            return;\r\n        }\r\n\r\n        System.out.print(\"Enter Restaurant Contact: \");\r\n        String contact = scanner.nextLine();\r\n        if(InputChecks.checkExit(contact))\r\n        {\r\n            return;\r\n        }\r\n\r\n        System.out.print(\"Enter Restaurant Email: \");\r\n        String email = scanner.nextLine();\r\n        if(InputChecks.checkExit(email))\r\n        {\r\n            return;\r\n        }\r\n\r\n        System.out.print(\"Enter Restaurant Password: \");\r\n        String password = scanner.nextLine();\r\n        if(InputChecks.checkExit(password))\r\n        {\r\n            return;\r\n        }\r\n\r\n        Restaurant restaurant = new Restaurant(name,address,contact,email,password);\r\n        restaurant.loadRestaurantsFromFile();\r\n        addRestaurant(restaurant);\r\n        restaurant.RestaurantSaveToFiles(restaurant.getRestaurants());\r\n\r\n\r\n    }\r\n\r\n    void addDishToMenuPage()\r\n    {\r\n        Menu menu = new Menu();\r\n        Scanner scanner = new Scanner(System.in);\r\n        System.out.println(\"\\t\\t### Admin Add Dish To Menu Page ###\\nAt Any Point Type exit to return.\\n\");\r\n\r\n        System.out.print(\"Enter Restaurant Name: \");\r\n        String restaurantName = scanner.nextLine();\r\n        if(InputChecks.checkExit(restaurantName))\r\n        {\r\n            return;\r\n        }\r\n        menu.readMenuDataFile(restaurantName);\r\n\r\n        System.out.print(\"Enter Dish Name: \");\r\n        String dishName = scanner.nextLine();\r\n        if(InputChecks.checkExit(dishName))\r\n        {\r\n            return;\r\n        }\r\n\r\n        System.out.print(\"Enter Dish Price (0 to abort): \");\r\n        Double dishPrice = Double.parseDouble(scanner.nextLine());\r\n        if(dishPrice == 0)\r\n        {\r\n            return;\r\n        }\r\n\r\n        menu.addNewDish(restaurantName,dishName,dishPrice);\r\n        menu.writeMenuDataFile();\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/project/admin/Admin.java b/src/project/admin/Admin.java
+--- a/src/project/admin/Admin.java	(revision 7af7b1857f528814a43e698180667446f3794cb7)
++++ b/src/project/admin/Admin.java	(date 1703352772170)
+@@ -10,16 +10,13 @@
+ 
+ import java.util.Scanner;
+ 
+-public class Admin extends User implements AdminPermissions, InputChecks, RestaurantPermissions
+-{
++public class Admin extends User implements AdminPermissions, InputChecks, RestaurantPermissions {
+ 
+-    public Admin()
+-    {
+-        super("System Administrator", "admin", "admin123", "HQ","123456789");
++    public Admin() {
++        super("System Administrator", "admin", "admin123", "HQ", "123456789");
+     }
+ 
+-    public void runDashboard()
+-    {
++    public void runDashboard() {
+ 
+         Scanner scanner = new Scanner(System.in);
+         String exitCheck;
+@@ -48,7 +45,7 @@
+                             " To exit type 0.");
+                     choice = -1; // Set choice to an invalid value to trigger the loop again
+                 }
+-            }while((choice < 0 || choice > 7));
++            } while ((choice < 0 || choice > 7));
+ 
+ 
+             switch (choice) {
+@@ -76,25 +73,23 @@
+                 case 7:
+                     System.out.print("Enter Restaurant Name: ");
+                     String restaurantName = scanner.nextLine();
+-                    if(InputChecks.checkExit(restaurantName))
+-                    {
++                    if (InputChecks.checkExit(restaurantName)) {
+                         break;
+                     }
+ 
+-                Restaurant restaurantReport = new Restaurant(restaurantName);
++                    Restaurant restaurantReport = new Restaurant(restaurantName);
+                     generateBusinessReport(restaurantReport);
+             }
+             System.out.println("Would you like to exit program? (Y/N)");
+             exitCheck = scanner.nextLine();
+-        }while(exitCheck.equalsIgnoreCase("n") || exitCheck.equalsIgnoreCase("no"));
++        } while (exitCheck.equalsIgnoreCase("n") || exitCheck.equalsIgnoreCase("no"));
+     }
+ 
+     void addUserPage() {
+         UserManagementSystem.registerUser(2);
+     }
+ 
+-    void addUserNoRestrictionsPage()
+-    {
++    void addUserNoRestrictionsPage() {
+         Scanner scanner = new Scanner(System.in);
+         System.out.println("\t\t##### Admin Add User Page (NO RESTRICTIONS) #####\n");
+         System.out.println("NOTE: ADDING A USER THIS WAY COULD RESULT IN DUPLICATE USERS" +
+@@ -104,66 +99,57 @@
+ 
+         System.out.print("Enter User Name: ");
+         String name = scanner.nextLine();
+-        if(InputChecks.checkExit(name))
+-        {
++        if (InputChecks.checkExit(name)) {
+             return;
+         }
+ 
+ 
+         System.out.print("Enter User Email: ");
+         String email = scanner.nextLine();
+-        if(InputChecks.checkExit(email))
+-        {
++        if (InputChecks.checkExit(email)) {
+             return;
+         }
+ 
+ 
+         System.out.print("Enter User Password: ");
+         String password = scanner.nextLine();
+-        if(InputChecks.checkExit(password))
+-        {
++        if (InputChecks.checkExit(password)) {
+             return;
+         }
+ 
+ 
+         System.out.print("Enter User Address: ");
+         String address = scanner.nextLine();
+-        if(InputChecks.checkExit(address))
+-        {
++        if (InputChecks.checkExit(address)) {
+             return;
+         }
+ 
+         System.out.print("Enter User Phone: ");
+         String phone = scanner.nextLine();
+-        if(InputChecks.checkExit(phone))
+-        {
++        if (InputChecks.checkExit(phone)) {
+             return;
+         }
+ 
+         System.out.println("\nUser Added Successfully!");
+-        addUser(name,email,password,address,phone);
++        addUser(name, email, password, address, phone);
+     }
+ 
+-    void removeUserPage()
+-    {
++    void removeUserPage() {
+         Scanner scanner = new Scanner(System.in);
+ 
+         System.out.println("\n\t\t#### ADMIN REMOVE USER PAGE ###\nAt Any Point Type exit to return.\n");
+         System.out.print("Enter User's Email To Be Removed: ");
+         String emailToRemove = scanner.nextLine();
+-        if(InputChecks.checkExit(emailToRemove))
+-        {
++        if (InputChecks.checkExit(emailToRemove)) {
+             return;
+         }
+ 
+-        if (removeUser(emailToRemove))
+-        {
++        if (removeUser(emailToRemove)) {
+             System.out.println("USER REMOVED SUCCESSFULLY!");
+         }
+     }
+ 
+-    void addRestaurantPage()
+-    {
++    void addRestaurantPage() {
+ 
+ 
+         Scanner scanner = new Scanner(System.in);
+@@ -171,41 +157,36 @@
+ 
+         System.out.print("Enter Restaurant Name: ");
+         String name = scanner.nextLine();
+-        if(InputChecks.checkExit(name))
+-        {
++        if (InputChecks.checkExit(name)) {
+             return;
+         }
+ 
+ 
+         System.out.print("Enter Restaurant Address: ");
+         String address = scanner.nextLine();
+-        if(InputChecks.checkExit(address))
+-        {
++        if (InputChecks.checkExit(address)) {
+             return;
+         }
+ 
+         System.out.print("Enter Restaurant Contact: ");
+         String contact = scanner.nextLine();
+-        if(InputChecks.checkExit(contact))
+-        {
++        if (InputChecks.checkExit(contact)) {
+             return;
+         }
+ 
+         System.out.print("Enter Restaurant Email: ");
+         String email = scanner.nextLine();
+-        if(InputChecks.checkExit(email))
+-        {
++        if (InputChecks.checkExit(email)) {
+             return;
+         }
+ 
+         System.out.print("Enter Restaurant Password: ");
+         String password = scanner.nextLine();
+-        if(InputChecks.checkExit(password))
+-        {
++        if (InputChecks.checkExit(password)) {
+             return;
+         }
+ 
+-        Restaurant restaurant = new Restaurant(name,address,contact,email,password);
++        Restaurant restaurant = new Restaurant(name, address, contact, email, password);
+         restaurant.loadRestaurantsFromFile();
+         addRestaurant(restaurant);
+         restaurant.RestaurantSaveToFiles(restaurant.getRestaurants());
+@@ -213,35 +194,31 @@
+ 
+     }
+ 
+-    void addDishToMenuPage()
+-    {
++    void addDishToMenuPage() {
+         Menu menu = new Menu();
+         Scanner scanner = new Scanner(System.in);
+         System.out.println("\t\t### Admin Add Dish To Menu Page ###\nAt Any Point Type exit to return.\n");
+ 
+         System.out.print("Enter Restaurant Name: ");
+         String restaurantName = scanner.nextLine();
+-        if(InputChecks.checkExit(restaurantName))
+-        {
++        if (InputChecks.checkExit(restaurantName)) {
+             return;
+         }
+         menu.readMenuDataFile(restaurantName);
+ 
+         System.out.print("Enter Dish Name: ");
+         String dishName = scanner.nextLine();
+-        if(InputChecks.checkExit(dishName))
+-        {
++        if (InputChecks.checkExit(dishName)) {
+             return;
+         }
+ 
+         System.out.print("Enter Dish Price (0 to abort): ");
+         Double dishPrice = Double.parseDouble(scanner.nextLine());
+-        if(dishPrice == 0)
+-        {
++        if (dishPrice == 0) {
+             return;
+         }
+ 
+-        menu.addNewDish(restaurantName,dishName,dishPrice);
++        menu.addNewDish(restaurantName, dishName, dishPrice);
+         menu.writeMenuDataFile();
+     }
+ 
+Index: src/project/payment/Payment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.payment;\r\n\r\nimport java.util.Scanner;\r\n\r\npublic class Payment {\r\n    private int transactionId;\r\n    private String paymentStatus;\r\n    private String paymentMethod;\r\n\r\n    public Payment(int transactionId, String paymentStatus, String paymentMethod) {\r\n        this.transactionId = transactionId;\r\n        this.paymentStatus = paymentStatus;\r\n        this.paymentMethod = paymentMethod;\r\n    }\r\n\r\n    public int getTransactionId() {\r\n        return transactionId;\r\n    }\r\n\r\n    public void setTransactionId(int transactionId) {\r\n        this.transactionId = transactionId;\r\n    }\r\n\r\n    public String getPaymentStatus() {\r\n        return paymentStatus;\r\n    }\r\n\r\n    public void setPaymentStatus(String paymentStatus) {\r\n        this.paymentStatus = paymentStatus;\r\n    }\r\n\r\n    public String getPaymentMethod() {\r\n        return paymentMethod;\r\n    }\r\n\r\n    public void setPaymentMethod(String paymentMethod) {\r\n        this.paymentMethod = paymentMethod;\r\n    }\r\n\r\n    public void paymentProcess() {\r\n        Scanner scanner = new Scanner(System.in);\r\n        System.out.println(\"Choose your preferred payment method:\");\r\n        System.out.println(\"(1) Cash on delivery\");\r\n        System.out.println(\"(2) Visa\");\r\n        System.out.println(\"(3) Digital wallet\");\r\n        System.out.println(\"------------------------------------------------------\");\r\n        int choice = scanner.nextInt();\r\n\r\n        switch (choice) {\r\n            case 1: {\r\n                cash();\r\n                break;\r\n            }\r\n            case 2: {\r\n                visa();\r\n                break;\r\n            }\r\n            case 3: {\r\n                wallet();\r\n                break;\r\n            }\r\n            default: {\r\n                System.out.println(\"Invalid choice\");\r\n            }\r\n        }\r\n    }\r\n\r\n    private void cash() {\r\n        System.out.println(\"Thanks for using our cash services.\");\r\n        setPaymentStatus(\"Paid\");\r\n        setPaymentMethod(\"Cash\");\r\n    }\r\n\r\n    private void visa() {\r\n        System.out.println(\"Enter your Visa details:\");\r\n\r\n        Scanner scanner = new Scanner(System.in);\r\n\r\n        // Card number validation (length and digits only)\r\n        long cardNumber = 0;\r\n        while (true) {\r\n            System.out.print(\"Enter the 16-digit Card Number (only digits allowed): \");\r\n            String cardNumberStr = scanner.next();\r\n\r\n            if (cardNumberStr.matches(\"^[0-9]{16}$\")) {\r\n                cardNumber = Long.parseLong(cardNumberStr);\r\n                break; // Valid card number format\r\n            } else {\r\n                System.out.println(\"Invalid input. Please enter a 16-digit number.\");\r\n            }\r\n        }\r\n\r\n        scanner.nextLine(); // Consume the newline character\r\n\r\n        // Cardholder name validation\r\n        String cardHolderName;\r\n        while (true) {\r\n            System.out.print(\"Card Holder Name (letters and spaces only): \");\r\n            cardHolderName = scanner.nextLine().trim(); // Handle spaces in name\r\n            if (cardHolderName.matches(\"^[a-zA-Z ]+$\")) {\r\n                break; // Valid name format\r\n            } else {\r\n                System.out.println(\"Invalid name format. Please use letters and spaces only.\");\r\n            }\r\n        }\r\n\r\n        // CVV input with validation loop\r\n        String cvv;\r\n        while (true) {\r\n            System.out.print(\"CVV (3 digits only): \");\r\n            cvv = scanner.next();\r\n\r\n            if (cvv.matches(\"^[0-9]{3}$\")) {\r\n                break; // Valid CVV format\r\n            } else {\r\n                System.out.println(\"Invalid CVV. Please enter a 3-digit number.\");\r\n            }\r\n        }\r\n\r\n        // Set payment status and method directly\r\n        setPaymentStatus(\"Paid\");\r\n        setPaymentMethod(\"Visa\");\r\n\r\n        // ... (rest of your payment processing logic)\r\n\r\n        System.out.println(\"Payment successful. Thank you!\");\r\n    }\r\n\r\n    private void wallet() {\r\n        System.out.println(\"Enter your wallet details:\");\r\n        Scanner scanner = new Scanner(System.in);\r\n        System.out.print(\"Wallet Owner: \");\r\n        String walletOwner = scanner.next();\r\n\r\n        // Wallet password validation\r\n        String password;\r\n        while (true) {\r\n            System.out.print(\"Password (at least 8 characters with at least one capital letter and one number): \");\r\n            password = scanner.next();\r\n\r\n            if (password.length() >= 8 && password.matches(\".*[A-Z].*\") && password.matches(\".*\\\\d.*\")) {\r\n                break;  // Valid password format\r\n            } else {\r\n                System.out.println(\"Invalid password. Please meet the specified criteria.\");\r\n            }\r\n        }\r\n\r\n        // Implement actual logic to process wallet details securely\r\n\r\n        // Set payment status and method directly\r\n        setPaymentStatus(\"Paid\");\r\n        setPaymentMethod(\"Digital Wallet\");\r\n\r\n        System.out.println(\"Payment successful. Thank you!\");\r\n    }\r\n\r\n\r\n    public static void main(String[] args) {\r\n        // Creating a Payment object with initial details\r\n        Payment payment = new Payment(123456, \"Pending\", \"\");\r\n\r\n        // Testing payment processing\r\n        payment.paymentProcess();\r\n\r\n        // Displaying the updated payment details\r\n        System.out.println(\"Transaction ID: \" + payment.getTransactionId());\r\n        System.out.println(\"Payment Status: \" + payment.getPaymentStatus());\r\n        System.out.println(\"Payment Method: \" + payment.getPaymentMethod());\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/project/payment/Payment.java b/src/project/payment/Payment.java
+--- a/src/project/payment/Payment.java	(revision 7af7b1857f528814a43e698180667446f3794cb7)
++++ b/src/project/payment/Payment.java	(date 1703352772124)
+@@ -13,6 +13,19 @@
+         this.paymentMethod = paymentMethod;
+     }
+ 
++    public static void main(String[] args) {
++        // Creating a Payment object with initial details
++        Payment payment = new Payment(123456, "Pending", "");
++
++        // Testing payment processing
++        payment.paymentProcess();
++
++        // Displaying the updated payment details
++        System.out.println("Transaction ID: " + payment.getTransactionId());
++        System.out.println("Payment Status: " + payment.getPaymentStatus());
++        System.out.println("Payment Method: " + payment.getPaymentMethod());
++    }
++
+     public int getTransactionId() {
+         return transactionId;
+     }
+@@ -153,18 +166,4 @@
+ 
+         System.out.println("Payment successful. Thank you!");
+     }
+-
+-
+-    public static void main(String[] args) {
+-        // Creating a Payment object with initial details
+-        Payment payment = new Payment(123456, "Pending", "");
+-
+-        // Testing payment processing
+-        payment.paymentProcess();
+-
+-        // Displaying the updated payment details
+-        System.out.println("Transaction ID: " + payment.getTransactionId());
+-        System.out.println("Payment Status: " + payment.getPaymentStatus());
+-        System.out.println("Payment Method: " + payment.getPaymentMethod());
+-    }
+ }
+Index: src/project/menu/Dish.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.menu;\r\n\r\npublic class Dish\r\n{\r\n    private String restaurantName;\r\n    private String dishName;\r\n    private double price;\r\n\r\n    public Dish(String restaurantName, String dishName, double price) {\r\n        this.restaurantName = restaurantName;\r\n        this.dishName = dishName;\r\n        this.price = price;\r\n    }\r\n\r\n    public String getRestaurantName() {\r\n        return restaurantName;\r\n    }\r\n\r\n    public String getDishName() {\r\n        return dishName;\r\n    }\r\n\r\n    public double getPrice() {\r\n        return price;\r\n    }\r\n\r\n    // Factory method to create MenuItem from a line in the file\r\n    /*public static Dish fromString(String line) {\r\n        String[] parts = line.split(\",\");\r\n        String restaurantName = parts[0];\r\n        String dishName = parts[1];\r\n        double price = Double.parseDouble(parts[2]);\r\n        return new Dish(restaurantName, dishName, price);\r\n    }*/\r\n\r\n    @Override\r\n    public boolean equals(Object obj) {\r\n        Dish otherDish = (Dish) obj;\r\n        boolean equalName = (this.restaurantName.equals(otherDish.restaurantName));\r\n        boolean equalItem = (this.dishName.equals(otherDish.dishName));\r\n        boolean equalPrice = (this.price == otherDish.price);\r\n\r\n        return equalName && equalItem && equalPrice;\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/project/menu/Dish.java b/src/project/menu/Dish.java
+--- a/src/project/menu/Dish.java	(revision 7af7b1857f528814a43e698180667446f3794cb7)
++++ b/src/project/menu/Dish.java	(date 1703352772128)
+@@ -1,7 +1,6 @@
+ package project.menu;
+ 
+-public class Dish
+-{
++public class Dish {
+     private String restaurantName;
+     private String dishName;
+     private double price;

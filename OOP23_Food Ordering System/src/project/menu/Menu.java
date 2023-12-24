@@ -35,7 +35,6 @@ public class Menu {
         if (!found) {
             restaurantMenu.add(dishToAdd);
         }
-
     }
 
     public void addNewDish(String restaurantName, String dishName, Double price) {

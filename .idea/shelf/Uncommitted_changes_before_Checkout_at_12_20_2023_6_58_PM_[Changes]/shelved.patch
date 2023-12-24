@@ -1,0 +1,361 @@
+Index: OOP23_Food Ordering System/menus.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>mac,burger double,30.0\r\nmac,burger,17.0\r\nbk,pizza,18.0\r\nmac,burger triple,30.0\r\nmac,burger triple,30.0\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/OOP23_Food Ordering System/menus.txt b/OOP23_Food Ordering System/menus.txt
+--- a/OOP23_Food Ordering System/menus.txt	(revision 8c5cd869dea8eb0cbf04ff65b7b6b65824712910)
++++ b/OOP23_Food Ordering System/menus.txt	(date 1703090475381)
+@@ -1,5 +1,5 @@
+-mac,burger double,30.0
+-mac,burger,17.0
+-bk,pizza,18.0
+-mac,burger triple,30.0
+-mac,burger triple,30.0
++mac,triple burger,30.0
++mac,double burger,30.0
++primos,pizza,30.0
++mac,salad,30.0
++bk,salad,30.0
+Index: OOP23_Food Ordering System/src/project/cart/carttest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.cart;\r\nimport java.awt.*;\r\nimport java.io.IOException;\r\nimport java.util.Scanner;\r\nimport project.menu.*;\r\nimport project.menu.Menu;\r\n\r\npublic class carttest\r\n{\r\n    public static void main(String[] args) {\r\n        Scanner scanner = new Scanner(System.in);\r\n\r\n        // Create menu\r\n        Menu menu = new Menu();\r\n        System.out.println(\"Enter the restaurant\");\r\n        String restaurant = scanner.nextLine();\r\n        // Load menu from file\r\n        menu.readMenuDataFile(restaurant);\r\n\r\n\r\n        // Sample food order\r\n        cart order = new cart();\r\n\r\n        // Display the menu\r\n        menu.displayMenu(restaurant);\r\n\r\n        // User interaction\r\n        System.out.print(\"Enter the item number to add to the cart (0 to finish): \");\r\n        int choice;\r\n        while ((choice = scanner.nextInt()) != 0) {\r\n            if (choice > 0 && choice <= menu.getMenuSize()) {\r\n                order.addItem(menu.getMenuItem(choice - 1));\r\n            } else {\r\n                System.out.println(\"Invalid choice. Try again.\");\r\n            }\r\n            System.out.print(\"Enter the item number to add to the cart (0 to finish): \");\r\n        }\r\n\r\n        // Display the order\r\n        order.displayCart();\r\n        System.out.println(\"Total: $\" + order.calculateTotal());\r\n\r\n        // Close the scanner\r\n        scanner.close();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/OOP23_Food Ordering System/src/project/cart/carttest.java b/OOP23_Food Ordering System/src/project/cart/carttest.java
+--- a/OOP23_Food Ordering System/src/project/cart/carttest.java	(revision 8c5cd869dea8eb0cbf04ff65b7b6b65824712910)
++++ b/OOP23_Food Ordering System/src/project/cart/carttest.java	(date 1703071006481)
+@@ -15,7 +15,7 @@
+         System.out.println("Enter the restaurant");
+         String restaurant = scanner.nextLine();
+         // Load menu from file
+-        menu.readMenuDataFile(restaurant);
++        menu.readMenuDataFile("mac");
+ 
+ 
+         // Sample food order
+Index: OOP23_Food Ordering System/src/project/menu/Menu.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.menu;\r\nimport java.io.BufferedReader;\r\nimport java.io.FileReader;\r\nimport java.io.IOException;\r\nimport java.util.ArrayList;\r\nimport java.io.*;\r\nimport java.util.Objects;\r\n\r\n\r\npublic class Menu {\r\n\r\n    private ArrayList<Dish> menus;\r\n    public Menu() {\r\n        this.menus = new ArrayList<>();\r\n    }\r\n    public void addItem(String restaurantName, String dishName, Double price) {\r\n        Dish dish = new Dish(restaurantName, dishName, price);\r\n        menus.add(dish);\r\n    }\r\n\r\n    public  void readMenuDataFile(String rName)\r\n    {\r\n        try(BufferedReader bufferedReader = new BufferedReader(new FileReader(\"C:\\\\Users\\\\Nader\\\\Documents\\\\GitHub\\\\Food-Ordering-System\\\\OOP23_Food Ordering System\\\\menus.txt\")))\r\n        {\r\n            String line;\r\n            while ((line = bufferedReader.readLine()) != null) //reads each line until there is none\r\n            {\r\n                String[] itemData = line.split(\",\");\r\n                if (Objects.equals(rName, itemData[0])) {\r\n                    String restaurantName = itemData[0];\r\n                    String dishName = itemData[1];\r\n                    double price = Double.parseDouble(itemData[2]);\r\n                    addItem(restaurantName, dishName, price);\r\n                }\r\n            }\r\n        }\r\n        catch(IOException exp)\r\n        {\r\n            System.out.println(exp.getMessage());\r\n        }\r\n    }\r\n    \r\n    public void writeMenuDataFile()\r\n    {\r\n        try (PrintWriter writer = new PrintWriter((new FileWriter(\"menus.txt\")))) {\r\n            for (Dish dish : menus) {\r\n                writer.write(dish.getRestaurantName() + \",\" + dish.getDishName() + \",\" + dish.getPrice() + \"\\n\");\r\n            }\r\n        } catch (IOException exp) {\r\n                System.out.println(exp.getMessage());\r\n        }\r\n    }\r\n    \r\n    public void displayMenu(String restaurantName)\r\n    {\r\n        for (Dish dish : menus)\r\n        {\r\n            if (dish.getRestaurantName().equals(restaurantName)) {\r\n                System.out.println(dish.getDishName() + \": $\" + dish.getPrice());\r\n            }\r\n        }\r\n    }\r\n\r\n\r\n    // Get a specific menu item\r\n    public Dish getMenuItem(int index) {\r\n        return menus.get(index);\r\n    }\r\n\r\n    // Get the number of menu items\r\n    public int getMenuSize() {\r\n        return menus.size();\r\n    }\r\n}\r\n\r\n\r\n/*    private ArrayList<Dish> menuItems;\r\n\r\n    public Menu() {this.menuItems = new ArrayList<>();}\r\n\r\n    // Load menu items from file\r\n    public  void loadMenuFromFile() {\r\n        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(\"C:\\\\Users\\\\Nader\\\\Documents\\\\GitHub\\\\Food-Ordering-System\\\\OOP23_Food Ordering System\\\\menus.txt\"))) {\r\n            String line;\r\n            while ((line = bufferedReader.readLine()) != null) //reads each line until there is none\r\n            {\r\n                menuItems.add(Dish.fromString(line));\r\n            }\r\n        } catch (IOException exp) {\r\n            System.out.println(exp.getMessage());\r\n        }\r\n    }\r\n\r\n\r\n    // Display the menu\r\n    public void displayMenu() {\r\n        System.out.println(\"Menu:\");\r\n        for (int i = 0; i < menuItems.size(); i++) {\r\n            Dish item = menuItems.get(i);\r\n            System.out.println((i + 1) + \". \" + item.getDishName() + \" - $\" + item.getPrice());\r\n        }\r\n    }\r\n\r\n    public void addItem(String restaurantName, String dishName, Double price) {\r\n        Dish dish = new Dish(restaurantName, dishName, price);\r\n        menuItems.add(dish);\r\n    }\r\n\r\n    public void writeMenuDataFile()\r\n    {\r\n        try (PrintWriter writer = new PrintWriter((new FileWriter(\"menus.txt\")))) {\r\n            for (Dish dish : menuItems) {\r\n                writer.write(dish.getRestaurantName() + \",\" + dish.getDishName() + \",\" + dish.getPrice() + \"\\n\");\r\n            }\r\n        } catch (IOException exp) {\r\n            System.out.println(exp.getMessage());\r\n        }\r\n    }\r\n\r\n    // Get a specific menu item\r\n    public Dish getMenuItem(int index) {\r\n        return menuItems.get(index);\r\n    }\r\n\r\n    // Get the number of menu items\r\n    public int getMenuSize() {\r\n        return menuItems.size();\r\n    }\r\n}*/
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/OOP23_Food Ordering System/src/project/menu/Menu.java b/OOP23_Food Ordering System/src/project/menu/Menu.java
+--- a/OOP23_Food Ordering System/src/project/menu/Menu.java	(revision 8c5cd869dea8eb0cbf04ff65b7b6b65824712910)
++++ b/OOP23_Food Ordering System/src/project/menu/Menu.java	(date 1703090346328)
+@@ -6,21 +6,34 @@
+ import java.io.*;
+ import java.util.Objects;
+ 
+-
+ public class Menu {
+ 
+     private ArrayList<Dish> menus;
++    public ArrayList<Dish> newDishes;
+     public Menu() {
+         this.menus = new ArrayList<>();
++        this.newDishes = new ArrayList<>();
+     }
+     public void addItem(String restaurantName, String dishName, Double price) {
+         Dish dish = new Dish(restaurantName, dishName, price);
+         menus.add(dish);
+     }
+ 
++    public void addNewDish(String restaurantName, String dishName, Double price) {
++        Dish dish = new Dish(restaurantName, dishName, price);
++
++        // if(menus.contains(dish)) {
++        //    System.out.println("Dish Already Exists!");
++        //}else
++        //{
++        newDishes.add(dish);
++        // }
++    }
++
+     public  void readMenuDataFile(String rName)
+     {
+-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader("C:\\Users\\Nader\\Documents\\GitHub\\Food-Ordering-System\\OOP23_Food Ordering System\\menus.txt")))
++        try(BufferedReader bufferedReader = new BufferedReader(new FileReader
++                ("C:\\Users\\Nader\\Documents\\GitHub\\Food-Ordering-System\\OOP23_Food Ordering System\\menus.txt")))
+         {
+             String line;
+             while ((line = bufferedReader.readLine()) != null) //reads each line until there is none
+@@ -39,18 +52,21 @@
+             System.out.println(exp.getMessage());
+         }
+     }
+-    
++
+     public void writeMenuDataFile()
+     {
+-        try (PrintWriter writer = new PrintWriter((new FileWriter("menus.txt")))) {
+-            for (Dish dish : menus) {
+-                writer.write(dish.getRestaurantName() + "," + dish.getDishName() + "," + dish.getPrice() + "\n");
++        try (PrintWriter writer = new PrintWriter((new FileWriter
++                ("C:\\Users\\Nader\\Documents\\GitHub\\Food-Ordering-System\\OOP23_Food Ordering System\\menus.txt",true)))) {
++            if(!newDishes.isEmpty()) {
++                for (Dish dish : newDishes) {
++                    writer.write(dish.getRestaurantName() + "," + dish.getDishName() + "," + dish.getPrice() + "\n");
++                }
+             }
+         } catch (IOException exp) {
+-                System.out.println(exp.getMessage());
++            System.out.println(exp.getMessage());
+         }
+     }
+-    
++
+     public void displayMenu(String restaurantName)
+     {
+         for (Dish dish : menus)
+@@ -71,59 +87,4 @@
+     public int getMenuSize() {
+         return menus.size();
+     }
+-}
+-
+-
+-/*    private ArrayList<Dish> menuItems;
+-
+-    public Menu() {this.menuItems = new ArrayList<>();}
+-
+-    // Load menu items from file
+-    public  void loadMenuFromFile() {
+-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("C:\\Users\\Nader\\Documents\\GitHub\\Food-Ordering-System\\OOP23_Food Ordering System\\menus.txt"))) {
+-            String line;
+-            while ((line = bufferedReader.readLine()) != null) //reads each line until there is none
+-            {
+-                menuItems.add(Dish.fromString(line));
+-            }
+-        } catch (IOException exp) {
+-            System.out.println(exp.getMessage());
+-        }
+-    }
+-
+-
+-    // Display the menu
+-    public void displayMenu() {
+-        System.out.println("Menu:");
+-        for (int i = 0; i < menuItems.size(); i++) {
+-            Dish item = menuItems.get(i);
+-            System.out.println((i + 1) + ". " + item.getDishName() + " - $" + item.getPrice());
+-        }
+-    }
+-
+-    public void addItem(String restaurantName, String dishName, Double price) {
+-        Dish dish = new Dish(restaurantName, dishName, price);
+-        menuItems.add(dish);
+-    }
+-
+-    public void writeMenuDataFile()
+-    {
+-        try (PrintWriter writer = new PrintWriter((new FileWriter("menus.txt")))) {
+-            for (Dish dish : menuItems) {
+-                writer.write(dish.getRestaurantName() + "," + dish.getDishName() + "," + dish.getPrice() + "\n");
+-            }
+-        } catch (IOException exp) {
+-            System.out.println(exp.getMessage());
+-        }
+-    }
+-
+-    // Get a specific menu item
+-    public Dish getMenuItem(int index) {
+-        return menuItems.get(index);
+-    }
+-
+-    // Get the number of menu items
+-    public int getMenuSize() {
+-        return menuItems.size();
+-    }
+-}*/
+\ No newline at end of file
++}
+\ No newline at end of file
+Index: OOP23_Food Ordering System/src/project/menu/menutest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.menu;\r\n\r\npublic class menutest\r\n{\r\n    public static void main(String[] args) {\r\n        Menu menus = new Menu();\r\n        menus.readMenuDataFile(\"bk\");\r\n        //menus.addItem(\"mac\", \"burger triple\", 30.0);\r\n        menus.displayMenu(\"bk\");\r\n        //menus.writeMenuDataFile();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/OOP23_Food Ordering System/src/project/menu/menutest.java b/OOP23_Food Ordering System/src/project/menu/menutest.java
+--- a/OOP23_Food Ordering System/src/project/menu/menutest.java	(revision 8c5cd869dea8eb0cbf04ff65b7b6b65824712910)
++++ b/OOP23_Food Ordering System/src/project/menu/menutest.java	(date 1703090473772)
+@@ -4,9 +4,9 @@
+ {
+     public static void main(String[] args) {
+         Menu menus = new Menu();
+-        menus.readMenuDataFile("bk");
+-        //menus.addItem("mac", "burger triple", 30.0);
+-        menus.displayMenu("bk");
+-        //menus.writeMenuDataFile();
++        menus.readMenuDataFile("mac");
++        menus.addNewDish("bk", "salad", 30.0);
++        menus.displayMenu("mac");
++        menus.writeMenuDataFile();
+     }
+ }
+Index: menus.txt
+===================================================================
+diff --git a/menus.txt b/menus.txt
+deleted file mode 100644
+--- a/menus.txt	(revision 8c5cd869dea8eb0cbf04ff65b7b6b65824712910)
++++ /dev/null	(revision 8c5cd869dea8eb0cbf04ff65b7b6b65824712910)
+@@ -1,5 +0,0 @@
+-mac,burger double,30.0
+-mac,burger,17.0
+-bk,pizza,18.0
+-mac,burger triple,30.0
+-mac,burger triple,30.0
+Index: OOP23_Food Ordering System/src/project/restaurant/restaurantRegistration.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.restaurant;\r\n\r\nimport java.util.Scanner;\r\n\r\n\r\npublic class restaurantRegistration {\r\n\r\n\r\n    public static void registerRestaurant(Restaurant restaurant) {\r\n\r\n\r\n        Scanner scanner = new Scanner(System.in);\r\n\r\n        while (true) {\r\n            System.out.print(\"Enter restaurant name: \");\r\n            restaurant.restaurantName = scanner.nextLine();\r\n            System.out.print(\"do you want to change the restaurant name \");\r\n            String decision = scanner.nextLine().toLowerCase();\r\n\r\n            if (!decision.equals(\"yes\")) break;\r\n        }\r\n\r\n//enters the name of the restaurant and checks if he wants to enter the name again\r\n        while (true) {\r\n\r\n\r\n            boolean repeat = true;\r\n            while (repeat) {\r\n                System.out.println(\"enter phone number:\");\r\n                while (!scanner.hasNextInt()) {\r\n                    scanner.next();\r\n                    // Clear the buffer\r\n\r\n\r\n                    System.out.println(\"Error: Please enter a valid phone number.\");\r\n\r\n                }\r\n                //checks that the phone number is nothing else but numbers\r\n                restaurant.restaurantContact = scanner.next();\r\n                int compareNumber = restaurant.restaurantContact.length();\r\n                if ((compareNumber == 11)||(compareNumber==5)) {\r\n                    repeat = false;\r\n                } else\r\n                    System.out.println(\"please enter the full number\");\r\n\r\n\r\n            }\r\n            //checks length of the number\r\n            System.out.print(\"do you want to change the phone number?\");\r\n            String decision = scanner.next().toLowerCase();\r\n\r\n            if (!decision.equals(\"yes\")) break;\r\n        }\r\n//enters the number of the restaurant and checks if he wants to enter it again\r\n\r\n//         checks the length of the phone number\r\n//            checks if input is a number\r\n        while (true) {\r\n            System.out.print(\"Enter restaurant address \");\r\n            restaurant.restaurantAddress = scanner.next();\r\n            System.out.print(\"do you want to change the restaurant address ?\");\r\n            String decision = scanner.next().toLowerCase();\r\n\r\n            if (!decision.equals(\"yes\")) break;\r\n        }\r\n\r\n//enters the address of the restaurant and checks if he wants to enter it again\r\n        while (true) {\r\n            boolean notUniqueEmail;\r\n            System.out.print(\"Enter restaurant Email \");\r\n            restaurant.restaurantEmail = scanner.next();\r\n            System.out.print(\"do you want to change the Email \");\r\n            String decision = scanner.next().toLowerCase();\r\nnotUniqueEmail = restaurant.compareEmail(restaurant.restaurantEmail);\r\nif(notUniqueEmail) {\r\n   System.out.println(\"this Email is already being used please enter an email that was never used here before\");\r\n} else if (!decision.equals(\"yes\")) break;\r\n\r\n        }\r\n        //enters the email of the restaurant and checks if he wants to enter it again\r\n        while (true) {\r\n            System.out.print(\"Enter restaurant password \");\r\n            restaurant.restaurantPassword = scanner.next();\r\n            System.out.print(\"do you want to change the password \");\r\n            String decision = scanner.next().toLowerCase();\r\n\r\n            if (!decision.equals(\"yes\")) break;\r\n\r\n        }\r\n\r\n        restaurant.addRestaurantDetails(restaurant.restaurantName, restaurant.restaurantContact, restaurant.restaurantAddress, restaurant.restaurantEmail, restaurant.restaurantPassword);\r\n\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/OOP23_Food Ordering System/src/project/restaurant/restaurantRegistration.java b/OOP23_Food Ordering System/src/project/restaurant/restaurantRegistration.java
+--- a/OOP23_Food Ordering System/src/project/restaurant/restaurantRegistration.java	(revision 8c5cd869dea8eb0cbf04ff65b7b6b65824712910)
++++ b/OOP23_Food Ordering System/src/project/restaurant/restaurantRegistration.java	(date 1703005418879)
+@@ -42,19 +42,16 @@
+                     repeat = false;
+                 } else
+                     System.out.println("please enter the full number");
+-
+-
+             }
+             //checks length of the number
+             System.out.print("do you want to change the phone number?");
+             String decision = scanner.next().toLowerCase();
+-
+-            if (!decision.equals("yes")) break;
++            if (!decision.equals("yes"))
++                break;
+         }
+ //enters the number of the restaurant and checks if he wants to enter it again
+-
+-//         checks the length of the phone number
+-//            checks if input is a number
++//checks the length of the phone number
++//checks if input is a number
+         while (true) {
+             System.out.print("Enter restaurant address ");
+             restaurant.restaurantAddress = scanner.next();
+@@ -71,11 +68,12 @@
+             restaurant.restaurantEmail = scanner.next();
+             System.out.print("do you want to change the Email ");
+             String decision = scanner.next().toLowerCase();
+-notUniqueEmail = restaurant.compareEmail(restaurant.restaurantEmail);
+-if(notUniqueEmail) {
+-   System.out.println("this Email is already being used please enter an email that was never used here before");
+-} else if (!decision.equals("yes")) break;
+-
++            notUniqueEmail = restaurant.compareEmail(restaurant.restaurantEmail);
++            if(notUniqueEmail) {
++            System.out.println("this Email is already being used please enter an email that was never used here before");
++            }
++            else if (!decision.equals("yes"))
++                break;
+         }
+         //enters the email of the restaurant and checks if he wants to enter it again
+         while (true) {
+@@ -87,9 +85,6 @@
+             if (!decision.equals("yes")) break;
+ 
+         }
+-
+         restaurant.addRestaurantDetails(restaurant.restaurantName, restaurant.restaurantContact, restaurant.restaurantAddress, restaurant.restaurantEmail, restaurant.restaurantPassword);
+-
+     }
+-
+ }
+Index: OOP23_Food Ordering System/src/project/restaurant/Restaurant.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.restaurant;\r\nimport java.io.File;\r\nimport java.io.FileNotFoundException;\r\nimport java.util.ArrayList;\r\nimport java.util.Scanner;\r\n\r\npublic class Restaurant {\r\n    public String restaurantName;\r\n    public String restaurantAddress;\r\n    public String restaurantContact;\r\n    public String restaurantEmail;\r\n    public String restaurantPassword;\r\n\r\n    ArrayList<ArrayList<String>> restaurants;\r\n\r\n    public Restaurant() {\r\n        this.restaurants = new ArrayList<>();\r\n\r\n    }\r\n\r\n    public ArrayList<ArrayList<String>> getRestaurants() {\r\n        return restaurants;\r\n    }\r\n\r\n    public void loadRestaurantsFromFile(String filepath) {\r\n        try {\r\n            Scanner fileScanner = new Scanner(new File(filepath));\r\n\r\n            while (fileScanner.hasNextLine()) {\r\n                String line = fileScanner.nextLine();\r\n                String[] parts = line.split(\",\");\r\n                if (parts.length == 5) {\r\n                    String restaurantName = parts[0].trim();\r\n                    String restaurantAddress = parts[1].trim();\r\n                    String restaurantContact = parts[2].trim();\r\n                    String restaurantEmail = parts[3].trim();\r\n                    String restaurantPassword = parts[4].trim();\r\n                    addRestaurantDetails(restaurantName, restaurantContact, restaurantAddress, restaurantEmail, restaurantPassword);\r\n                }\r\n            }\r\n            fileScanner.close();\r\n        } catch (FileNotFoundException e) {\r\n            System.out.println(\"File not found: \" + e.getMessage());\r\n        } catch (NumberFormatException e) {\r\n            System.out.println(\"Error parsing price: \" + e.getMessage());\r\n        }\r\n\r\n    }\r\n\r\n    public void addRestaurantDetails(String restaurantName, String restaurantContact, String restaurantAddress, String restaurantEmail, String restaurantPassword) {\r\n        ArrayList<String> restaurantDetails = new ArrayList<>();\r\n        restaurantDetails.add(restaurantName);\r\n        restaurantDetails.add(restaurantContact);\r\n        restaurantDetails.add(restaurantAddress);\r\n        restaurantDetails.add(restaurantEmail);\r\n        restaurantDetails.add(restaurantPassword);\r\n        restaurants.add(restaurantDetails);\r\n\r\n    }\r\n\r\n\r\n    public  String login(Restaurant restaurant) {\r\n\r\n        boolean mailValidation, passwordValidation;\r\n\r\n\r\n\r\n        Scanner scanner = new Scanner(System.in);\r\n        System.out.println(\"enter your email\");\r\n        String mail = scanner.nextLine();\r\n        mailValidation=restaurant.compareEmail(mail);\r\n        System.out.println(\"enter your password:\");\r\n        String password = scanner.nextLine();\r\n        passwordValidation=restaurant.comparePassword(password);\r\nboolean sameAccount = verifyAccount(mail,password);\r\n        if ((mailValidation) && (passwordValidation)&&(sameAccount)) {\r\n            return mail;\r\n        }\r\n        else {\r\n            System.out.println(\"please enter the correct details of your account\");\r\n        }\r\n        return null;\r\n    }\r\n\r\n    boolean compareEmail(String email) {\r\n        boolean uniqueEmail = false;\r\n        for (ArrayList<String> row : restaurants) {\r\n\r\n            if (row.size() >= 3 && row.get(3).equals(email)) {\r\n\r\n                return true; // Found a match\r\n\r\n            }\r\n\r\n        }\r\nreturn uniqueEmail;\r\n    }\r\n        boolean comparePassword (String password) {\r\n        boolean uniquePassword = false;\r\n        for (ArrayList<String> row : restaurants) {\r\n\r\n            if (row.size() >= 4 && row.get(4).equals(password)) {\r\n                return true; // Found a match\r\n\r\n            }\r\n\r\n        }\r\n\r\n        return uniquePassword;\r\n    }\r\n    public String restaurantSearching(Restaurant restaurant)\r\n    {\r\n        String search;\r\n        int restaurantNumber=0;\r\n        System.out.println(\"enter the name of the restaurant you're searching for:\");\r\n        Scanner scanner = new Scanner(System.in);\r\n       search= scanner.nextLine();\r\n        for(ArrayList<String> mail: restaurants){\r\n            if(mail.toString().startsWith(search)) {\r\n                System.out.println(restaurantNumber);\r\n                System.out.println(mail);\r\n                restaurantNumber++;\r\n            }\r\n        }\r\n    return null;\r\n    }\r\nboolean verifyAccount(String mail,String password)\r\n{\r\n    int index = 0;\r\n    for (ArrayList<String> restaurants2 :restaurants)\r\n    {\r\n        if (restaurants2.size()>=3 && restaurants2.get(3).equals(mail))\r\n            index = restaurants2.indexOf(4);\r\n    }\r\n    for (ArrayList<String>restaurant3:restaurants) {\r\n        if (restaurant3.size() >= 4 && restaurant3.get(4).equals(password))\r\n            if (index == restaurant3.indexOf(4))\r\n                return true;\r\n    }\r\n    return false;\r\n}\r\n\r\n\r\n    public String getRestaurantName() {\r\n        return restaurantName;\r\n    }\r\n\r\n    public void setRestaurantName(String restaurantName) {\r\n        this.restaurantName = restaurantName;\r\n    }\r\n\r\n    public String getRestaurantAddress() {\r\n        return restaurantAddress;\r\n    }\r\n\r\n    public void setRestaurantAddress(String restaurantAddress) {\r\n        this.restaurantAddress = restaurantAddress;\r\n    }\r\n\r\n    public String getRestaurantContact() {\r\n        return restaurantContact;\r\n    }\r\n\r\n    public void setRestaurantContact(String restaurantContact) {\r\n        this.restaurantContact = restaurantContact;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/OOP23_Food Ordering System/src/project/restaurant/Restaurant.java b/OOP23_Food Ordering System/src/project/restaurant/Restaurant.java
+--- a/OOP23_Food Ordering System/src/project/restaurant/Restaurant.java	(revision 8c5cd869dea8eb0cbf04ff65b7b6b65824712910)
++++ b/OOP23_Food Ordering System/src/project/restaurant/Restaurant.java	(date 1703005524766)
+@@ -15,7 +15,6 @@
+ 
+     public Restaurant() {
+         this.restaurants = new ArrayList<>();
+-
+     }
+ 
+     public ArrayList<ArrayList<String>> getRestaurants() {
+@@ -44,7 +43,6 @@
+         } catch (NumberFormatException e) {
+             System.out.println("Error parsing price: " + e.getMessage());
+         }
+-
+     }
+ 
+     public void addRestaurantDetails(String restaurantName, String restaurantContact, String restaurantAddress, String restaurantEmail, String restaurantPassword) {
+@@ -55,16 +53,11 @@
+         restaurantDetails.add(restaurantEmail);
+         restaurantDetails.add(restaurantPassword);
+         restaurants.add(restaurantDetails);
+-
+     }
+ 
+ 
+     public  String login(Restaurant restaurant) {
+-
+         boolean mailValidation, passwordValidation;
+-
+-
+-
+         Scanner scanner = new Scanner(System.in);
+         System.out.println("enter your email");
+         String mail = scanner.nextLine();
+@@ -72,7 +65,7 @@
+         System.out.println("enter your password:");
+         String password = scanner.nextLine();
+         passwordValidation=restaurant.comparePassword(password);
+-boolean sameAccount = verifyAccount(mail,password);
++        boolean sameAccount = verifyAccount(mail,password);
+         if ((mailValidation) && (passwordValidation)&&(sameAccount)) {
+             return mail;
+         }
+@@ -87,11 +80,8 @@
+         for (ArrayList<String> row : restaurants) {
+ 
+             if (row.size() >= 3 && row.get(3).equals(email)) {
+-
+                 return true; // Found a match
+-
+             }
+-
+         }
+ return uniqueEmail;
+     }
+Index: OOP23_Food Ordering System/src/project/admin/Admin.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.admin;\r\n\r\n\r\nimport project.restaurant.Restaurant;\r\nimport project.restaurant.RestaurantPermissions;\r\nimport project.user.InputChecks;\r\nimport project.user.User;\r\nimport project.user.UserManagementSystem;\r\n\r\nimport java.util.Scanner;\r\n\r\npublic class Admin extends User implements AdminPermissions, InputChecks, RestaurantPermissions\r\n{\r\n\r\n    public Admin()\r\n    {\r\n        super(\"System Administrator\", \"admin@gmail.com\", \"admin123\", \"HQ\",\"123456789\");\r\n    }\r\n\r\n    public void runDashboard()\r\n    {\r\n        Scanner scanner = new Scanner(System.in);\r\n        String exitCheck;\r\n        do {\r\n            exitCheck = \"N\";\r\n\r\n            System.out.println(\"\\t\\t####### Admin Dashboard ########\\n\");\r\n            System.out.println(\"\\t\\tWelcome System Administrator!\\n\");\r\n            System.out.println(\"\\t\\tSYSTEM HEALTH: GREAT\\n\"); //for realism only\r\n\r\n            System.out.println(\"Options:\\n0.Exit\\n1.Add User\\n2.Remove User\\n\" +\r\n                    \"3.Add Restaurant\\n4.Remove Restaurant\\n5.Add Dish To Menu\\n\" +\r\n                    \"6.Remove Dish From Menu\\n7.Update Dish Price\" +\r\n                    \"\\n8.View Pending Orders Of Specific Restaurant\" +\r\n                    \"\\n9.Generate Business Report For Restaurant\");\r\n\r\n\r\n            int choice;\r\n            do {\r\n\r\n                try {\r\n                    choice = Integer.parseInt(scanner.nextLine());\r\n                    if (choice < 0 || choice > 9) {\r\n                        System.out.println(\"Invalid choice. Please enter a number between 0 and 9.\");\r\n                    }\r\n                } catch (NumberFormatException exp) {\r\n                    System.out.println(\"Invalid input. Please enter a valid number.\" +\r\n                            \" To exit type 0.\");\r\n                    choice = -1; // Set choice to an invalid value to trigger the loop again\r\n                }\r\n            }while((choice < 0 || choice > 9));\r\n\r\n\r\n            switch (choice) {\r\n                case 0:\r\n                    System.exit(0);\r\n                    break;\r\n                case 1:\r\n                    addUserPage();\r\n                    break;\r\n\r\n                case 2:\r\n                    removeUserPage();\r\n                    break;\r\n                case 9:\r\n                    Restaurant restaurant = new Restaurant();\r\n                    generateBusinessReport(restaurant);\r\n            }\r\n            System.out.println(\"Would you like to exit program? (Y/N)\");\r\n            exitCheck = scanner.nextLine();\r\n        }while(exitCheck.equalsIgnoreCase(\"n\") || exitCheck.equalsIgnoreCase(\"no\"));\r\n    }\r\n\r\n    void addUserPage() {\r\n        UserManagementSystem.registerUser(2);\r\n    }\r\n\r\n    void removeUserPage()\r\n    {\r\n        Scanner scanner = new Scanner(System.in);\r\n\r\n        System.out.println(\"\\n\\t\\t#### ADMIN REMOVE USER PAGE ###\");\r\n        System.out.print(\"Enter User's Email To Be Removed: \");\r\n        String emailToRemove = scanner.nextLine();\r\n\r\n        removeUser(emailToRemove);\r\n        System.out.println(\"USER REMOVED SUCCESSFULLY!\");\r\n\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/OOP23_Food Ordering System/src/project/admin/Admin.java b/OOP23_Food Ordering System/src/project/admin/Admin.java
+--- a/OOP23_Food Ordering System/src/project/admin/Admin.java	(revision 8c5cd869dea8eb0cbf04ff65b7b6b65824712910)
++++ b/OOP23_Food Ordering System/src/project/admin/Admin.java	(date 1702999634891)
+@@ -29,8 +29,8 @@
+             System.out.println("\t\tSYSTEM HEALTH: GREAT\n"); //for realism only
+ 
+             System.out.println("Options:\n0.Exit\n1.Add User\n2.Remove User\n" +
+-                    "3.Add Restaurant\n4.Remove Restaurant\n5.Add Dish To Menu\n" +
+-                    "6.Remove Dish From Menu\n7.Update Dish Price" +
++                    "3.Add Restaurant\n4.Remove Restaurant\n5.Add Dish.java To Menu\n" +
++                    "6.Remove Dish.java From Menu\n7.Update Dish.java Price" +
+                     "\n8.View Pending Orders Of Specific Restaurant" +
+                     "\n9.Generate Business Report For Restaurant");
+ 

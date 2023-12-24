@@ -1,0 +1,19 @@
+Index: OOP23_Food Ordering System/src/project/menu/Dish.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.menu;\r\n\r\nimport java.util.ArrayList;\r\nclass Dishes {\r\n    private String name;\r\n    private String description;\r\n    private double price;\r\n    private String additionalOption;\r\n\r\n    public Dishes(String name, String description, double price, String additionalOption)\r\n    {\r\n        this.name = name;\r\n        this.description = description;\r\n        this.price = price;\r\n        this.additionalOption= additionalOption;\r\n    }\r\n    public String getName() {\r\n\r\n        return name;\r\n    }\r\n\r\n    public String getDescription() {\r\n\r\n        return description;\r\n    }\r\n\r\n    public double getPrice() {\r\n\r\n        return price;\r\n    }\r\n\r\n    public String getAdditionalOption() {\r\n\r\n        return additionalOption;\r\n    }\r\n    public String toString() {\r\n        return \"name:'\" + name + \"description:\" + description + \"price$=\" + price + \"additionalOption:\" + additionalOption;\r\n    }\r\n}\r\nclass Menu {\r\n    private ArrayList<Dishes> dish;\r\n    public Menu() {\r\n        this.dish = new ArrayList<>();\r\n    }\r\n    public void addDish(Dishes Dish) {\r\n        dish.add(Dish);\r\n    }\r\n    public void displayMenu() {\r\n        System.out.println(\"Menu:\");\r\n        for (Dishes Dish:dish ) {\r\n            System.out.println(Dish);\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/OOP23_Food Ordering System/src/project/menu/Dish.java b/OOP23_Food Ordering System/src/project/menu/Dish.java
+--- a/OOP23_Food Ordering System/src/project/menu/Dish.java	
++++ b/OOP23_Food Ordering System/src/project/menu/Dish.java	
+@@ -37,7 +37,7 @@
+         return "name:'" + name + "description:" + description + "price$=" + price + "additionalOption:" + additionalOption;
+     }
+ }
+-class Menu {
++public class Menu {
+     private ArrayList<Dishes> dish;
+     public Menu() {
+         this.dish = new ArrayList<>();

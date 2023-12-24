@@ -1,0 +1,119 @@
+Index: src/project/payment/Payment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.payment;\r\n\r\nimport java.util.Scanner;\r\n\r\npublic class Payment {\r\n    private int transactionId;\r\n    private String paymentStatus;\r\n    private String paymentMethod;\r\n\r\n    public Payment(int transactionId, String paymentStatus, String paymentMethod) {\r\n        this.transactionId = transactionId;\r\n        this.paymentStatus = paymentStatus;\r\n        this.paymentMethod = paymentMethod;\r\n    }\r\n\r\n    public int getTransactionId() {\r\n        return transactionId;\r\n    }\r\n\r\n    public void setTransactionId(int transactionId) {\r\n        this.transactionId = transactionId;\r\n    }\r\n\r\n    public String getPaymentStatus() {\r\n        return paymentStatus;\r\n    }\r\n\r\n    public void setPaymentStatus(String paymentStatus) {\r\n        this.paymentStatus = paymentStatus;\r\n    }\r\n\r\n    public String getPaymentMethod() {\r\n        return paymentMethod;\r\n    }\r\n\r\n    public void setPaymentMethod(String paymentMethod) {\r\n        this.paymentMethod = paymentMethod;\r\n    }\r\n\r\n    public void paymentProcess() {\r\n        Scanner scanner = new Scanner(System.in);\r\n        System.out.println(\"Choose your preferred payment method:\");\r\n        System.out.println(\"(1) Cash on delivery\");\r\n        System.out.println(\"(2) Visa\");\r\n        System.out.println(\"(3) Digital wallet\");\r\n        System.out.println(\"------------------------------------------------------\");\r\n        int choice = scanner.nextInt();\r\n\r\n        switch (choice) {\r\n            case 1: {\r\n                cash();\r\n                break;\r\n            }\r\n            case 2: {\r\n                visa();\r\n                break;\r\n            }\r\n            case 3: {\r\n                wallet();\r\n                break;\r\n            }\r\n            default: {\r\n                System.out.println(\"Invalid choice\");\r\n            }\r\n        }\r\n    }\r\n\r\n    private void cash() {\r\n        System.out.println(\"Thanks for using our cash services.\");\r\n        setPaymentStatus(\"Paid\");\r\n        setPaymentMethod(\"Cash\");\r\n    }\r\n\r\n    private void visa() {\r\n        System.out.println(\"Enter your Visa details:\");\r\n\r\n        Scanner scanner = new Scanner(System.in);\r\n\r\n        // Card number validation (length and digits only)\r\n        long cardNumber = 0;\r\n        while (true) {\r\n            System.out.print(\"Enter the 16-digit Card Number (only digits allowed): \");\r\n            String cardNumberStr = scanner.next();\r\n\r\n            if (cardNumberStr.matches(\"^[0-9]{16}$\")) {\r\n                cardNumber = Long.parseLong(cardNumberStr);\r\n                break; // Valid card number format\r\n            } else {\r\n                System.out.println(\"Invalid input. Please enter a 16-digit number.\");\r\n            }\r\n        }\r\n\r\n        scanner.nextLine(); // Consume the newline character\r\n\r\n        // Cardholder name validation\r\n        String cardHolderName;\r\n        while (true) {\r\n            System.out.print(\"Card Holder Name (letters and spaces only): \");\r\n            cardHolderName = scanner.nextLine().trim(); // Handle spaces in name\r\n            if (cardHolderName.matches(\"^[a-zA-Z ]+$\")) {\r\n                break; // Valid name format\r\n            } else {\r\n                System.out.println(\"Invalid name format. Please use letters and spaces only.\");\r\n            }\r\n        }\r\n\r\n        // CVV input with validation loop\r\n        String cvv;\r\n        while (true) {\r\n            System.out.print(\"CVV (3 digits only): \");\r\n            cvv = scanner.next();\r\n\r\n            if (cvv.matches(\"^[0-9]{3}$\")) {\r\n                break; // Valid CVV format\r\n            } else {\r\n                System.out.println(\"Invalid CVV. Please enter a 3-digit number.\");\r\n            }\r\n        }\r\n\r\n        // Set payment status and method directly\r\n        setPaymentStatus(\"Paid\");\r\n        setPaymentMethod(\"Visa\");\r\n\r\n        // ... (rest of your payment processing logic)\r\n\r\n        System.out.println(\"Payment successful. Thank you!\");\r\n    }\r\n\r\n    private void wallet() {\r\n        System.out.println(\"Enter your wallet details:\");\r\n        Scanner scanner = new Scanner(System.in);\r\n        System.out.print(\"Wallet Owner: \");\r\n        String walletOwner = scanner.next();\r\n\r\n        // Wallet password validation\r\n        String password;\r\n        while (true) {\r\n            System.out.print(\"Password (at least 8 characters with at least one capital letter and one number): \");\r\n            password = scanner.next();\r\n\r\n            if (password.length() >= 8 && password.matches(\".*[A-Z].*\") && password.matches(\".*\\\\d.*\")) {\r\n                break;  // Valid password format\r\n            } else {\r\n                System.out.println(\"Invalid password. Please meet the specified criteria.\");\r\n            }\r\n        }\r\n\r\n        // Implement actual logic to process wallet details securely\r\n\r\n        // Set payment status and method directly\r\n        setPaymentStatus(\"Paid\");\r\n        setPaymentMethod(\"Digital Wallet\");\r\n\r\n        System.out.println(\"Payment successful. Thank you!\");\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/project/payment/Payment.java b/src/project/payment/Payment.java
+--- a/src/project/payment/Payment.java	
++++ b/src/project/payment/Payment.java	
+@@ -66,6 +66,7 @@
+     }
+ 
+     private void cash() {
++        System.out.print("\n");
+         System.out.println("Thanks for using our cash services.");
+         setPaymentStatus("Paid");
+         setPaymentMethod("Cash");
+Index: src/project/order/Order.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.order;\r\n\r\nimport java.util.List;\r\nimport java.util.ArrayList;\r\nimport java.util.Scanner;\r\nimport java.io.*;\r\n\r\npublic class Order implements OrderManagement {\r\n    private String username;\r\n    private List<String> items;\r\n    private String status;\r\n\r\n    public Order(String username) {\r\n        this.username = username;\r\n        this.items = new ArrayList<>();\r\n        this.status = \"Pending\";\r\n    }\r\n\r\n    public void addItem(String item) {\r\n        items.add(item);\r\n    }\r\n\r\n    public void viewOrder() {\r\n        System.out.println(\"Order Details for \" + username);\r\n        System.out.println(\"Status: \" + status);\r\n        System.out.println(\"Items:\");\r\n\r\n        for (String item : items) {\r\n            System.out.println(item);\r\n        }\r\n    }\r\n\r\n\r\n\r\n    public String getUsername() {\r\n        return username;\r\n    }\r\n\r\n    public List<String> getItems() {\r\n        return items;\r\n    }\r\n\r\n    public String getStatus() {\r\n        return status;\r\n    }\r\n}\r\n interface OrderManagement {\r\n    default void placeOrder(String username, List<String> items) {\r\n        Order order = new Order(username);\r\n\r\n        for (String item : items) {\r\n            order.addItem(item);\r\n        }\r\n\r\n\r\n        saveOrder(order);\r\n\r\n        System.out.println(\"Order placed successfully!\");\r\n    }\r\n\r\n    default void saveOrder(Order order) {\r\n        try (PrintWriter writer = new PrintWriter(new FileWriter(\"orders.txt\", true))) {\r\n            writer.println(\"Username: \" + order.getUsername());\r\n            writer.println(\"Status: \" + order.getStatus());\r\n            writer.println(\"Items:\");\r\n            for (String item : order.getItems()) {\r\n                writer.println(item);\r\n            }\r\n            writer.println(\"----------\");\r\n        } catch (IOException e) {\r\n            e.printStackTrace();\r\n            System.out.println(\"Error saving order.\");\r\n        }\r\n    }\r\n\r\n    default void viewOrders() {\r\n        try (Scanner scanner = new Scanner(new File(\"orders.txt\"))) {\r\n            while (scanner.hasNextLine()) {\r\n                String line = scanner.nextLine();\r\n                if (line.equals(\"----------\")) {\r\n                    System.out.println();\r\n                } else {\r\n                    System.out.println(line);\r\n                }\r\n            }\r\n        } catch (FileNotFoundException e) {\r\n            e.printStackTrace();\r\n            System.out.println(\"Error viewing orders.\");\r\n        }\r\n    }\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/project/order/Order.java b/src/project/order/Order.java
+--- a/src/project/order/Order.java	
++++ b/src/project/order/Order.java	
+@@ -5,46 +5,7 @@
+ import java.util.Scanner;
+ import java.io.*;
+ 
+-public class Order implements OrderManagement {
+-    private String username;
+-    private List<String> items;
+-    private String status;
+-
+-    public Order(String username) {
+-        this.username = username;
+-        this.items = new ArrayList<>();
+-        this.status = "Pending";
+-    }
+-
+-    public void addItem(String item) {
+-        items.add(item);
+-    }
+-
+-    public void viewOrder() {
+-        System.out.println("Order Details for " + username);
+-        System.out.println("Status: " + status);
+-        System.out.println("Items:");
+-
+-        for (String item : items) {
+-            System.out.println(item);
+-        }
+-    }
+-
+-
+-
+-    public String getUsername() {
+-        return username;
+-    }
+-
+-    public List<String> getItems() {
+-        return items;
+-    }
+-
+-    public String getStatus() {
+-        return status;
+-    }
+-}
+- interface OrderManagement {
++interface OrderManagement {
+     default void placeOrder(String username, List<String> items) {
+         Order order = new Order(username);
+ 
+@@ -90,3 +51,42 @@
+     }
+ }
+ 
++public class Order implements OrderManagement {
++    private String username;
++    private List<String> items;
++    private String status;
++
++    public Order(String username) {
++        this.username = username;
++        this.items = new ArrayList<>();
++        this.status = "Pending";
++    }
++
++    public void addItem(String item) {
++        items.add(item);
++    }
++
++    public void viewOrder() {
++        System.out.println("Order Details for " + username);
++        System.out.println("Status: " + status);
++        System.out.println("Items:");
++
++        for (String item : items) {
++            System.out.println(item);
++        }
++    }
++
++
++    public String getUsername() {
++        return username;
++    }
++
++    public List<String> getItems() {
++        return items;
++    }
++
++    public String getStatus() {
++        return status;
++    }
++}
++

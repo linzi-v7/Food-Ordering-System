@@ -25,7 +25,7 @@ public interface RestaurantPermissions {
 
 
     default void viewOrders() {
-        Order order = new Order("name");
+        Order order = new Order();
         order.viewOrders();
     }
 

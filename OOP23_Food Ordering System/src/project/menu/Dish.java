@@ -23,14 +23,6 @@ public class Dish {
         return price;
     }
 
-    // Factory method to create MenuItem from a line in the file
-    /*public static Dish fromString(String line) {
-        String[] parts = line.split(",");
-        String restaurantName = parts[0];
-        String dishName = parts[1];
-        double price = Double.parseDouble(parts[2]);
-        return new Dish(restaurantName, dishName, price);
-    }*/
 
     @Override
     public boolean equals(Object obj) {

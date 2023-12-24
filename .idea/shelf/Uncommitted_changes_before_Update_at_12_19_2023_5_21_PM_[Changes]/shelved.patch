@@ -1,0 +1,172 @@
+Index: OOP23_Food Ordering System/src/project/main/main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.main;\r\n\r\nimport project.admin.Admin;\r\nimport project.user.User;\r\nimport project.user.UserManagementSystem;\r\n\r\nimport java.util.Scanner;\r\n\r\npublic class Main\r\n{\r\n    public static void main(String[] args)\r\n    {\r\n        UserManagementSystem.readUserDataFile();\r\n\r\n        Main main = new Main();\r\n        Scanner scanner = new Scanner(System.in);\r\n        String userEmail = null;\r\n\r\n\r\n        do\r\n        {\r\n            System.out.println(\"\\t####### Food Ordering System #######\\n\");\r\n            System.out.println(\"\\t\\t\\t\\t Welcome!\\n\");\r\n            System.out.println(\"Do you already have an account? Enter Yes or No\\n\" +\r\n                    \"Type exit to close program.\");\r\n\r\n            String isUserCheck = scanner.nextLine();\r\n\r\n\r\n            if (isUserCheck.equalsIgnoreCase(\"yes\")\r\n                    || isUserCheck.equalsIgnoreCase(\"y\"))\r\n            {\r\n                String retry;\r\n                do\r\n                {\r\n                    retry = \"n\";\r\n                    if ( (userEmail=UserManagementSystem.loginUser()).equals(\"null\"))\r\n                    {\r\n                        System.out.println(\"Would you like to retry?(Y/N)\");\r\n                        retry = scanner.nextLine();\r\n                    }\r\n                    //prompts user to retry if they entered wrong credentials\r\n                } while (retry.equalsIgnoreCase(\"y\")\r\n                        || retry.equalsIgnoreCase(\"yes\"));\r\n\r\n            } else if (isUserCheck.equalsIgnoreCase(\"no\")\r\n                    || isUserCheck.equalsIgnoreCase(\"n\"))\r\n            {\r\n\r\n                UserManagementSystem.registerUser(1);\r\n            }\r\n            else if(isUserCheck.equalsIgnoreCase(\"exit\"))\r\n            {\r\n                System.exit(0);\r\n            }\r\n            else\r\n            {\r\n                System.out.println(\"Invalid Input\");\r\n            }\r\n        }while(Role.getRoleIdentifier() == 0);\r\n\r\n\r\n        switch (Role.getRoleIdentifier())\r\n        {\r\n            case Role.ADMIN_IDENTIFIER:\r\n                adminLaunchProgram();\r\n                break;\r\n            case Role.RESTAURANT_IDENTIFIER:\r\n                //restaurantLaunchProgram();\r\n                break;\r\n            case Role.USER_IDENTIFIER:\r\n                userLaunchProgram(userEmail);\r\n\r\n        }\r\n\r\n\r\n    }\r\n\r\n    //function to handle program flow after user logs in, should display restaurants, menus,etc..\r\n    public static void userLaunchProgram(String userEmail)\r\n    {\r\n        User loggedInUser = UserManagementSystem.getUserByEmail(userEmail);\r\n\r\n        //if somehow the user doesn't exist (after multiple checks), we should terminate the program\r\n        if (loggedInUser != null)\r\n        {\r\n            System.out.println(\"\\n\\t\\tWelcome \" + loggedInUser.getName() + \"!\");\r\n            System.out.println(\"Restaurants Near You:\");\r\n            //displayRestaurants();\r\n            //chooseRestaurant();\r\n            //displayMenu();\r\n            //addToCart();\r\n            //orderProcessing();\r\n\r\n        while (true) {\r\n            System.out.println(\"1. Place Order\");\r\n            System.out.println(\"2. View Orders\");\r\n            System.out.println(\"3. Exit\");\r\n            System.out.print(\"Enter your choice: \");\r\n\r\n            int choice = scanner.nextInt();\r\n            scanner.nextLine(); // Consume the newline character\r\n\r\n            switch (choice) {\r\n                case 1:\r\n                    main.placeOrderFromUserInput(scanner);\r\n                    break;\r\n                case 2:\r\n                    main.viewOrders();\r\n                    break;\r\n                case 3:\r\n                    System.out.println(\"Exiting program. Goodbye!\");\r\n                    System.exit(0);\r\n                    break;\r\n                default:\r\n                    System.out.println(\"Invalid choice. Please try again.\");\r\n            }\r\n        }\r\n    }\r\n\r\n    private void placeOrderFromUserInput(Scanner scanner) {\r\n        System.out.print(\"Enter your username: \");\r\n        String username = scanner.nextLine();\r\n\r\n        System.out.print(\"Enter the number of items to order: \");\r\n        int numItems = scanner.nextInt();\r\n        scanner.nextLine(); // Consume the newline character\r\n\r\n        List<String> items = new ArrayList<>();\r\n        for (int i = 1; i <= numItems; i++) {\r\n            System.out.print(\"Enter item \" + i + \": \");\r\n            String item = scanner.nextLine();\r\n            items.add(item);\r\n        }\r\n\r\n        placeOrder(username, items);\r\n    }\r\n\r\n            //paymentProcessing();\r\n            //orderTracking();\r\n            //reviewProcessing();\r\n            \r\n        Scanner scanner = new Scanner(System.in);\r\n\r\n        // Create an instance of the review class\r\n        review review = new review();\r\n\r\n        // Set values using user input\r\n        review.setName();\r\n        review.setNum_phone();\r\n        review.setRev_rest();\r\n        review.setRev_staf();\r\n        review.setRev_clean();\r\n        review.setRev_food();\r\n        review.setRev_design();\r\n        review.setComments();\r\n\r\n        // Specify the file path where you want to save the data\r\n        String filePath = \"C:/test.txt\";\r\n\r\n        // Save the data to the file\r\n        review.saveToFile(filePath);\r\n    }\r\n}\r\n\r\n            // loop\r\n\r\n        }\r\n        else\r\n        {\r\n            System.out.println(\"USER DOESN'T EXIST!\");\r\n            System.exit(-1);\r\n        }\r\n    }\r\n                \r\n\r\n    //function that handles program flow after a system administrator logs in\r\n    public static void adminLaunchProgram()\r\n    {\r\n        User admin = new Admin();\r\n        Admin sysAdmin = (Admin) admin;\r\n\r\n        sysAdmin.runDashboard();\r\n    }\r\n\r\n\r\n
+===================================================================
+diff --git a/OOP23_Food Ordering System/src/project/main/main.java b/OOP23_Food Ordering System/src/project/main/main.java
+--- a/OOP23_Food Ordering System/src/project/main/main.java	
++++ b/OOP23_Food Ordering System/src/project/main/main.java	
+@@ -1,18 +1,22 @@
+ package project.main;
+ 
++import project.cart.cart;
++import project.menu.Menu;
+ import project.admin.Admin;
+ import project.user.User;
+ import project.user.UserManagementSystem;
+ 
++import java.awt.*;
+ import java.util.Scanner;
++import java.io.IOException;
+ 
+-public class Main
++public class main
+ {
+-    public static void main(String[] args)
++    /*public static void main(String[] args)
+     {
+         UserManagementSystem.readUserDataFile();
+ 
+-        Main main = new Main();
++
+         Scanner scanner = new Scanner(System.in);
+         String userEmail = null;
+ 
+@@ -91,78 +95,9 @@
+             //displayMenu();
+             //addToCart();
+             //orderProcessing();
+-
+-        while (true) {
+-            System.out.println("1. Place Order");
+-            System.out.println("2. View Orders");
+-            System.out.println("3. Exit");
+-            System.out.print("Enter your choice: ");
+-
+-            int choice = scanner.nextInt();
+-            scanner.nextLine(); // Consume the newline character
+-
+-            switch (choice) {
+-                case 1:
+-                    main.placeOrderFromUserInput(scanner);
+-                    break;
+-                case 2:
+-                    main.viewOrders();
+-                    break;
+-                case 3:
+-                    System.out.println("Exiting program. Goodbye!");
+-                    System.exit(0);
+-                    break;
+-                default:
+-                    System.out.println("Invalid choice. Please try again.");
+-            }
+-        }
+-    }
+-
+-    private void placeOrderFromUserInput(Scanner scanner) {
+-        System.out.print("Enter your username: ");
+-        String username = scanner.nextLine();
+-
+-        System.out.print("Enter the number of items to order: ");
+-        int numItems = scanner.nextInt();
+-        scanner.nextLine(); // Consume the newline character
+-
+-        List<String> items = new ArrayList<>();
+-        for (int i = 1; i <= numItems; i++) {
+-            System.out.print("Enter item " + i + ": ");
+-            String item = scanner.nextLine();
+-            items.add(item);
+-        }
+-
+-        placeOrder(username, items);
+-    }
+-
+             //paymentProcessing();
+             //orderTracking();
+             //reviewProcessing();
+-            
+-        Scanner scanner = new Scanner(System.in);
+-
+-        // Create an instance of the review class
+-        review review = new review();
+-
+-        // Set values using user input
+-        review.setName();
+-        review.setNum_phone();
+-        review.setRev_rest();
+-        review.setRev_staf();
+-        review.setRev_clean();
+-        review.setRev_food();
+-        review.setRev_design();
+-        review.setComments();
+-
+-        // Specify the file path where you want to save the data
+-        String filePath = "C:/test.txt";
+-
+-        // Save the data to the file
+-        review.saveToFile(filePath);
+-    }
+-}
+-
+             // loop
+ 
+         }
+@@ -172,7 +107,7 @@
+             System.exit(-1);
+         }
+     }
+-                
++
+ 
+     //function that handles program flow after a system administrator logs in
+     public static void adminLaunchProgram()
+@@ -181,6 +116,48 @@
+         Admin sysAdmin = (Admin) admin;
+ 
+         sysAdmin.runDashboard();
+-    }
++    }*/
++    public static void main(String[] args) {
++        Scanner scanner = new Scanner(System.in);
++
++        // Sample user
++        //User user = new User("john_doe", "password123");
++
++        // Create menu
++        Menu menu = new Menu();
++
++        // Load menu from file
++        try {
++            menu.loadMenuFromFile("Menu.txt");
++        } catch (IOException e) {
++            System.err.println("Error loading menu from file: " + e.getMessage());
++            System.exit(1);
++        }
+ 
++        // Sample food order
++        cart order = new cart();
++
++        // Display the menu
++        menu.displayMenu();
++
++        // User interaction
++        System.out.print("Enter the item number to add to the cart (0 to finish): ");
++        int choice;
++        while ((choice = scanner.nextInt()) != 0) {
++            if (choice > 0 && choice <= menu.getMenuSize()) {
++                order.addItem(menu.getMenuItem(choice - 1));
++            } else {
++                System.out.println("Invalid choice. Try again.");
++            }
++            System.out.print("Enter the item number to add to the cart (0 to finish): ");
++        }
++
++        // Display the order
++        order.displayCart();
++        System.out.println("Total: $" + order.calculateTotal());
++
++        // Close the scanner
++        scanner.close();
++    }
++}
+ 

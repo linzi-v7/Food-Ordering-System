@@ -1,0 +1,296 @@
+Index: OOP23_Food Ordering System/src/project/order/Order.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.order;\r\n\r\nimport java.util.List;\r\nimport java.util.ArrayList;\r\nimport java.util.Scanner;\r\nimport java.io.*;\r\n\r\nclass Order implements OrderManagement {\r\n    private String username;\r\n    private List<String> items;\r\n    private String status;\r\n\r\n    public Order(String username) {\r\n        this.username = username;\r\n        this.items = new ArrayList<>();\r\n        this.status = \"Pending\";\r\n    }\r\n\r\n    public void addItem(String item) {\r\n        items.add(item);\r\n    }\r\n\r\n    public void viewOrder() {\r\n        System.out.println(\"Order Details for \" + username);\r\n        System.out.println(\"Status: \" + status);\r\n        System.out.println(\"Items:\");\r\n\r\n        for (String item : items) {\r\n            System.out.println(item);\r\n        }\r\n    }\r\n\r\n\r\n\r\n    public String getUsername() {\r\n        return username;\r\n    }\r\n\r\n    public List<String> getItems() {\r\n        return items;\r\n    }\r\n\r\n    public String getStatus() {\r\n        return status;\r\n    }\r\n}\r\n\r\ninterface OrderManagement {\r\n    default void placeOrder(String username, List<String> items) {\r\n        Order order = new Order(username);\r\n\r\n        for (String item : items) {\r\n            order.addItem(item);\r\n        }\r\n\r\n\r\n        saveOrder(order);\r\n\r\n        System.out.println(\"Order placed successfully!\");\r\n    }\r\n\r\n    private void saveOrder(Order order) {\r\n        try (PrintWriter writer = new PrintWriter(new FileWriter(\"orders.txt\", true))) {\r\n            writer.println(\"Username: \" + order.getUsername());\r\n            writer.println(\"Status: \" + order.getStatus());\r\n            writer.println(\"Items:\");\r\n            for (String item : order.getItems()) {\r\n                writer.println(item);\r\n            }\r\n            writer.println(\"----------\");\r\n        } catch (IOException e) {\r\n            e.printStackTrace();\r\n            System.out.println(\"Error saving order.\");\r\n        }\r\n    }\r\n\r\n    default void viewOrders() {\r\n        try (Scanner scanner = new Scanner(new File(\"orders.txt\"))) {\r\n            while (scanner.hasNextLine()) {\r\n                String line = scanner.nextLine();\r\n                if (line.equals(\"----------\")) {\r\n                    System.out.println();\r\n                } else {\r\n                    System.out.println(line);\r\n                }\r\n            }\r\n        } catch (FileNotFoundException e) {\r\n            e.printStackTrace();\r\n            System.out.println(\"Error viewing orders.\");\r\n        }\r\n    }\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/OOP23_Food Ordering System/src/project/order/Order.java b/OOP23_Food Ordering System/src/project/order/Order.java
+--- a/OOP23_Food Ordering System/src/project/order/Order.java	
++++ b/OOP23_Food Ordering System/src/project/order/Order.java	
+@@ -1,11 +1,12 @@
+ package project.order;
+-
++import project.menu.Dish;
++import project.cart.cart;
+ import java.util.List;
+ import java.util.ArrayList;
+ import java.util.Scanner;
+ import java.io.*;
+ 
+-class Order implements OrderManagement {
++public class Order implements OrderManagement {
+     private String username;
+     private List<String> items;
+     private String status;
+@@ -30,8 +31,6 @@
+         }
+     }
+ 
+-
+-
+     public String getUsername() {
+         return username;
+     }
+@@ -52,10 +51,7 @@
+         for (String item : items) {
+             order.addItem(item);
+         }
+-
+-
+         saveOrder(order);
+-
+         System.out.println("Order placed successfully!");
+     }
+ 
+Index: OOP23_Food Ordering System/src/project/main/main.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.main;\r\n\r\nimport project.user.User;\r\nimport project.user.UserManagementSystem;\r\n\r\nimport java.util.Scanner;\r\n\r\npublic class main\r\n{\r\n    public static void main(String[] args)\r\n    {\r\n        Scanner scanner = new Scanner(System.in);\r\n\r\n\r\n        boolean userLoggedin = false;\r\n        do\r\n        {\r\n            System.out.println(\"\\t####### Food Ordering System #######\\n\");\r\n            System.out.println(\"\\t\\t\\t\\t Welcome!\\n\");\r\n            System.out.println(\"Do you already have an account? Enter Yes or No\\n\" +\r\n                    \"Type exit to close program.\");\r\n\r\n            String isUserCheck = scanner.nextLine();\r\n\r\n            if (isUserCheck.equalsIgnoreCase(\"yes\")\r\n                    || isUserCheck.equalsIgnoreCase(\"y\"))\r\n            {\r\n\r\n                String retry;\r\n                String userEmail;\r\n                do\r\n                {\r\n                    retry = \"n\";\r\n                    if ( (userEmail=UserManagementSystem.loginUser()).equals(\"null\"))\r\n                    {\r\n                        System.out.println(\"Would you like to retry?(Y/N)\");\r\n                        retry = scanner.nextLine();\r\n                    } else\r\n                    {\r\n                        userLoggedin = true;\r\n                        userLaunchProgram(userEmail);\r\n                    }\r\n                    //prompts user to retry if they entered wrong credentials\r\n                } while (retry.equalsIgnoreCase(\"y\")\r\n                        || retry.equalsIgnoreCase(\"yes\"));\r\n\r\n            } else if (isUserCheck.equalsIgnoreCase(\"no\")\r\n                    || isUserCheck.equalsIgnoreCase(\"n\"))\r\n            {\r\n                UserManagementSystem.registerUser();\r\n            }\r\n            else if(isUserCheck.equalsIgnoreCase(\"exit\"))\r\n            {\r\n                System.exit(0);\r\n            }\r\n            else\r\n            {\r\n                System.out.println(\"Invalid Output\");\r\n            }\r\n        }while(!userLoggedin);\r\n    }\r\n\r\n    //function to handle program flow after user logs in, should display restaurants,menus,etc..\r\n    public static void userLaunchProgram(String userEmail)\r\n    {\r\n        User loggedInUser = UserManagementSystem.getUserByEmail(userEmail);\r\n\r\n        //if somehow the user doesn't exist (after multiple checks), we should terminate the program\r\n        if (loggedInUser != null)\r\n        {\r\n            System.out.println(\"\\n\\t\\tWelcome \" + loggedInUser.getName() + \"!\");\r\n\r\n            System.out.println(loggedInUser.toString()); //just testing if code works\r\n        }\r\n        else\r\n        {\r\n            System.out.println(\"USER DOESN'T EXIST!\");\r\n            System.exit(-1);\r\n        }\r\n    }\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/OOP23_Food Ordering System/src/project/main/main.java b/OOP23_Food Ordering System/src/project/main/main.java
+--- a/OOP23_Food Ordering System/src/project/main/main.java	
++++ b/OOP23_Food Ordering System/src/project/main/main.java	
+@@ -1,8 +1,10 @@
+ package project.main;
+-
++import project.cart.cart;
++import project.menu.Dish;
+ import project.user.User;
+ import project.user.UserManagementSystem;
+-
++import project.menu.Menu;
++import java.io.IOException;
+ import java.util.Scanner;
+ 
+ public class main
+@@ -25,7 +27,6 @@
+             if (isUserCheck.equalsIgnoreCase("yes")
+                     || isUserCheck.equalsIgnoreCase("y"))
+             {
+-
+                 String retry;
+                 String userEmail;
+                 do
+@@ -35,7 +36,8 @@
+                     {
+                         System.out.println("Would you like to retry?(Y/N)");
+                         retry = scanner.nextLine();
+-                    } else
++                    }
++                    else
+                     {
+                         userLoggedin = true;
+                         userLaunchProgram(userEmail);
+@@ -44,7 +46,8 @@
+                 } while (retry.equalsIgnoreCase("y")
+                         || retry.equalsIgnoreCase("yes"));
+ 
+-            } else if (isUserCheck.equalsIgnoreCase("no")
++            }
++            else if (isUserCheck.equalsIgnoreCase("no")
+                     || isUserCheck.equalsIgnoreCase("n"))
+             {
+                 UserManagementSystem.registerUser();
+@@ -78,5 +81,4 @@
+             System.exit(-1);
+         }
+     }
+-}
+-
++}
+\ No newline at end of file
+Index: OOP23_Food Ordering System/src/project/menu/Dish.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package project.menu;\r\n\r\npublic class Dish {\r\n    private String name;\r\n    private String description;\r\n    private double price;\r\n    private String additionalOption;\r\n\r\n    public Dish(String name, String description, double price, String additionalOption)\r\n    {\r\n        this.name = name;\r\n        this.description = description;\r\n        this.price = price;\r\n        this.additionalOption=additionalOption;\r\n    }\r\n    public String getName() {\r\n        return name;\r\n    }\r\n\r\n    public String getDescription() {\r\n        return description;\r\n    }\r\n\r\n    public double getPrice() {\r\n        return price;\r\n    }\r\n\r\n    public String getAdditionalOption() {\r\n        return additionalOption;\r\n    }\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/OOP23_Food Ordering System/src/project/menu/Dish.java b/OOP23_Food Ordering System/src/project/menu/Dish.java
+--- a/OOP23_Food Ordering System/src/project/menu/Dish.java	
++++ b/OOP23_Food Ordering System/src/project/menu/Dish.java	
+@@ -2,17 +2,17 @@
+ 
+ public class Dish {
+     private String name;
+-    private String description;
++    private String description = null;
+     private double price;
+-    private String additionalOption;
++    //private static String additionalOption = null;
+ 
+-    public Dish(String name, String description, double price, String additionalOption)
++    public Dish(String name, String description, double price)
+     {
+         this.name = name;
+         this.description = description;
+         this.price = price;
+-        this.additionalOption=additionalOption;
+     }
++
+     public String getName() {
+         return name;
+     }
+@@ -25,8 +25,15 @@
+         return price;
+     }
+ 
+-    public String getAdditionalOption() {
+-        return additionalOption;
++
++
++    // Factory method to create MenuItem from a line in the file
++    public static Dish fromString(String line) {
++        String[] parts = line.split(",");
++        String name = parts[0].trim();
++        String description = parts[1].trim();
++        double price = Double.parseDouble(parts[2].trim());
++        return new Dish(name, description, price);
+     }
+ 
+ }
+\ No newline at end of file
+Index: OOP23_Food Ordering System/src/project/menu/Menu.java
+===================================================================
+diff --git a/OOP23_Food Ordering System/src/project/menu/Menu.java b/OOP23_Food Ordering System/src/project/menu/Menu.java
+new file mode 100644
+--- /dev/null	
++++ b/OOP23_Food Ordering System/src/project/menu/Menu.java	
+@@ -0,0 +1,89 @@
++package project.menu;
++import project.cart.cart;
++import project.menu.Dish;
++import java.io.BufferedReader;
++import java.io.FileReader;
++import java.io.IOException;
++import java.util.ArrayList;
++import java.util.List;
++import java.util.Scanner;
++
++public class Menu {
++    private static List<Dish> menu;
++
++    public Menu() {
++        menu = new ArrayList<>();
++    }
++
++    // Load menu items from file
++    public static void loadMenuFromFile(String filePath) throws IOException {
++        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
++            String line;
++            while ((line = br.readLine()) != null) {
++                menu.add(Dish.fromString(line));
++            }
++        }
++    }
++
++    // Display the menu
++    public void displayMenu() {
++        System.out.println("Menu:");
++        for (int i = 0; i < menu.size(); i++) {
++            Dish item = menu.get(i);
++            System.out.println((i + 1) + ". " + item.getName() + " " + item.getDescription() + " - $" + item.getPrice());
++        }
++    }
++
++    // Get a specific menu item
++    public Dish getMenuItem(int index) {
++        return menu.get(index);
++    }
++
++    // Get the number of menu items
++    public int getMenuSize() {
++        return menu.size();
++    }
++
++    public static void main(String[] args) {
++        Scanner scanner = new Scanner(System.in);
++
++        // Sample user
++        //User user = new User("john_doe", "password123");
++
++        // Create menu
++        Menu menu = new Menu();
++
++        // Load menu from file
++        try {
++            menu.loadMenuFromFile("C:\\Users\\Nader\\Documents\\GitHub\\Food-Ordering-System\\OOP23_Food Ordering System\\Menu.txt");
++        } catch (IOException e) {
++            System.err.println("Error loading menu from file: " + e.getMessage());
++            System.exit(1);
++        }
++
++        // Sample food order
++        cart cart = new cart();
++
++        // Display the menu
++        menu.displayMenu();
++
++        // User interaction
++        System.out.print("Enter the item number to add to the cart (0 to finish): ");
++        int choice;
++        while ((choice = scanner.nextInt()) != 0) {
++            if (choice > 0 && choice <= menu.getMenuSize()) {
++                cart.addItem(menu.getMenuItem(choice - 1));
++            } else {
++                System.out.println("Invalid choice. Try again.");
++            }
++            System.out.print("Enter the item number to add to the cart (0 to finish): ");
++        }
++
++        // Display the order
++        cart.displayCart();
++        //System.out.println("Total: $" + cart.calculateTotal());
++
++        // Close the scanner
++        scanner.close();
++    }
++}
+\ No newline at end of file
+Index: OOP23_Food Ordering System/src/project/cart/cart.java
+===================================================================
+diff --git a/OOP23_Food Ordering System/src/project/cart/cart.java b/OOP23_Food Ordering System/src/project/cart/cart.java
+new file mode 100644
+--- /dev/null	
++++ b/OOP23_Food Ordering System/src/project/cart/cart.java	
+@@ -0,0 +1,36 @@
++package project.cart;
++import project.menu.Dish;
++import java.util.ArrayList;
++import java.util.List;
++
++public class cart {
++    private static List<Dish> cart;
++
++    // Constructor
++    public cart() {
++        this.cart = new ArrayList<>();
++    }
++
++    // Add item to the cart
++    public static void addItem(Dish item) {
++        cart.add(item);
++    }
++
++    // Calculate total cost
++    public static double calculateTotal() {
++        double total = 0.0;
++        for (Dish item : cart) {
++            total += item.getPrice();
++        }
++        return total;
++    }
++
++    // Display items in the cart
++    public static void displayCart() {
++        System.out.println("Items in the cart:");
++        for (Dish item : cart) {
++            System.out.println(item.getName() + " - $" + item.getPrice());
++        }
++        System.out.println("Total: $" + calculateTotal());
++    }
++}
+\ No newline at end of file
