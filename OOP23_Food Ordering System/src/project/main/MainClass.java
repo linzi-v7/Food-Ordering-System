@@ -100,6 +100,7 @@ public class MainClass {
                 break;
             case Role.USER_IDENTIFIER:
                 userLaunchProgram(userEmail, restaurant);
+                break;
         }
     }
 
@@ -250,13 +251,15 @@ public class MainClass {
                     mainreview();
                 }
 //}
-            } else {
-                System.out.println("USER DOESN'T EXIST!");
-                System.exit(-1);
             }
-        }
+        } else {
 
+            System.out.println("USER DOESN'T EXIST!");
+            System.exit(-1);
+        }
     }
+
+
 
     public static void PaymentTest() {
         // Creating a Payment object with initial details
