@@ -158,7 +158,7 @@ public class Restaurant implements RestaurantPermissions{
      * @param email the email the user entered being compared to
      * @return true if the restaurant email is unique and false if not
      */
-    boolean compareEmail(String email) {
+    protected boolean compareEmail(String email) {
         boolean uniqueEmail = false;
         for (ArrayList<String> row : restaurants) {
 
@@ -179,7 +179,7 @@ public class Restaurant implements RestaurantPermissions{
      * @param password the password the user entered being compared to
      * @return true if the restaurant password is unique and false if not
      */
-    boolean comparePassword(String password) {
+    protected boolean comparePassword(String password) {
         boolean uniquePassword = false;
         for (ArrayList<String> row : restaurants) {
 
