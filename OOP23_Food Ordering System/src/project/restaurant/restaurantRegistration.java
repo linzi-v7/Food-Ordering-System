@@ -107,7 +107,7 @@ public class restaurantRegistration {
         }
 
         restaurant.addRestaurantDetails(restaurant.restaurantName, restaurant.restaurantContact, restaurant.restaurantAddress, restaurant.restaurantEmail, restaurant.restaurantPassword);
-
+        restaurant.RestaurantSaveToFiles(restaurant.getRestaurants());
     }
     static boolean validateEmail(String email)
     {
