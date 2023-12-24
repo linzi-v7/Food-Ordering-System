@@ -48,29 +48,41 @@ public class MainClass {
 
             } else if (isUserCheck.equalsIgnoreCase("no")
                     || isUserCheck.equalsIgnoreCase("n")) {
-                int decision;
+                int decision=0;
                 boolean repeat = true;
-                while (repeat) {
+                while (repeat){
                     System.out.println("to register as  new user enter: 1\n" +
                             "to register as a new restaurant enter 2 ");
-                    if (scanner.hasNextLine()) {
-                        decision = Integer.parseInt(scanner.nextLine());
+                    if (scanner.hasNextLine())
+                    {
+                        try {
 
+
+                            decision = Integer.parseInt(scanner.nextLine());
+                        }
+                        catch (NumberFormatException num){
+
+                        }
                         switch (decision) {
+
                             case 2:
+
                                 restaurantRegistration.registerRestaurant(restaurant);
                                 repeat = false;
                                 break;
                             case 1:
-                                UserManagementSystem.registerUser(1);
+                                   UserManagementSystem.registerUser(1);
                                 repeat = false;
                                 break;
+
                             default:
                                 System.out.println("please enter a correct number");
+
                         }
                     } else {
                         System.out.println("Invalid input. Please enter a number from the choices");
                         scanner.nextLine();
+
                     }
                 }
             } else if (isUserCheck.equalsIgnoreCase("exit")) {
