@@ -1,0 +1,9 @@
+Name: faris
+Phone Number: 12345678912
+Restaurant Rating: 1.0
+Staff Rating: 1.0
+Cleanliness Rating: 1.0
+Food Rating: 1.0
+Design Rating: 1.0
+Comments: N/A
+-------------------------

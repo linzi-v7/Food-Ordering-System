@@ -229,11 +229,28 @@ public class MainClass
 
             if(orderCart.getCartSize()>0) {
 
+                System.out.println("Please enter delivery time:- ");
+                int time = scanner.nextInt();
+                System.out.println("To confirm the order press Y");
+                System.out.println("To cancel the order press C");
+                char con =  'x';
+                while(true){
+                    con = scanner.next().charAt(0);
+                    if (con == 'Y' || con == 'y' || con == 'c' || con == 'C')
+                        break;
+                    System.out.println("Invalid");
+                    System.out.println("To confirm the order press Y");
+                    System.out.println("To cancel the order press C");
+                }
+                System.out.println("Your Order : ");
 
-                //orderProcessing();
+                orderCart.displayCart();
+                System.out.println("Total: $" + orderCart.calculateTotal());
+                System.out.println("Your Address : " + loggedInUser.getAddress() + ".");
+                System.out.println("Your order will be prepared. It will reach on " + time + ".");
+
                 PaymentTest();
-                //orderTracking();
-                //reviewProcessing();
+                mainreview();
             }
 //}
         }
@@ -257,7 +274,7 @@ public class MainClass
         System.out.println("Payment Status: " + payment.getPaymentStatus());
         System.out.println("Payment Method: " + payment.getPaymentMethod());
     }
-    public static void mainreview(String[] args)
+    public static void mainreview()
     {
 
 
@@ -275,7 +292,7 @@ public class MainClass
         userReview.setComments();
 
         // Specify the file path where you want to save the data
-        String filePath = "D:\\MY_Projects\\Food-Ordering-System\\reviews.txt";
+        String filePath = "reviews.txt";
 
         // Save the data to the file
         userReview.saveToFile(filePath);
