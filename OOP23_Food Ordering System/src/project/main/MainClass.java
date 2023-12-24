@@ -114,12 +114,12 @@ public class MainClass
     public static void userLaunchProgram(String userEmail,Restaurant restaurant)
     {
         User loggedInUser = UserManagementSystem.getUserByEmail(userEmail);
-
+        ArrayList restaurantValues =new ArrayList<>();
         //if somehow the user doesn't exist (after multiple checks), we should terminate the program
         if (loggedInUser != null)
         {
             Scanner scanner = new Scanner(System.in);
-            int ChosenRestaurant;
+            int ChosenRestaurant=0;
             System.out.println("\n\t\tWelcome " + loggedInUser.getName() + "!");
 
             //Display and search restaurant
@@ -129,23 +129,30 @@ public class MainClass
             System.out.println("to search for a specific restaurant enter: 2");
             boolean repeat = true;
             while (repeat) {
+                int decision=0;
                 if (scanner.hasNextInt()) {
-                    int decision = scanner.nextInt();
+                    try {
 
+
+                        decision  = scanner.nextInt();
+                    }catch (InputMismatchException exp)
+                    {
+                        System.out.println("please enter a correct number");
+                    }
                     switch (decision) {
                         case 1:
                             int counter = 0;
                             for (ArrayList<String> restaurants : restaurant.getRestaurants()) {
                                 counter++;
                                 System.out.println(counter + "." + restaurants.get(0));
-
+                                restaurantValues.add(counter);
                             }
                             repeat=false;
 
                             break;
 
                         case 2:
-                            restaurant.restaurantSearching(restaurant);
+                            restaurantValues=  restaurant.restaurantSearching(restaurant);
                             repeat=false;
                             break;
 
@@ -162,25 +169,39 @@ public class MainClass
             }
 
 
-            String RestaurantName;
-            while(true)
+            String RestaurantName="";
+            boolean validation = false;
+            while(!validation)
             {
-            try {
-                System.out.println("enter the number of the restaurant that you want");
-                ChosenRestaurant = scanner.nextInt();
-                RestaurantName = restaurant.getRestaurants().get(ChosenRestaurant - 1).get(0);
-                break;
-            }
-            catch(IndexOutOfBoundsException exp)
+                try {
+                    System.out.println("enter the number of the restaurant that you want");
+                    ChosenRestaurant = scanner.nextInt();
+
+
+                }
+                catch(IndexOutOfBoundsException exp)
                 {
                     System.out.println("Invalid Input! Try Again!");
 
                 }
-            catch (InputMismatchException exception)
-            {
-                System.out.println("please enter a valid number");
-                scanner.next();
-            }
+                catch (InputMismatchException exception)
+                {
+                    System.out.println("please enter a valid number");
+                    scanner.next();
+                }
+                for(Object values:restaurantValues) {
+                    if (values.equals(ChosenRestaurant)) {
+                        RestaurantName = restaurant.getRestaurants().get(ChosenRestaurant - 1).get(0);
+                        validation = true;
+                        break;
+
+
+                    }
+                }
+                if (!validation) {
+                    System.out.println("please enter a value from the restaurants in front of you");
+                }
+
             }
             //display the menu of selected restaurant
             Menu menu = new Menu();
